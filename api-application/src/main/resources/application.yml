@@ -1,0 +1,60 @@
+server:
+  tomcat:
+    basedir: .
+    accesslog:
+      enabled: true
+      directory: logs/access
+      pattern: '%h %l %u [%{yyyy-MM-dd:HH:mm:ss}t] "%r" %s %b %D %{User-Agent}i' #'%h %l %u %t "%r" %s %b'
+      max-days: 30
+      encoding: utf-8
+
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: never
+    include-exception: false
+
+spring:
+  application:
+    name: cdp-api-application
+  config:
+    import:
+      - classpath:/domain/application.yml
+      - classpath:/api-client/application.yml
+  devtools:
+    livereload:
+      enabled: false
+
+springdoc:
+  swagger-ui:
+    path: /cdp/swagger-ui.html
+    displayRequestDuration: true
+    operationsSorter: method
+    tagsSorter: alpha
+  default-produces-media-type: application/json
+
+common:
+  standard:
+    cors:
+      methods: GET,POST,PUT,PATCH,DELETE,OPTIONS,HEAD
+      with-credential: true
+      urls:
+        - "https://sub-swagger.dev00.iconic.jobkorea.com"
+        - "http://swagger.subdomain.jobkorea.com:9001"
+        - "http://localhost:9001"
+        - "http://cdp-subdomain-01"
+        - "http://cdp-subdomain-02"
+        - "http://dev.careerpath.com"
+        - "http://dev01.careerpath.com"
+        - "http://dev02.careerpath.com"
+        - "http://dev03.careerpath.com"
+    
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: "health,metrics,loggers,status"
+
+pagehelper:
+  helper-dialect: sqlserver2012

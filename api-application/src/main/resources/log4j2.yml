@@ -1,0 +1,52 @@
+Configuration:
+  name: Log4j2 configuration
+  status: info
+
+  Properties:
+    Property:
+      name: log-path
+      value: "./logs"
+
+  Appenders:
+    Console:
+      name: Console_Appender
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: "[%-5level][%X{traceId},%X{spanId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t][%F] [%C{1}.%M] - %msg%n"
+    RollingFile:
+      - name: RollingFile_Appender
+        fileName: ${log-path}/careerpath.log
+        filePattern: "${log-path}/$${date:yyyy-MM}/app-%d{yyyy-MM-dd}-%i.log.gz"
+        PatternLayout:
+          pattern: "[%-5level][%X{traceId},%X{spanId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t][%F] [%C{1}.%M] - %msg%n"
+        Policies:
+          SizeBasedTriggeringPolicy:
+            size: 100MB
+  Loggers:
+    Root:
+      level: info
+      AppenderRef:
+        - ref: Console_Appender
+        - ref: RollingFile_Appender
+    Logger:
+      - name: com.zaxxer
+        additivity: false
+        level: info
+        AppenderRef:
+          - ref: Console_Appender
+      - name: com.github
+        additivity: false
+        level: info
+        AppenderRef:
+          - ref: Console_Appender
+      - name: org
+        additivity: false
+        level: info
+        AppenderRef:
+          - ref: Console_Appender
+          - ref: RollingFile_Appender
+      - name: jobkorea
+        additivity: false
+        level: info
+        AppenderRef:
+          - ref: Console_Appender

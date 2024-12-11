@@ -1,0 +1,136 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+}
+
+configurations.all {
+    resolutionStrategy { cacheChangingModulesFor 0, 'seconds' }
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        if (details.requested.group == 'org.jsoup:jsoup') {
+            details.useVersion "3.0.4"
+            details.because '오픈소스 취약점 blackduck workaround 조치'
+        }
+    }
+}
+
+dependencies {
+    // module projects
+    implementation project(":jobkorea-careerpath-contract")
+    implementation project(":jobkorea-careerpath-client")
+
+    // spring boot
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // jetbrains
+    implementation "org.jetbrains:annotations:$jetbrainsVersion"
+
+    // sql logging
+    implementation "org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:$log4j2Version"
+
+    // JsonNullable
+    implementation group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.1'
+
+    // PostgreSQL JDBC 드라이버 추가
+    implementation 'org.postgresql:postgresql:42.6.0'
+
+    // Mybatis
+    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:$springMybatisVersion"
+    implementation "org.mybatis:mybatis-typehandlers-jsr310:$mybatisVersion"
+
+    // pagehelper
+    implementation "com.github.pagehelper:pagehelper-spring-boot-starter:$pageHelperVersion"
+    
+    implementation 'org.apache.commons:commons-collections4:4.4'
+    
+    // Json Merge Patch Interface
+    implementation "javax.json:javax.json-api:$jsonApiVersion"
+
+    // Json Merge Patch Library
+    implementation "com.github.java-json-tools:json-patch:$jsonPatchVersion"
+    
+    // cache
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
+	implementation "net.sf.ehcache:ehcache:$ehcacheVersion"
+
+    // MapStruct
+    implementation "org.mapstruct:mapstruct:$mapstructVersion"
+
+    // json-simple
+    implementation "com.googlecode.json-simple:json-simple:$jsonSimpleVersion"
+
+    // jsoup
+    implementation "org.jsoup:jsoup:$jsoupVersion"
+
+    // commons-validator
+    implementation "commons-validator:commons-validator:$commonsValidatorVersion"
+
+    // Apache POI
+    implementation "org.apache.poi:poi:$poiVersion"
+    implementation "org.apache.poi:poi-ooxml:$poiVersion" //Office 2007
+    implementation "org.apache.poi:poi-ooxml-full:$poiVersion"
+    implementation "org.apache.poi:poi-scratchpad:$poiVersion"
+    implementation "org.apache.poi:poi-ooxml-schemas:$poiSchemas"
+
+    // jasypt
+    implementation "com.github.ulisesbocchio:jasypt-spring-boot-starter:$jasypt"
+
+    annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
+
+    // lombok-mapstruct-biding
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:$lombokMapstructVersion"
+
+    // ConfigurationProperties
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    testAnnotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+
+    testCompileOnly "org.projectlombok:lombok:$lombokVersion"
+    testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
+}
+
+compileJava {
+    options.compilerArgs += [
+            '-Amapstruct.defaultComponentModel=spring',
+            '-Amapstruct.defaultInjectionStrategy=constructor'
+    ]
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    archiveClassifier = ''
+    enabled = true
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+}
+
+jacocoTestReport {
+    dependsOn test
+
+    reports {
+        html.enabled true
+        xml.enabled true
+
+        html.destination file("${buildDir}/jacoco/jacoco.html")
+        xml.destination file("${buildDir}/jacoco/jacoco.xml")
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, excludes: [
+                    '**/*Config.*',
+                    '**/entity/**',
+                    '**/mapper/**'
+            ])
+        }))
+    }
+}

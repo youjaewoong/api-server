@@ -1,0 +1,32 @@
+spring:
+  config:
+    activate:
+      - on-profile: local, dev
+feign:
+  cdp:
+    url: http://localhost:9001
+  sample:
+    url: http://jsonplaceholder.typicode.com
+  albamon-search:
+    url: http://172.16.50.71:4002
+    ksf-url: http://172.16.50.71:7614/ksf
+  jobkorea-search:
+    url: http://172.16.50.61:4002
+    ksf-url: http://172.16.50.61:7614/ksf
+
+---
+spring:
+  config:
+    activate:
+      on-profile: stg, prd
+feign:
+  cdp:
+    url: http://localhost:9003
+  sample:
+    url: http://jsonplaceholder.typicode.com
+  albamon-search:
+    url: http://172.16.50.71:4002
+    ksf-url: http://172.16.50.71:7614/ksf
+  jobkorea-search:
+    url: http://172.16.50.61:4002
+    ksf-url: http://172.16.50.61:7614/ksf

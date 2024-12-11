@@ -1,0 +1,18 @@
+##########################################################################################
+# [ local 프로파일 -Dspring.profiles.active=local ]
+##########################################################################################
+server:
+  port: 9001
+
+logging:
+  config: classpath:log4j2.yml
+  level:
+    root: debug
+    org.springframework.boot.autoconfigure: info
+    jdbc:
+      sqlonly: off
+      sqltiming: info
+      audit: off
+      resultset: off
+      resultsettable: info
+      connection: off

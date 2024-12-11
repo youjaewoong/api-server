@@ -1,0 +1,97 @@
+buildscript {
+    rootProject.buildscript.repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+    // SpringBoot 에 필요한 외부 라이브러리 정의합니다.
+    rootProject.buildscript.dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.7.3"
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.12.RELEASE"
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        // 동적 버전 탐색을 10분 캐시
+        cacheDynamicVersionsFor 0, 'minutes'
+        // 변하는 모듈(Changing Module)을 캐시하지 않음
+        cacheChangingModulesFor 0, 'seconds'
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'maven-publish'
+    
+	sourceCompatibility = '1.11'
+	targetCompatibility = '1.11'
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+
+    java {
+        withSourcesJar()
+    }
+
+    ext['log4j2.version'] = '2.18.0'
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+        all {
+            exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+            resolutionStrategy {
+                // 동적 버전 탐색을 캐시하지 않음
+                cacheDynamicVersionsFor 0, 'minutes'
+                // 변하는 모듈(Changing Module)을 캐시하지 않음
+                cacheChangingModulesFor 0, 'seconds'
+            }
+        }
+    }
+
+
+    dependencyManagement {
+        imports {
+            // 관련 라이브러리는 버전을 명시하지 않아도 됩니다.
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:2021.0.3"
+        }
+    }
+
+    dependencies {
+
+    	implementation files('../libs/common-standard-lib-1.20.6.jar')
+
+        implementation 'com.fasterxml.jackson.core:jackson-databind'
+        implementation 'javax.validation:validation-api'
+        implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+        implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
+
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+        // feign
+        implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+        implementation ("commons-io:commons-io") { version {require '2.11.0'} } // 보안취약성 제거 버전 강제 지정
+
+        // openapi 3.0
+        implementation "org.springdoc:springdoc-openapi-ui:$springdocOpenapiVersion"
+    }
+    
+    compileJava.options.encoding = 'UTF-8'
+
+    javadoc {
+        source = sourceSets.main.allJava
+        options.encoding = 'UTF-8'
+    }
+}
+
+

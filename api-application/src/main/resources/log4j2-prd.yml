@@ -1,0 +1,38 @@
+Configuration:
+  name: Log4j2 configuration
+  status: info
+
+  Properties:
+    Property:
+      name: log-path
+      value: "./logs"
+
+  Appenders:
+    Console:
+      name: Console_Appender
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: "[%-5level][%X{traceId},%X{spanId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t][%F] [%C{1}.%M] - %msg%n"
+    RollingFile:
+      name: RollingFile_Appender
+      fileName: ${log-path}/careerpath.log
+      filePattern: "${log-path}/archive/careerpath_%d{yyyy-MM-dd}.log.gz"
+      PatternLayout:
+        pattern: "[%-5level][%X{traceId},%X{spanId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t][%F] [%C{1}.%M] - %msg%n"
+      Policies:
+        TimeBasedTriggeringPolicy:
+          Interval: 1
+          modulate: true
+      DefaultRollOverStrategy:
+        max: 60
+        Delete:
+          basePath: "${log-path}/archive"
+          maxDepth: 1
+          IfAccumulatedFileCount:
+            exceeds: 61
+  Loggers:
+    Root:
+      level: info
+      AppenderRef:
+        - ref: Console_Appender
+        - ref: RollingFile_Appender

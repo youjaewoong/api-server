@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    // module projects
+    implementation project(":jobkorea-careerpath-contract")
+    implementation project(":jobkorea-careerpath-domain")
+
+    // spring boot
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // transactional
+    implementation 'org.springframework:spring-tx'
+
+    // Feign HttpClient to Apache HttpClient5
+    implementation 'io.github.openfeign:feign-hc5'
+
+    // spring cloud
+    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+
+}
+
+tasks.withType(Jar).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+test {
+    useJUnitPlatform()
+}
+
+ext {
+
+ 	BUILD_TIME = new Date().format("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone("Asia/Seoul"))
+ 	MODULE_NAME = 'api-application'
+}
+
+bootJar {
+    enabled = true
+    archiveClassifier = ''
+    
+	doFirst{
+		println "[ INFO ] ${MODULE_NAME} : Jar 빌드 시작"
+		println "[ INFO ] PROJECT NAME : CDP"
+		println "[ INFO ] BUILD TIME : ${BUILD_TIME}"
+	}
+	
+    // bootJar 결과 산출 파일을 api-application.jar 로 지정하여 export 되도록 구성합니다.
+    // version 에 따라 artifact 명이 달라지지 않도록 구성합니다.
+    archiveFileName = "api-application.${archiveExtension.get()}"
+
+}
+
+jar {
+    archiveClassifier = ''
+    // bootJar 결과 산출 파일을 api-application.jar 로 지정하여 export 되도록 구성합니다.
+    // version 에 따라 artifact 명이 달라지지 않도록 구성합니다.
+    archiveFileName = "api-application.${archiveExtension.get()}"
+    enabled = true
+}

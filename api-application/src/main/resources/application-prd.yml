@@ -1,0 +1,18 @@
+##########################################################################################
+# [ prod 프로파일 -Dspring.profiles.active=prd ]
+##########################################################################################
+server:
+  port: 9004
+
+logging:
+  config: classpath:log4j2-prd.yml
+  level:
+    root: warn
+    org.springframework.boot.autoconfigure: info
+    jdbc:
+      sqlonly: off
+      sqltiming: info
+      audit: off
+      resultset: off
+      resultsettable: off
+      connection: off

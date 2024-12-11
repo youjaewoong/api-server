@@ -1,0 +1,16 @@
+Configuration:
+  status: info
+  name: junit test log
+
+  Appenders:
+    Console:
+      name: Console_Appender
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: "[%-5level] %msg%n"
+
+  Loggers:
+    Root:
+      level: info
+      AppenderRef:
+        - ref: Console_Appender

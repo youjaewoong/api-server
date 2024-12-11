@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jobkorea.careerpath.sample.infrastructure.SampleQueryRepository">
+
+	<resultMap id="sampleResponse" type="jobkorea.careerpath.sample.response.SampleResponse" autoMapping="true"/>
+	<resultMap id="sampleGeoEntity" type="jobkorea.careerpath.sample.infrastructure.entity.SampleGeoEntity" autoMapping="true"/>
+	<resultMap id="sampleAddressInfoEntity" type="jobkorea.careerpath.sample.infrastructure.entity.SampleAddressInfoEntity" autoMapping="true"/>
+	<resultMap id="sampleEntity" type="jobkorea.careerpath.sample.infrastructure.entity.SampleEntity" autoMapping="true"/>
+
+	<select id="selectSample" resultMap="sampleResponse">
+		SELECT /* SampleMapper.selectSample */
+		ID
+		,NAME
+		,TITLE
+		,CONTENTS
+		,TYPE
+		,REG_DT
+		,EDIT_DT
+		FROM Sample
+		<include refid="selectSampleWhere"></include>
+	</select>
+
+	<select id="selectCountSample" resultType="long">
+		SELECT /* SampleMapper.selectCountSample */
+		COUNT(*)
+		FROM Sample
+		<include refid="selectSampleWhere"></include>
+	</select>
+
+	<sql id="selectSampleWhere">
+		WHERE 1=1
+		<if test="title != null and !title.equals('')">
+			AND TITLE = #{title}
+		</if>
+		<if test="id != null and !id.equals('')">
+			AND ID = #{id}
+		</if>
+	</sql>
+
+	<select id="selectSampleByGeo" resultMap="sampleGeoEntity">
+		SELECT /* SampleMapper.selectSampleByGeo */
+			 '-37.3159' AS LAT
+			 ,'81.1496' AS LNG
+			 ,'69' AS ID
+	</select>
+
+	<select id="selectSampleByAddress" resultMap="sampleAddressInfoEntity">
+		SELECT /* SampleMapper.selectSampleByAddress */
+			 'Kulas Light' AS STREET
+			 ,'Apt. 556' AS SUITE
+			 ,'Gwenborough' AS CITY
+			 ,'92998-3874' AS ZIP_CODE
+			 ,'69' AS ID
+	</select>
+
+	<select id="selectSampleByEntities" resultMap="sampleEntity">
+		SELECT /* SampleMapper.selectSampleByEntity */
+		ID
+		,NAME
+		,TITLE
+		,CONTENTS
+		,TYPE
+		,REG_DT
+		,EDIT_DT
+		FROM Sample
+		<include refid="selectSampleWhere"></include>
+	</select>
+
+</mapper>

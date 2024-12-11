@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    // pagehelper
+    implementation 'com.github.pagehelper:pagehelper-spring-boot-starter:1.4.5'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    archiveClassifier = ''
+    enabled = true
+}

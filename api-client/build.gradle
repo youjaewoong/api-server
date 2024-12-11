@@ -1,0 +1,83 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    // module projects
+    implementation project(":jobkorea-careerpath-contract")
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+
+test {
+    useJUnitPlatform()
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    archiveClassifier = ''
+    enabled = true
+}
+
+/*******************************************************************
+ *  Publication Task 정의
+ *******************************************************************/
+/**
+ * Local Repository 에 Release Version 으로 Publish 합니다.
+ 
+task publishReleaseVersionToLocalRepository {
+    group 'publishing.artifact'
+    printlnForPublication.mustRunAfter(setArtifactVersionToRelease)
+    jar.mustRunAfter(setArtifactVersionToRelease)
+    publishMavenPublicationToMavenLocal.mustRunAfter(setArtifactVersionToRelease)
+    dependsOn(setArtifactVersionToRelease, printlnForPublication, publishMavenPublicationToMavenLocal)
+}
+*/
+ 
+/**
+ * Local Repository 에 Local Snapshot Version 으로 Publish 합니다.
+
+task publishLocalSnapshotVersionToLocalRepository {
+    group 'publishing.artifact'
+    printlnForPublication.mustRunAfter(setArtifactVersionToLocalSnapshot)
+    jar.mustRunAfter(setArtifactVersionToLocalSnapshot)
+    publishMavenPublicationToMavenLocal.mustRunAfter(setArtifactVersionToLocalSnapshot)
+    dependsOn(setArtifactVersionToLocalSnapshot, printlnForPublication, publishMavenPublicationToMavenLocal)
+}
+ */
+ 
+
+/**
+ * Remote Repository 에 Release Version 으로 Publish 합니다.
+
+task publishReleaseVersionToRemoteRepository {
+    group 'publishing.artifact'
+    printlnForPublication.mustRunAfter(setArtifactVersionToRelease)
+    jar.mustRunAfter(setArtifactVersionToRelease)
+    publishMavenPublicationToMavenRepository.mustRunAfter(setArtifactVersionToRelease)
+    dependsOn(setArtifactVersionToRelease, printlnForPublication, publishMavenPublicationToMavenRepository)
+}
+ */
+ 
+ 
+/**
+ * Remote Repository 에 Snapshot Version 으로 Publish 합니다.
+
+task publishSnapshotVersionToRemoteRepository {
+    group 'publishing.artifact'
+    printlnForPublication.mustRunAfter(setArtifactVersionToSnapshot)
+    jar.mustRunAfter(setArtifactVersionToSnapshot)
+    publishMavenPublicationToMavenRepository.mustRunAfter(setArtifactVersionToSnapshot)
+    dependsOn(setArtifactVersionToSnapshot, printlnForPublication, publishMavenPublicationToMavenRepository)
+}
+ */

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jobkorea.careerpath.sample.infrastructure.SampleCommandRepository">
+	
+    <update id="updateSample">
+        UPDATE /* SampleMapper.deleteSample */
+            Sample
+        SET
+        	 NAME = #{name}
+            ,TITLE = #{title}
+            ,CONTENTS = #{contents}
+            ,TYPE = #{type}
+            ,EDIT_DT = GETDATE()
+        WHERE ID = #{id}
+    </update>
+
+
+    <insert id="insertSample">
+        INSERT /* SampleMapper.insertSample */
+        INTO Sample (
+             NAME
+            ,TITLE
+            ,CONTENTS
+            ,TYPE
+            ,REG_DT
+            ,EDIT_DT
+        )
+        VALUES (
+        	 #{name}
+        	,#{title}
+            ,#{contents}
+            ,#{type}
+            ,GETDATE()
+            ,GETDATE() 
+        )
+    </insert>
+
+
+    <delete id="deleteSample">
+    	DELETE /* SampleMapper.deleteSample */ 
+    	FROM Sample
+        WHERE ID IN
+        <foreach collection="ids" item="item" open="(" close=")" separator=",">
+        	#{item}
+        </foreach>
+    </delete>
+</mapper>
