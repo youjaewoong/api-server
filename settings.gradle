@@ -1,16 +1,16 @@
-rootProject.name = 'cdp-api'
+rootProject.name = 'api'
 
 include 'domain'
-findProject(':domain')?.name = 'jobkorea-careerpath-domain'
+findProject(':domain')?.name = 'domain'
 
 include 'contract'
-findProject(':contract')?.name = 'jobkorea-careerpath-contract'
+findProject(':contract')?.name = 'contract'
 
 include 'api-application'
-findProject(':api-application')?.name = 'jobkorea-careerpath-application'
+findProject(':api-application')?.name = 'api-application'
 
 include 'api-client'
-findProject(':api-client')?.name = 'jobkorea-careerpath-client'
+findProject(':api-client')?.name = 'api-client'
 
 //include ':common-standard-lib'
 //project(':common-standard-lib').projectDir = new File('../common-standard-lib')

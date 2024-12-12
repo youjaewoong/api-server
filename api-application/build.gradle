@@ -4,8 +4,8 @@ plugins {
 
 dependencies {
     // module projects
-    implementation project(":jobkorea-careerpath-contract")
-    implementation project(":jobkorea-careerpath-domain")
+    implementation project(":contract")
+    implementation project(":domain")
 
     // spring boot
     implementation 'org.springframework.boot:spring-boot-starter-actuator'

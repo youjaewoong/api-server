@@ -15,8 +15,8 @@ configurations.all {
 
 dependencies {
     // module projects
-    implementation project(":jobkorea-careerpath-contract")
-    implementation project(":jobkorea-careerpath-client")
+    implementation project(":contract")
+    implementation project(":api-client")
 
     // spring boot
     implementation 'org.springframework.boot:spring-boot-starter-validation'

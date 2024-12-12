@@ -16,7 +16,7 @@ server:
 
 spring:
   application:
-    name: cdp-api-application
+    name: api-server
   config:
     import:
       - classpath:/domain/application.yml
@@ -39,15 +39,14 @@ common:
       methods: GET,POST,PUT,PATCH,DELETE,OPTIONS,HEAD
       with-credential: true
       urls:
-        - "https://sub-swagger.dev00.iconic.jobkorea.com"
         - "http://swagger.subdomain.jobkorea.com:9001"
         - "http://localhost:9001"
-        - "http://cdp-subdomain-01"
-        - "http://cdp-subdomain-02"
-        - "http://dev.careerpath.com"
-        - "http://dev01.careerpath.com"
-        - "http://dev02.careerpath.com"
-        - "http://dev03.careerpath.com"
+        - "http://api-subdomain-01"
+        - "http://api-subdomain-02"
+        - "http://dev.api-server.com"
+        - "http://dev01.api-server.com"
+        - "http://dev02.api-server.com"
+        - "http://dev03.api-server.com"
     
 management:
   endpoints:

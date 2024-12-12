@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="jobkorea.careerpath.sample.infrastructure.SampleQueryRepository">
+<mapper namespace="api.server.sample.infrastructure.SampleQueryRepository">
 
-	<resultMap id="sampleResponse" type="jobkorea.careerpath.sample.response.SampleResponse" autoMapping="true"/>
-	<resultMap id="sampleGeoEntity" type="jobkorea.careerpath.sample.infrastructure.entity.SampleGeoEntity" autoMapping="true"/>
-	<resultMap id="sampleAddressInfoEntity" type="jobkorea.careerpath.sample.infrastructure.entity.SampleAddressInfoEntity" autoMapping="true"/>
-	<resultMap id="sampleEntity" type="jobkorea.careerpath.sample.infrastructure.entity.SampleEntity" autoMapping="true"/>
+	<resultMap id="sampleResponse" type="api.server.sample.response.SampleResponse" autoMapping="true"/>
+	<resultMap id="sampleGeoEntity" type="api.server.sample.infrastructure.entity.SampleGeoEntity" autoMapping="true"/>
+	<resultMap id="sampleAddressInfoEntity" type="api.server.sample.infrastructure.entity.SampleAddressInfoEntity" autoMapping="true"/>
+	<resultMap id="sampleEntity" type="api.server.sample.infrastructure.entity.SampleEntity" autoMapping="true"/>
 
 	<select id="selectSample" resultMap="sampleResponse">
 		SELECT /* SampleMapper.selectSample */

@@ -15,8 +15,8 @@ Configuration:
         pattern: "[%-5level][%X{traceId},%X{spanId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t][%F] [%C{1}.%M] - %msg%n"
     RollingFile:
       name: RollingFile_Appender
-      fileName: ${log-path}/careerpath.log
-      filePattern: "${log-path}/archive/careerpath_%d{yyyy-MM-dd}.log.gz"
+      fileName: ${log-path}/api-server.log
+      filePattern: "${log-path}/archive/api-server_%d{yyyy-MM-dd}.log.gz"
       PatternLayout:
         pattern: "[%-5level][%X{traceId},%X{spanId}] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t][%F] [%C{1}.%M] - %msg%n"
       Policies:
