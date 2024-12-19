@@ -1,12 +1,12 @@
 package api.server.sample.service;
 
-import common.standard.response.GenericCollectionResponse;
+import api.server.common.exception.custom.BusinessException;
 import api.server.common.library.PageCustomHelper;
 import api.server.common.model.ListResponse;
 import api.server.common.model.PageResponse;
 import api.server.sample.SampleClient;
 import api.server.sample.SampleSearchClient;
-import api.server.sample.enums.SampleBusinessErrors;
+import api.server.sample.enmus.SampleErrorCode;
 import api.server.sample.infrastructure.SampleCommandRepository;
 import api.server.sample.infrastructure.SampleQueryRepository;
 import api.server.sample.infrastructure.entity.SampleSourceEntity;
@@ -19,6 +19,7 @@ import api.server.sample.response.SampleAddressInfoResponse;
 import api.server.sample.response.SampleDetailResponse;
 import api.server.sample.response.SampleFeignResponse;
 import api.server.sample.response.SampleResponse;
+import common.standard.response.GenericCollectionResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -75,6 +76,7 @@ public class SampleService {
 	 * </pre>
 	 */
 	public ListResponse<SampleResponse> findSample(SampleRequest sampleRequest) {
+
 		// SampleType enums 적용
 		return new ListResponse<>(SampleQueryMapper.INSTANCE
 				.toResponse(query.selectSampleByEntities(sampleRequest)));
@@ -102,11 +104,7 @@ public class SampleService {
 				.toResponse(query.selectSampleByEntities(sampleRequest))
 				.stream()
 				.findAny()
-				.orElseThrow(SampleBusinessErrors.SAMPLE_002::exception);
-//		return query.selectSample(sampleRequest)
-//				.stream()
-//				.findAny()
-//				.orElseThrow(SampleBusinessErrors.SAMPLE_002::exception);
+				.orElseThrow(() -> new BusinessException(SampleErrorCode.DATA_NOT_FOUND));
 	}
 
 	/**
@@ -180,7 +178,7 @@ public class SampleService {
 	public void modifySample(UpdateSample updateSample) {
 
 		if (command.updateSample(updateSample) == 0) {
-			throw SampleBusinessErrors.SAMPLE_004.exception();
+			throw new BusinessException(SampleErrorCode.DATA_NOT_FOUND);
 		}
 	}
 
@@ -199,7 +197,7 @@ public class SampleService {
 	public void removeSample(DeleteSample deleteSample) {
 
 		if (command.deleteSample(deleteSample) == 0) {
-			throw SampleBusinessErrors.SAMPLE_005.exception("샘플");
+			throw new BusinessException(SampleErrorCode.DATA_NOT_FOUND);
 		}
 	}
 
@@ -220,7 +218,7 @@ public class SampleService {
 
 		// optional
 		if (command.deleteSample(new DeleteSample(List.of(id))) == 0) {
-			throw SampleBusinessErrors.SAMPLE_005.exception("샘플");
+			throw new BusinessException(SampleErrorCode.DATA_NOT_FOUND);
 		}
 	}
 
@@ -283,7 +281,7 @@ public class SampleService {
 		SampleResponse sampleResponse = query.selectSample()
 				.stream()
 				.findAny()
-				.orElseThrow(SampleBusinessErrors.SAMPLE_002::exception);
+				.orElseThrow(() -> new BusinessException(SampleErrorCode.DATA_NOT_FOUND));
 
 		// 주소정보 호출 및 response 변환
 		SampleAddressInfoResponse addressResponse =

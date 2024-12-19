@@ -1,11 +1,10 @@
-package api.server.common.validator;
+package api.server.sample.validator;
+
+import api.server.sample.request.DeleteSample;
+import common.standard.exception.business.BusinessErrorCodeExceptionStrictMessage;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-
-import api.server.sample.request.DeleteSample;
-
-import common.standard.exception.business.BusinessErrorCodeExceptionStrictMessage;
 
 /**
  * SampleRequest 커스텀 예외 처리

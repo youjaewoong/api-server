@@ -1,4 +1,4 @@
-rootProject.name = 'api'
+rootProject.name = 'api-server'
 
 include 'domain'
 findProject(':domain')?.name = 'domain'

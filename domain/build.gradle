@@ -18,8 +18,6 @@ dependencies {
     implementation project(":contract")
     implementation project(":api-client")
 
-    // spring boot
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     // jetbrains
     implementation "org.jetbrains:annotations:$jetbrainsVersion"
@@ -31,7 +29,7 @@ dependencies {
     implementation group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.1'
 
     // PostgreSQL JDBC 드라이버 추가
-    implementation 'org.postgresql:postgresql:42.6.0'
+    implementation 'org.postgresql:postgresql:42.7.2'
 
     // Mybatis
     implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:$springMybatisVersion"

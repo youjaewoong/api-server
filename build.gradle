@@ -10,7 +10,7 @@ buildscript {
     }
 }
 
-configurations.all {
+configurations.configureEach {
     resolutionStrategy {
         // 동적 버전 탐색을 10분 캐시
         cacheDynamicVersionsFor 0, 'minutes'
@@ -43,7 +43,7 @@ subprojects {
         compileOnly {
             extendsFrom annotationProcessor
         }
-        all {
+        configureEach {
             exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
             resolutionStrategy {
                 // 동적 버전 탐색을 캐시하지 않음
@@ -70,8 +70,11 @@ subprojects {
         implementation 'javax.validation:validation-api'
         implementation 'org.springframework.boot:spring-boot-starter-log4j2'
         implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
 
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
 
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'

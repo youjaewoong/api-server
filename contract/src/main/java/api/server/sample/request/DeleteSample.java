@@ -6,8 +6,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
+import api.server.sample.validator.SampleCode;
 import io.swagger.v3.oas.annotations.media.Schema;
-import api.server.common.validator.SampleCode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

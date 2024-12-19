@@ -41,7 +41,7 @@ public class OpenApiConfig {
 	@Bean
 	@Profile({"stg","prd"})
 	public GroupedOpenApi stgAndPrdOpenApi() {
-		String [] packagesToExclude = {"api.server.sample"};
+		String [] packagesToExclude = {"api.server.sample", "api.server.webclient"};
 		return setGroupedOpenApi(packagesToExclude);
 	}
 	@Bean

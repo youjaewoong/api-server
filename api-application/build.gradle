@@ -42,7 +42,7 @@ bootJar {
     
 	doFirst{
 		println "[ INFO ] ${MODULE_NAME} : Jar 빌드 시작"
-		println "[ INFO ] PROJECT NAME : CDP"
+		println "[ INFO ] PROJECT NAME : API-SERVER"
 		println "[ INFO ] BUILD TIME : ${BUILD_TIME}"
 	}
 	

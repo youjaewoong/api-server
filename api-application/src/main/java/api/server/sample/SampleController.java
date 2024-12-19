@@ -1,5 +1,7 @@
 package api.server.sample;
 
+import api.server.common.exception.custom.BusinessException;
+import api.server.common.exception.enums.ErrorCode;
 import common.standard.response.GenericCollectionResponse;
 import api.server.common.model.ListResponse;
 import api.server.common.model.PageResponse;
@@ -28,7 +30,6 @@ public class SampleController implements SampleControllerApi {
 
 	@Override
 	public ResponseEntity<PageResponse<SampleResponse>> findAllSample(SampleRequest sampleRequest) {
-
 		return ResponseEntity.ok(sampleService.findAllSample(sampleRequest));
 	}
 
