@@ -39,7 +39,7 @@ common:
       methods: GET,POST,PUT,PATCH,DELETE,OPTIONS,HEAD
       with-credential: true
       urls:
-        - "http://swagger.subdomain.jobkorea.com:9001"
+        - "http://swagger.subdomain.com:9001"
         - "http://localhost:9001"
         - "http://api-subdomain-01"
         - "http://api-subdomain-02"

@@ -1,8 +1,9 @@
 package api.server.common.exception.custom;
 
+import org.springframework.validation.Errors;
+
 import api.server.common.exception.enums.ErrorCode;
 import lombok.Getter;
-import org.springframework.validation.Errors;
 
 /**
  * <pre>
@@ -16,7 +17,8 @@ import org.springframework.validation.Errors;
 @Getter
 public class InvalidParameterException extends RuntimeException {
 
-    private final Errors errors;
+	private static final long serialVersionUID = -5368895316342160354L;
+	private final Errors errors;
     private final ErrorCode errorCode;
 
     public InvalidParameterException(Errors errors) {

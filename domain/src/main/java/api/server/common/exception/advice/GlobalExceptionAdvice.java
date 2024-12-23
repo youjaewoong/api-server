@@ -219,18 +219,19 @@ public class GlobalExceptionAdvice {
     }
 
 
-    /**
-     * <pre>
-     * 공통 예외 처리
-     * Exception 을 처리합니다.
-     * </pre>
-     */
+    /*
+      <pre>
+      공통 예외 처리
+      Exception 을 처리합니다.
+      </pre>
+
     @Order(99)
     @ExceptionHandler(Exception.class)
     private ResponseEntity<ErrorResponse> handleGenericException(Exception e) {
         log.error("GenericException", e);
         return getErrorResponseEntity(e, ErrorCode.INTERNAL_SERVER_ERROR);
     }
+     */
 
     /**
      * customException 을 처리합니다.

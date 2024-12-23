@@ -3,7 +3,6 @@ package api.server.common.exception.custom;
 
 import api.server.common.exception.enums.ErrorCodes;
 import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * <pre>
