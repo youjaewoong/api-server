@@ -16,5 +16,5 @@ import java.util.Map;
 @Schema(description = "FixedLength 요청")
 public class FixedLengthRequest {
 
-    private Map<String, Object> data;
+    private Map<String, Object> inData;
 }

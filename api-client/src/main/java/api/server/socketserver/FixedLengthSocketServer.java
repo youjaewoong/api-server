@@ -39,7 +39,7 @@ public class FixedLengthSocketServer {
                         log.info("Received: {}", request);
 
                         // 응답 전문 생성
-                        String response = String.format("%-10s%-20s%-10s", "John Doe", "john.doe@example.com", "VISA");
+                        String response = String.format("%-10s%-20s%-10s", "홍길동", "test@example.com", "VISA");
 
                         // 응답 전송
                         out.println(response);
