@@ -3,7 +3,7 @@ plugins {
     id 'jacoco'
 }
 
-configurations.all {
+configurations.configureEach {
     resolutionStrategy { cacheChangingModulesFor 0, 'seconds' }
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
         if (details.requested.group == 'org.jsoup:jsoup') {
@@ -20,10 +20,10 @@ dependencies {
 
 
     // jetbrains
-    implementation "org.jetbrains:annotations:$jetbrainsVersion"
+    implementation "org.jetbrains:annotations:23.0.0"
 
     // sql logging
-    implementation "org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:$log4j2Version"
+    implementation "org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16"
 
     // JsonNullable
     implementation group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.1'
@@ -32,58 +32,62 @@ dependencies {
     implementation 'org.postgresql:postgresql:42.7.2'
 
     // Mybatis
-    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:$springMybatisVersion"
-    implementation "org.mybatis:mybatis-typehandlers-jsr310:$mybatisVersion"
+    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2"
+    implementation "org.mybatis:mybatis-typehandlers-jsr310:1.0.2"
 
     // pagehelper
-    implementation "com.github.pagehelper:pagehelper-spring-boot-starter:$pageHelperVersion"
+    implementation "com.github.pagehelper:pagehelper-spring-boot-starter:1.4.5"
     
     implementation 'org.apache.commons:commons-collections4:4.4'
     
     // Json Merge Patch Interface
-    implementation "javax.json:javax.json-api:$jsonApiVersion"
+    implementation "javax.json:javax.json-api:1.1.4"
 
     // Json Merge Patch Library
-    implementation "com.github.java-json-tools:json-patch:$jsonPatchVersion"
+    implementation "com.github.java-json-tools:json-patch:1.13"
     
     // cache
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
-	implementation "net.sf.ehcache:ehcache:$ehcacheVersion"
+	implementation "net.sf.ehcache:ehcache:2.10.9.2"
 
     // MapStruct
-    implementation "org.mapstruct:mapstruct:$mapstructVersion"
+    implementation "org.mapstruct:mapstruct:1.5.3.Final"
 
     // json-simple
-    implementation "com.googlecode.json-simple:json-simple:$jsonSimpleVersion"
+    implementation "com.googlecode.json-simple:json-simple:1.1.1"
 
     // jsoup
-    implementation "org.jsoup:jsoup:$jsoupVersion"
+    implementation "org.jsoup:jsoup:1.15.3"
 
     // commons-validator
-    implementation "commons-validator:commons-validator:$commonsValidatorVersion"
+    implementation "commons-validator:commons-validator:1.7"
+
+    implementation 'org.apache.commons:commons-compress:1.26.0' // 강제 최신화
 
     // Apache POI
-    implementation "org.apache.poi:poi:$poiVersion"
-    implementation "org.apache.poi:poi-ooxml:$poiVersion" //Office 2007
-    implementation "org.apache.poi:poi-ooxml-full:$poiVersion"
-    implementation "org.apache.poi:poi-scratchpad:$poiVersion"
-    implementation "org.apache.poi:poi-ooxml-schemas:$poiSchemas"
+    implementation "org.apache.poi:poi:5.2.2"
+
+    implementation "org.apache.poi:poi-ooxml:5.2.2" //Office 2007
+    implementation "org.apache.poi:poi-ooxml-full:5.2.2"
+    implementation "org.apache.poi:poi-scratchpad:5.2.2"
+
+    implementation "org.apache.poi:poi-ooxml-schemas:4.1.2"
 
     // jasypt
-    implementation "com.github.ulisesbocchio:jasypt-spring-boot-starter:$jasypt"
+    implementation "com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4"
 
-    annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
-    testAnnotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
+    annotationProcessor "org.mapstruct:mapstruct-processor:1.5.3.Final"
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:1.5.3.Final"
 
     // lombok-mapstruct-biding
-    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:$lombokMapstructVersion"
+    annotationProcessor "org.projectlombok:lombok-mapstruct-binding:0.2.0"
 
     // ConfigurationProperties
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     testAnnotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-    testCompileOnly "org.projectlombok:lombok:$lombokVersion"
-    testAnnotationProcessor "org.projectlombok:lombok:$lombokVersion"
+    testCompileOnly "org.projectlombok:lombok:1.18.24"
+    testAnnotationProcessor "org.projectlombok:lombok:1.18.24"
 }
 
 compileJava {

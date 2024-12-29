@@ -25,8 +25,8 @@ class JasyptConfigTest {
 
             // give
             Map<String, String> map = Map.of(
-                    "id", "",
-                    "password", "");
+                    "id", "my-user",
+                    "password", "my-password");
 
             var config = new StandardPBEStringEncryptor();
             config.setPassword("gos1004"); // target key

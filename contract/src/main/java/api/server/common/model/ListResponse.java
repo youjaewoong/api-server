@@ -13,9 +13,9 @@ import lombok.Setter;
 @Setter
 public class ListResponse<T> {
 
-	private long totalCount = 0;
+	private long totalCount;
 
-	private List<T> collection = new ArrayList<>();
+	private List<T> collection;
 
 	public ListResponse(List<T> list) {
 		this.totalCount = list.size();

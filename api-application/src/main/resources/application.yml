@@ -27,7 +27,7 @@ spring:
 
 springdoc:
   swagger-ui:
-    path: /cdp/swagger-ui.html
+    path: /api-server/swagger-ui.html
     displayRequestDuration: true
     operationsSorter: method
     tagsSorter: alpha
@@ -57,3 +57,7 @@ management:
 
 pagehelper:
   helper-dialect: sqlserver2012
+
+socket:
+  server:
+    host:localhost:

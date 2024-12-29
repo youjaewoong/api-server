@@ -2,11 +2,12 @@ version: '3.8'
 services:
   postgres:
     image: postgres:15
-    container_name: my-postgres
+    container_name: postgres_server
+    restart: always
     environment:
-      POSTGRES_USER: my-
-      POSTGRES_PASSWORD: my-
-      POSTGRES_DB: my-
+      POSTGRES_USER: my-user
+      POSTGRES_PASSWORD: my-password
+      POSTGRES_DB: my-password
     ports:
       - "5432:5432"
     volumes:
@@ -14,3 +15,4 @@ services:
 
 volumes:
   postgres-data:
+    driver: local

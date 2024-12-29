@@ -86,7 +86,7 @@ subprojects {
         implementation ("commons-io:commons-io") { version {require '2.11.0'} } // 보안취약성 제거 버전 강제 지정
 
         // openapi 3.0
-        implementation "org.springdoc:springdoc-openapi-ui:$springdocOpenapiVersion"
+        implementation "org.springdoc:springdoc-openapi-ui:1.6.11"
     }
     
     compileJava.options.encoding = 'UTF-8'

@@ -17,7 +17,7 @@ public class PageResponse<T> extends SearchCriteria {
 
 	private long totalCount = 0L;
 
-	private List<T> collection = new ArrayList<>();
+	private List<T> collection;
 
 	public PageResponse(List<T> contents) {
 

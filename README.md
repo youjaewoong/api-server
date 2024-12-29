@@ -6,6 +6,7 @@
 
 ### sample ddl
 ```
+ms-SQL
 CREATE TABLE SAMPLE (
 	ID int IDENTITY (1, 1) NOT NULL,
 	NAME varchar(10) COLLATE Korean_Wansung_CI_AS  NULL,
@@ -15,6 +16,18 @@ CREATE TABLE SAMPLE (
 	REG_DT date ,
 	EDIT_DT date
 );
+
+postgreSQL
+CREATE TABLE SAMPLE (
+    ID SERIAL PRIMARY KEY, 
+    NAME VARCHAR(10) , 
+    TITLE VARCHAR(20) ,
+    CONTENTS VARCHAR(200),
+    TYPE VARCHAR(10),
+    REG_DT DATE,
+    EDIT_DT DATE
+);
+
 ```
 ### 실행옵션 (필수)
 ```
