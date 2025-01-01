@@ -43,6 +43,9 @@ gradlew clean bootJar
 
 #2 build
 gradlew clean build -x test
+
+#3 offline build
+gradlew build --offline -g D:/dev/devtool/gradle-7.4
 ```
 ### 프로파일별 실행
 ```

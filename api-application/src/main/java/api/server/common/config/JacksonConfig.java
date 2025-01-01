@@ -35,6 +35,7 @@ public class JacksonConfig {
 
 		// ISO 8601 형식으로 설정
 		objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+		objectMapper.enable(SerializationFeature.INDENT_OUTPUT); // 출력 시 들여쓰기 활성화
 
 		return objectMapper;
 	}
