@@ -1,6 +1,6 @@
 package api.server.sample.service;
 
-import common.standard.exception.business.BusinessErrorCodeException;
+import api.server.common.exception.custom.BusinessException;
 import api.server.common.library.PageCustomHelper;
 import api.server.common.model.ListResponse;
 import api.server.common.model.PageResponse;
@@ -117,7 +117,7 @@ class SampleServiceTest {
 			given(query.selectSample(sampleRequest)).willReturn(response);
 
 			// when & then
-			assertThrows(BusinessErrorCodeException.class, () ->
+			assertThrows(BusinessException.class, () ->
 					sampleService.findBySampleId(sampleRequest));
 
 		}
@@ -137,7 +137,7 @@ class SampleServiceTest {
 			given(query.selectSample(sampleRequest)).willReturn(response);
 
 			// when & then
-			assertThrows(BusinessErrorCodeException.class, () ->
+			assertThrows(BusinessException.class, () ->
 					sampleService.findBySampleId(sampleRequest));
 
 		}
@@ -219,7 +219,7 @@ class SampleServiceTest {
 			given(command.updateSample(updateSample)).willReturn(0);
 
 			// when & then
-			assertThrows(BusinessErrorCodeException.class, () ->
+			assertThrows(BusinessException.class, () ->
 					sampleService.modifySample(updateSample));
 		}
 	}
@@ -266,7 +266,7 @@ class SampleServiceTest {
 			given(command.deleteSample(deleteSample)).willReturn(0);
 
 			// when & then
-			assertThrows(BusinessErrorCodeException.class, () ->
+			assertThrows(BusinessException.class, () ->
 					sampleService.removeSample(deleteSample));
 		}
 
