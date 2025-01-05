@@ -1,7 +1,5 @@
 package api.server.sample;
 
-import api.server.common.exception.custom.BusinessException;
-import api.server.common.exception.enums.ErrorCode;
 import common.standard.response.GenericCollectionResponse;
 import api.server.common.model.ListResponse;
 import api.server.common.model.PageResponse;
@@ -11,7 +9,6 @@ import api.server.sample.request.SampleRequest;
 import api.server.sample.request.UpdateSample;
 import api.server.sample.response.SampleDetailResponse;
 import api.server.sample.response.SampleFeignResponse;
-import api.server.sample.response.SampleLogResponse;
 import api.server.sample.response.SampleResponse;
 import api.server.sample.service.SampleService;
 import lombok.RequiredArgsConstructor;
@@ -109,17 +106,5 @@ public class SampleController implements SampleControllerApi {
 		return ResponseEntity.ok(sampleService.infoToDetail());
 	}
 
-	@Override
-	public ResponseEntity<SampleLogResponse> findBySampleLogsInfo() {
-		SampleLogResponse response = SampleLogResponse.builder()
-				.debug(log.isDebugEnabled())
-				.info(log.isInfoEnabled())
-				.warn(log.isWarnEnabled())
-				.error(log.isErrorEnabled())
-				.trace(log.isTraceEnabled())
-				.profile(System.getProperty("spring.profiles.active"))
-				.build();
-		return ResponseEntity.ok(response);
-	}
 
 }

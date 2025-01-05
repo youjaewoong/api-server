@@ -1,0 +1,34 @@
+{
+  "gramId" : "TEST01",
+  "gramName" : "테스트01",
+  "serviceId" : "TEST01_S",
+  "inFields" : [ {
+    "fieldId" : "id",
+    "fieldName" : "아이디",
+    "length" : 10,
+    "offset" : 0
+  }, {
+    "fieldId" : "accNo",
+    "fieldName" : "계좌번호",
+    "length" : 10,
+    "offset" : 10
+  } ],
+  "outFields" : [ {
+    "fieldId" : "name",
+    "fieldName" : "이름",
+    "length" : 10,
+    "offset" : 0
+  }, {
+    "fieldId" : "age",
+    "fieldName" : "나이",
+    "length" : 10,
+    "offset" : 10
+  }, {
+    "fieldId" : "email",
+    "fieldName" : "이메일",
+    "length" : 30,
+    "offset" : 20
+  } ],
+  "totalInLength" : 20,
+  "totalOutLength" : 50
+}

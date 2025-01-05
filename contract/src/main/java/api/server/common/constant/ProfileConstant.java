@@ -1,8 +1,9 @@
 package api.server.common.constant;
 
-public final class ProfileConstant {
+import lombok.experimental.UtilityClass;
 
-	private ProfileConstant() {}
+@UtilityClass
+public final class ProfileConstant {
 
 	public static final String LOCAL = "local";
 

@@ -39,14 +39,14 @@ public class FixedLengthSocketServer {
                         log.info("Received: {}", request);
 
                         // 응답 전문 생성
-                        String response = String.format("%-10s%-20s%-10s", "홍길동", "test@example.com", "VISA");
+                        String response = String.format("%-10s%-10s%-30s", "홍길동", "22", "test@example.com");
 
                         // 응답 전송
                         out.println(response);
                     }
                 }
             } catch (IOException e) {
-                throw new RuntimeException("Socket server error: " + e.getMessage(), e);
+                throw new IllegalArgumentException("Socket server error: " + e.getMessage(), e);
             }
         }).start(); // 별도 스레드에서 실행
     }

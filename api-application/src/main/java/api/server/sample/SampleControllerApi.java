@@ -16,7 +16,6 @@ import api.server.sample.request.SampleRequest;
 import api.server.sample.request.UpdateSample;
 import api.server.sample.response.SampleDetailResponse;
 import api.server.sample.response.SampleFeignResponse;
-import api.server.sample.response.SampleLogResponse;
 import api.server.sample.response.SampleResponse;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
@@ -158,14 +157,5 @@ public interface SampleControllerApi {
 	)
 	@GetMapping(value = "samples/mapstruct/info-to-detail")
 	ResponseEntity<SampleDetailResponse> infoToDetail();
-
-	@Operation(summary = "현재 프로파일의 로그레벨 조회",
-			description = "현재 프로파일(local, dev, prod) 중 해당되는 로그레벨을 확인합니다.",
-			responses = {@ApiResponse(responseCode = "200",
-					content = @Content(schema = @Schema(implementation = SampleLogResponse.class)))
-			}
-	)
-	@GetMapping(value = "samples/log-level")
-	ResponseEntity<SampleLogResponse> findBySampleLogsInfo();
 
 }

@@ -6,8 +6,8 @@ jasypt:
       prefix: API(
       suffix: )
 
-file:
-  interface-path: resources/interface
+gram:
+  file-path: resources/gram
   type: lottecard
 
 ---

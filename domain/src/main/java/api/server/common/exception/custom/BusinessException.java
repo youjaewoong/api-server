@@ -13,12 +13,10 @@ import lombok.Getter;
 @Getter
 public class BusinessException extends RuntimeException {
 
-    private static final long serialVersionUID = 1L;
-
     private final ErrorCodes errorCodes;
 
-    public BusinessException(ErrorCodes errorCodes) {
+    public BusinessException(ErrorCodes errorCodes, Object... args) {
+        super(errorCodes.getErrorCode().formatMessage(args)); // 포맷된 메시지를 사용
         this.errorCodes = errorCodes;
     }
-
 }

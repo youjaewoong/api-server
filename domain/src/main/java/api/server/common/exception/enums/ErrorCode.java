@@ -24,7 +24,7 @@ public enum ErrorCode implements ErrorCodes {
     INSERT_FAIL(400, "C004", "error.insert.fail", "저장에 실패했습니다."),
     UPDATE_FAIL(400, "C005", "error.update.fail", "수정에 실패했습니다."),
 
-    INVALID_PARAMETER(400, "C006", "error.invalid.parameter", "요청 데이터가 올바르지 않습니다."),
+    INVALID_PARAMETER(400, "C006", "error.invalid.parameter {0}", "요청 데이터가 올바르지 않습니다."),
     METHOD_NOT_ALLOWED(405, "C007", "error.method.not.allowed", "메소드 타입의 접근이 올바르지 않습니다."),
 
     // 500

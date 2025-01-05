@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Profile;
 import java.time.YearMonth;
 
 @OpenAPIDefinition(info = @Info(
-		title = "SAMPLE",
+		title = "API-SERVER",
 		description = "",
 		version = "1.0"),
 		servers = @Server(url = "/", description = "Default server url"))
@@ -36,7 +36,8 @@ public class OpenApiConfig {
 	@Bean
 	@Profile({"local","dev"})
 	public GroupedOpenApi localAndDevOpenApi() {
-		return setGroupedOpenApi();
+		String [] packagesToExclude = {"api.server.sample"};
+		return setGroupedOpenApi(packagesToExclude);
 	}
 	@Bean
 	@Profile({"stg","prd"})
