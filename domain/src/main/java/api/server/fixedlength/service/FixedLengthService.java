@@ -2,9 +2,9 @@ package api.server.fixedlength.service;
 
 import api.server.common.exception.custom.BusinessException;
 import api.server.common.property.GramProperty;
+import api.server.fixedlength.cache.FixedLengthJsonCache;
+import api.server.fixedlength.cache.HeaderCache;
 import api.server.fixedlength.enmus.FixedLengthErrorCode;
-import api.server.fixedlength.header.Header;
-import api.server.fixedlength.header.HeaderFactory;
 import api.server.fixedlength.helper.FixedLengthHelper;
 import api.server.fixedlength.helper.FixedLengthJsonLoaderHelper;
 import api.server.fixedlength.helper.FixedLengthLengthCalculatorHelper;
@@ -50,41 +50,38 @@ public class FixedLengthService {
     public CompletableFuture<FixedLengthResponse> findFixedLengthData(FixedLengthRequest fixedLengthRequest) throws IOException {
 		return CompletableFuture.supplyAsync(() -> {
 			try {
-				// 동적 헤더 생성
-				Header headerBuilder = HeaderFactory.getHeaderBuilder(gramProperty.getType());
-				String headerData = headerBuilder.buildHeader(fixedLengthRequest);
+				// Step 1: 헤더 생성 및 캐싱
+				String headerData = HeaderCache.getHeader(gramProperty.getType(), fixedLengthRequest);
 				log.info("Header: {}", headerData);
 				log.info("Header Length: {}", headerData.length());
 
-				// JSON 파일 경로 동적 결정
+				// Step 2: JSON 데이터 로드 및 캐싱
 				String jsonFilePath = getJsonFilePath(fixedLengthRequest);
-
-				// JSON 데이터 로드 BODY
-				FixedLengthJsonVO jsonModel = FixedLengthJsonLoaderHelper.loadJson(jsonFilePath, FixedLengthJsonVO.class);
+				FixedLengthJsonVO jsonModel = FixedLengthJsonCache.getJson(jsonFilePath);
 				log.info("jsonModel: {}", jsonModel);
 
-				// 요청 바디 데이터 생성
+				// Step 3: 요청 바디 데이터 생성
 				String bodyData = FixedLengthHelper.toFixedLengthBody(jsonModel.getInFields(), fixedLengthRequest.getInFields());
 				log.info("Body: {}", bodyData);
 				log.info("Body Length: {}", bodyData.length());
 
-				// 소켓 데이터 (샘플 데이터: 고정 길이)
+				// Step 4: 헤더와 바디 결합
 				String fixedLengthData = headerData + bodyData;
 				log.info("FixedLengthData: {}", fixedLengthData);
 
-				// 소켓 통신
+				// Step 5: 소켓 통신
 				String fixedLengthResponse = sendFixedLengthRequest(fixedLengthData);
 				log.info("FixedLengthResponse: {}", fixedLengthResponse);
 
-				// 고정 길이 데이터를 JSON으로 매핑
+				// Step 6: 고정 길이 데이터를 JSON으로 매핑
 				Map<String, String> outFields = FixedLengthJsonLoaderHelper.mapFixedLengthToJson(fixedLengthResponse, jsonModel.getOutFields());
 
-				// 길이 계산
+				// Step 7: 길이 계산
 				int inHeaderTotal = headerData.length();
 				int inBodyTotal = FixedLengthLengthCalculatorHelper.calculateTotalLength(jsonModel.getInFields());
 				int outBodyTotal = FixedLengthLengthCalculatorHelper.calculateTotalLength(jsonModel.getOutFields());
 
-				// 응답 생성
+				// Step 8: 응답 생성
 				return FixedLengthResponse.createResponse(
 						fixedLengthRequest.getGramId(),
 						fixedLengthRequest.getServiceId(),
@@ -93,7 +90,8 @@ public class FixedLengthService {
 						outFields,
 						outBodyTotal);
 			} catch (Exception e) {
-				throw new RuntimeException("Error processing fixed length request", e);
+				log.error(e.getMessage(), e);
+				throw new BusinessException(FixedLengthErrorCode.INTERNAL_SERVER_ERROR);
 			}
 		});
 	}
