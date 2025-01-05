@@ -1,5 +1,6 @@
 package api.server.gramstorage.request;
 
+import api.server.common.vo.FieldInfoVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,10 +26,10 @@ public class GramInfoRequest {
     private String serviceId;
 
     /** IN 필드 리스트 */
-    private List<FieldInfo> inFields;
+    private List<FieldInfoVO> inFields;
 
     /** OUT 필드 리스트 */
-    private List<FieldInfo> outFields;
+    private List<FieldInfoVO> outFields;
 
     /** IN 필드 총 길이 */
     private int totalInLength;

@@ -1,4 +1,4 @@
-package api.server.gramstorage.request;
+package api.server.common.vo;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "전문필드 요청정보")
-public class FieldInfo {
+public class FieldInfoVO {
 
     /** 필드 ID */
     private String fieldId;

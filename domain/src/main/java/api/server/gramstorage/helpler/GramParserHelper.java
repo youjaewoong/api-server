@@ -2,8 +2,8 @@ package api.server.gramstorage.helpler;
 
 
 import api.server.common.exception.custom.BusinessException;
+import api.server.common.vo.FieldInfoVO;
 import api.server.gramstorage.enmus.GramStorageErrorCode;
-import api.server.gramstorage.request.FieldInfo;
 import api.server.gramstorage.request.GramInfoRequest;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +31,8 @@ public class GramParserHelper {
 	public static GramInfoRequest parseExcelFile(MultipartFile file, String gramId, String gramName, String serviceId) {
 		try (XSSFWorkbook workbook = new XSSFWorkbook(file.getInputStream())) {
 			Sheet sheet = workbook.getSheetAt(0); // 첫 번째 시트를 가져옴
-			List<FieldInfo> inFields = new ArrayList<>();
-			List<FieldInfo> outFields = new ArrayList<>();
+			List<FieldInfoVO> inFields = new ArrayList<>();
+			List<FieldInfoVO> outFields = new ArrayList<>();
 
 			for (Row row : sheet) {
 				if (row.getRowNum() == 0) continue; // 헤더 행 스킵
@@ -43,7 +43,7 @@ public class GramParserHelper {
 				int length = (int) row.getCell(3).getNumericCellValue(); // 필드 길이
 				int offset = (int) row.getCell(4).getNumericCellValue(); // 필드 오프셋
 
-				FieldInfo fieldInfo = FieldInfo.builder()
+				FieldInfoVO fieldInfo = FieldInfoVO.builder()
 						.fieldId(fieldId)
 						.fieldName(fieldName)
 						.length(length)
@@ -65,8 +65,8 @@ public class GramParserHelper {
 					.serviceId(serviceId)
 					.inFields(inFields)
 					.outFields(outFields)
-					.totalInLength(inFields.stream().mapToInt(FieldInfo::getLength).sum())
-					.totalOutLength(outFields.stream().mapToInt(FieldInfo::getLength).sum())
+					.totalInLength(inFields.stream().mapToInt(FieldInfoVO::getLength).sum())
+					.totalOutLength(outFields.stream().mapToInt(FieldInfoVO::getLength).sum())
 					.build();
 
 		} catch (IOException e) {
