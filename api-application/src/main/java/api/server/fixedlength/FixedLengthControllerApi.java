@@ -11,12 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
 @Tag(name = "FixedLength 전문통신", description = "FixedLength 전문통신 IN/OUT 을 구현 합니다.")
 @Validated
+@RequestMapping("api-server")
 public interface FixedLengthControllerApi {
 
 	@Operation(summary = "FixedLength 정보 조회",
@@ -25,7 +27,7 @@ public interface FixedLengthControllerApi {
 					content = @Content(schema = @Schema(implementation = FixedLengthResponse.class)))
 			}
 	)
-	@PostMapping(value = "fixed-length/sample")
+	@PostMapping(value = "fixed-length/data")
 	ResponseEntity<CompletableFuture<FixedLengthResponse>> findFixedLengthData(
 			@RequestBody @Schema(description = "FixedLength 요청 데이터", implementation = FixedLengthRequest.class) FixedLengthRequest fixedLengthRequest
 	) throws IOException;
