@@ -1,7 +1,7 @@
 package api.server.fixedlength.builder;
 
 import api.server.common.constant.GramInfoConstant;
-import api.server.fixedlength.enums.LottecardGuIdType;
+import api.server.fixedlength.enmus.LottecardGuIdType;
 import api.server.fixedlength.header.Header;
 import api.server.fixedlength.helper.FixedLengthHelper;
 import api.server.fixedlength.request.FixedLengthRequest;

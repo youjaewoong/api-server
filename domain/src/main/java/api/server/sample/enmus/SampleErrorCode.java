@@ -43,8 +43,8 @@ public enum SampleErrorCode implements ErrorCodes {
         return CommonErrorCode.builder()
                 .status(this.status)
                 .code(this.code)
-                .message(this.defaultMessage)
-                .defaultMessage(this.getDefaultMessage())
+                .message(this.message)
+                .defaultMessage(this.defaultMessage)
                 .build();
     }
 }

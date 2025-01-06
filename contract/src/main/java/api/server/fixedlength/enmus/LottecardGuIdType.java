@@ -1,11 +1,8 @@
-package api.server.fixedlength.enums;
+package api.server.fixedlength.enmus;
 
 import api.server.fixedlength.helper.FixedLengthHelper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Getter
 @AllArgsConstructor

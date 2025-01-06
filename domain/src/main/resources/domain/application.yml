@@ -10,6 +10,11 @@ gram:
   file-path: resources/gram
   type: lottecard
 
+file:
+  json-path:
+    dev: api-application/src/main/resources/gram/${gram.type}
+    jar: gram/${gram.type}
+
 ---
 spring:
   messages:

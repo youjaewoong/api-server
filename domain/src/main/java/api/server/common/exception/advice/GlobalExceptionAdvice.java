@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolationException;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -59,7 +60,7 @@ public class GlobalExceptionAdvice {
 
         log.error("BusinessException", e);
         ErrorCodes errorCode = e.getErrorCodes();
-        return getErrorResponseEntity(e,  errorCode);
+        return getErrorResponseEntity(e,  errorCode, e.getArgs());
     }
 
 
@@ -232,6 +233,20 @@ public class GlobalExceptionAdvice {
         return getErrorResponseEntity(e, ErrorCode.INTERNAL_SERVER_ERROR);
     }
      */
+
+    /**
+     * customException 을 처리합니다.
+     */
+    private ResponseEntity<ErrorResponse> getErrorResponseEntity(Exception e, ErrorCodes errorCodes, Object... args) {
+
+        ErrorResponse errorResponse = ErrorResponse
+                .create()
+                .message(messageHelper.getMessage(errorCodes, args))
+                .status(errorCodes.getErrorCode().getStatus())
+                .code(errorCodes.getErrorCode().getCode())
+                .errorMessage(e.toString());
+        return ResponseEntity.status(errorCodes.getErrorCode().getStatus()).body(errorResponse);
+    }
 
     /**
      * customException 을 처리합니다.

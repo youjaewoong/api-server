@@ -23,12 +23,6 @@ public interface ErrorCodes {
         private final String message;
         private final String defaultMessage;
 
-        /**
-         * 메시지 포맷팅 기능 추가
-         */
-        public String formatMessage(Object... args) {
-            return MessageFormat.format(this.message, args);
-        }
     }
 
 }

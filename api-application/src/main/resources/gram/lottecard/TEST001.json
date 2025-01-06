@@ -1,7 +1,7 @@
 {
-  "gramId" : "TEST01",
-  "gramName" : "테스트01",
-  "serviceId" : "TEST01_S",
+  "gramId" : "TEST001",
+  "gramName" : "테스트001",
+  "serviceId" : "테스트001_01",
   "inFields" : [ {
     "fieldId" : "id",
     "fieldName" : "아이디",

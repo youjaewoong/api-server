@@ -6,6 +6,9 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
+import java.util.Locale;
+
 @Slf4j
 @Component
 public class MessageHelper {
@@ -16,17 +19,18 @@ public class MessageHelper {
         this.messageSource = messageSource;
     }
 
+
     /**
      * <pre>
      *   ErrorCode 에 정의되어 있는 메시지값을 호출 합니다.
-     *   db 호출 시 에러 발생 시 defaultMessage 로 대체합니다.
+     *   에러 발생 시 defaultMessage 로 대체합니다.
      * </pre>
      */
-    public String getMessage(ErrorCodes errorCodes) {
+    public String getMessage(ErrorCodes errorCodes, Object... args) {
         try {
             return messageSource.getMessage(
                     errorCodes.getErrorCode().getMessage(),
-                    null,
+                    args.length > 0 ? args : null, // args 배열 확인 후 전달
                     LocaleContextHolder.getLocale()
             );
         } catch (Exception e) {

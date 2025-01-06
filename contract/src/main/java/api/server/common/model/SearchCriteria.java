@@ -1,12 +1,12 @@
 package api.server.common.model;
 
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Getter
 @Setter

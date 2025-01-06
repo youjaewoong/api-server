@@ -4,13 +4,13 @@ import api.server.common.annotation.FixedLength;
 import api.server.fixedlength.vo.FixedLengthJsonVO;
 import lombok.experimental.UtilityClass;
 
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Map;
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 @UtilityClass
 public class FixedLengthHelper {

@@ -26,6 +26,10 @@ tasks.withType(Jar).configureEach {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
+tasks.named('build') {
+    dependsOn bootJar
+}
+
 test {
     useJUnitPlatform()
 }
@@ -39,7 +43,9 @@ ext {
 bootJar {
     enabled = true
     archiveClassifier = ''
-    
+    from("src/main/resources/gram") {
+        into("gram") // JAR 내부의 gram 디렉토리로 포함
+    }
 	doFirst{
 		println "[ INFO ] ${MODULE_NAME} : Jar 빌드 시작"
 		println "[ INFO ] PROJECT NAME : API-SERVER"
@@ -53,9 +59,7 @@ bootJar {
 }
 
 jar {
-    archiveClassifier = ''
-    // bootJar 결과 산출 파일을 api-application.jar 로 지정하여 export 되도록 구성합니다.
-    // version 에 따라 artifact 명이 달라지지 않도록 구성합니다.
-    archiveFileName = "api-application.${archiveExtension.get()}"
-    enabled = true
+    enabled = false
 }
+
+

@@ -1,4 +1,4 @@
-package api.server.common.property;
+package api.server.common.properties;
 
 
 import lombok.Getter;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @ConfigurationProperties(prefix = "gram")
-public class GramProperty {
+public class GramProperties {
 
     /** gram.file-path 값 매핑 */
     private String filePath;

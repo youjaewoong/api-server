@@ -2,7 +2,7 @@ package api.server.system;
 
 import api.server.fixedlength.header.HeaderFactory;
 import api.server.common.helper.RequestHelper;
-import api.server.common.property.GramProperty;
+import api.server.common.properties.GramProperties;
 import api.server.system.response.SystemLogResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import java.util.Map;
 @Slf4j
 public class SystemController implements SystemControllerApi {
 
-	private final GramProperty gramProperty;
+	private final GramProperties gramProperties;
 
 
 	@Override
@@ -44,7 +44,7 @@ public class SystemController implements SystemControllerApi {
 
 	@Override
 	public ResponseEntity<Object> findCommonHeader() {
-		String type = gramProperty.getType(); // application.yml의 type 값 읽기
+		String type = gramProperties.getType(); // application.yml의 type 값 읽기
 		return ResponseEntity.ok(HeaderFactory.getHeader(type));
 	}
 
