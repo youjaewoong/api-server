@@ -45,4 +45,15 @@ public interface SystemControllerApi {
 	)
 	@GetMapping(value = "common-header")
 	ResponseEntity<Object> findCommonHeader();
+
+
+
+	@Operation(summary = "현재 전문의 JSON 경로 확인",
+			description = "현재 전문의 JSON 경로를 확인합니다.",
+			responses = {@ApiResponse(responseCode = "200",
+					content = @Content(schema = @Schema(implementation = String.class)))
+			}
+	)
+	@GetMapping(value = "gram-base-path")
+	ResponseEntity<Object> findGramBasePath();
 }

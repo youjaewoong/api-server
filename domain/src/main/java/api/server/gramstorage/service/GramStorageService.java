@@ -45,7 +45,7 @@ public class GramStorageService {
 
 		// 파일 경로 생성
 		String filePath = filePathHelper.getFilePath(gramId);
-		Path path = Paths.get(filePath).toAbsolutePath(); // 절대 경로로 변환
+		Path path = Paths.get(filePath);
 
 		try {
 			// 파일 경로에 부모 디렉토리가 없으면 생성
@@ -68,7 +68,7 @@ public class GramStorageService {
 	public GramInfoRequest findGramInfo(String gramId) {
 		// 파일 경로 생성
 		String filePath = filePathHelper.getFilePath(gramId);
-		Path path = Paths.get(filePath).toAbsolutePath();
+		Path path = Paths.get(filePath);
 
 		// 파일 존재 여부 및 읽기 가능 여부 확인
 		if (!Files.exists(path) || !Files.isReadable(path)) {
@@ -93,7 +93,7 @@ public class GramStorageService {
 	 */
 	public List<String> findAllGramList() {
 		// 저장 경로 가져오기
-		Path path = Paths.get(filePathHelper.getBasePath()).toAbsolutePath();
+		Path path = Paths.get(filePathHelper.getBasePath());
 
 		// 디렉토리가 존재하지 않거나 유효하지 않으면 빈 리스트 반환
 		if (!Files.exists(path) || !Files.isDirectory(path)) {

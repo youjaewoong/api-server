@@ -1,5 +1,6 @@
 package api.server.system;
 
+import api.server.common.helper.FilePathHelper;
 import api.server.fixedlength.header.HeaderFactory;
 import api.server.common.helper.RequestHelper;
 import api.server.common.properties.GramProperties;
@@ -18,6 +19,8 @@ import java.util.Map;
 public class SystemController implements SystemControllerApi {
 
 	private final GramProperties gramProperties;
+
+	private final FilePathHelper filePathHelper;
 
 
 	@Override
@@ -46,6 +49,11 @@ public class SystemController implements SystemControllerApi {
 	public ResponseEntity<Object> findCommonHeader() {
 		String type = gramProperties.getType(); // application.yml의 type 값 읽기
 		return ResponseEntity.ok(HeaderFactory.getHeader(type));
+	}
+
+	@Override
+	public ResponseEntity<Object> findGramBasePath() {
+		return ResponseEntity.ok(filePathHelper.getBasePath());
 	}
 
 }

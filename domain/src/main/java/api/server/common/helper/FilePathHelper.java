@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.net.URL;
 import java.nio.file.Paths;
 import java.util.Objects;
 
@@ -24,8 +25,10 @@ public class FilePathHelper {
      * @return 기본 경로 (개발 또는 JAR 환경)
      */
     public String getBasePath() {
-        String basePath = isRunningInJar() ? filePathProperties.getJar() : filePathProperties.getDev();
-        return Paths.get(basePath).toAbsolutePath().toString();
+        if (isRunningInJar()) {
+            return filePathProperties.getJar();
+        }
+        return filePathProperties.getDev();
     }
 
 
@@ -36,7 +39,7 @@ public class FilePathHelper {
      * @return 전체 파일 경로
      */
     public String getFilePath(String fileName) {
-        return Paths.get(getBasePath(), fileName + FILE_EXTENSION).toAbsolutePath().toString();
+        return Paths.get(getBasePath(), fileName + FILE_EXTENSION).toString();
     }
 
 
@@ -46,8 +49,17 @@ public class FilePathHelper {
      * @return JAR 환경 여부
      */
     private boolean isRunningInJar() {
-        String classPath = Objects.requireNonNull(this.getClass().getResource("")).toString();
-        return classPath.startsWith("jar");
+        try {
+            URL resource = this.getClass().getResource("");
+            if (resource != null) {
+                String protocol = resource.getProtocol();
+                return "jar".equals(protocol); // JAR 환경인지 확인
+            }
+            return false;
+        } catch (Exception e) {
+            log.error("Failed to determine JAR environment", e);
+            return false;
+        }
     }
 
 
