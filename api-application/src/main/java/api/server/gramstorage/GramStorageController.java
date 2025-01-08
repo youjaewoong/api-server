@@ -3,6 +3,7 @@ package api.server.gramstorage;
 import api.server.gramstorage.helpler.GramParserHelper;
 import api.server.gramstorage.request.GramInfoRequest;
 import api.server.gramstorage.service.GramStorageService;
+import api.server.gramstorage.service.GramStorageServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

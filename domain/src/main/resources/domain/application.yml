@@ -13,63 +13,12 @@ gram:
 file:
   json-path:
     dev: api-application/src/main/resources/gram/${gram.type}
-    jar: gram/${gram.type}
+    jar: classpath:gram/${gram.type}
 
----
+db:
+  active: false
+
 spring:
   messages:
     basename: messages,errors,validation
     encoding: UTF-8
-  config:
-    activate:
-      on-profile: local
-  # JKDB 설정
-  datasource-jkdb:
-    mybatis:
-      mapper-locations: classpath:sql/**/*.xml
-      config-location: classpath:config/mybatis-config.xml
-    hikari:
-      name: jobetcds
-      pool-name: JOBDB
-      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-      jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/mydb
-      username: API(JvV71oWlyNo=)
-      password: API(bvgRMU+VWcH0y+3ebtA4oA==)
-      connection-timeout: 3000
-      validation-timeout: 3000
-      maximum-pool-size: 10
-      connection-test-query: select 1
----
-spring:
-  messages:
-    basename: messages,errors,validation
-    encoding: UTF-8
-  config:
-    activate:
-      on-profile: dev
-  # JKDB 설정
-  datasource-jkdb:
-    mybatis:
-      mapper-locations: classpath:sql/**/*.xml
-      config-location: classpath:config/mybatis-config.xml
-    hikari:
-      name: jobetcds
-      pool-name: JOBDB
-      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-      jdbc-url: jdbc:log4jdbc:postgresql://54.180.36.144:5432/postgres
-      username: API(JvV71oWlyNo=)
-      password: API(bvgRMU+VWcH0y+3ebtA4oA==)
-      connection-timeout: 3000
-      validation-timeout: 3000
-      maximum-pool-size: 10
-      connection-test-query: select 1
----
-spring:
-  messages:
-    basename: messages,errors,validation
-    encoding: UTF-8
-  config:
-    activate:
-      on-profile: stg, prd
-    import: file:D://database-config.yml
-    #import: file:/home/gos1004/cdp/database-config.yml
