@@ -2,7 +2,7 @@
 # [ prod 프로파일 -Dspring.profiles.active=prd ]
 ##########################################################################################
 server:
-  port: 9004
+  port: 9001
 
 logging:
   config: classpath:log4j2-prd.yml

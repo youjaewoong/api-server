@@ -1,23 +1,22 @@
 package api.server.common.message;
 
 import api.server.common.exception.enums.ErrorCodes;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Locale;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class MessageHelper {
 
     private final MessageSource messageSource;
-
-    public MessageHelper(MessageSource messageSource) {
-        this.messageSource = messageSource;
-    }
 
 
     /**
@@ -30,7 +29,7 @@ public class MessageHelper {
         try {
             return messageSource.getMessage(
                     errorCodes.getErrorCode().getMessage(),
-                    args.length > 0 ? args : null, // args 배열 확인 후 전달
+                    args, // args 처리
                     LocaleContextHolder.getLocale()
             );
         } catch (Exception e) {

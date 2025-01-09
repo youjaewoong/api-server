@@ -19,7 +19,7 @@ public enum GramStorageErrorCode implements ErrorCodes {
 
     // 4XX 에러
     DATA_NOT_FOUND(404, "GRAM01", "gram.storage.01",
-            "{0} 데이터가 존재하지 않습니다."),
+            "데이터가 존재하지 않습니다."),
 
     INVALID_REQUEST(400, "GRAM02", "gram.storage.02",
             "잘못된 요청입니다."),
@@ -41,8 +41,8 @@ public enum GramStorageErrorCode implements ErrorCodes {
         return CommonErrorCode.builder()
                 .status(this.status)
                 .code(this.code)
-                .message(this.defaultMessage)
-                .defaultMessage(this.getDefaultMessage())
+                .message(this.message)
+                .defaultMessage(this.defaultMessage)
                 .build();
     }
 }

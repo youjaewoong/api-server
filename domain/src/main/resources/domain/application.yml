@@ -12,7 +12,7 @@ gram:
 
 file:
   json-path:
-    dev: api-application/src/main/resources/gram/${gram.type}
+    local: api-application/src/main/resources/gram/${gram.type}
     jar: classpath:gram/${gram.type}
 
 db:
@@ -20,5 +20,5 @@ db:
 
 spring:
   messages:
-    basename: messages,errors,validation
+    basename: messages
     encoding: UTF-8

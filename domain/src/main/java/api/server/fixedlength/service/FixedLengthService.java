@@ -29,7 +29,6 @@ import java.util.concurrent.CompletableFuture;
 
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 @Slf4j
 public class FixedLengthService {
@@ -37,8 +36,6 @@ public class FixedLengthService {
     private final GramProperties gramProperties;
 
     private final FilePathHelper filePathHelper;
-
-    private final MessageHelper messageHelper;
 
     @Value("${socket.server.host:localhost}")
     private String socketHost;

@@ -2,7 +2,7 @@
 # [ dev 프로파일 -Dspring.profiles.active=dev ]
 ##########################################################################################
 server:
-  port: 9002
+  port: 9001
 
 logging:
   config: classpath:log4j2-dev.yml

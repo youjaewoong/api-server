@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Profile({"local"})
+@Profile("local")
 public class GramStorageLocalServiceImpl implements GramStorageService {
 
 	private final ObjectMapper objectMapper; // JSON 직렬화 및 역직렬화를 위한 ObjectMapper
@@ -75,7 +75,7 @@ public class GramStorageLocalServiceImpl implements GramStorageService {
 		// 파일 존재 여부 및 읽기 가능 여부 확인
 		if (!Files.exists(path) || !Files.isReadable(path)) {
 			log.warn("File not found or not readable: {}", filePath);
-			throw new BusinessException(GramStorageErrorCode.DATA_NOT_FOUND);
+			throw new BusinessException(GramStorageErrorCode.DATA_NOT_FOUND, path);
 		}
 
 		try {

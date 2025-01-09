@@ -28,7 +28,7 @@ public class FilePathHelper {
         if (isRunningInJar()) {
             return filePathProperties.getJar();
         }
-        return filePathProperties.getDev();
+        return filePathProperties.getLocal();
     }
 
 
@@ -39,7 +39,7 @@ public class FilePathHelper {
      * @return 전체 파일 경로
      */
     public String getFilePath(String fileName) {
-        return Paths.get(getBasePath(), fileName + FILE_EXTENSION).toString();
+        return getBasePath() + '/' +  fileName + FILE_EXTENSION;
     }
 
 

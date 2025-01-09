@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "file.json-path")
 public class FilePathProperties {
 
-    /** 개발 환경 경로 */
-    private String dev;
+    /** 로컬 개발 환경 경로 */
+    private String local;
 
     /** JAR 실행 환경 경로 */
     private String jar;

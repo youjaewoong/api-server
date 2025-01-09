@@ -22,13 +22,13 @@ import java.util.stream.Collectors;
 
 /**
  * GramStorageService
- * JSON 데이터를 파일로 저장, 읽기 및 조회하는 서비스를 제공합니다.
+ * JSON 데이터를 클래스 파일로 읽기 및 조회하는 서비스를 제공합니다.
  */
 @Service
 @RequiredArgsConstructor
 @Slf4j
 @Profile({"dev", "stg", "prd"})
-public class GramStorageServiceImpl {
+public class GramStorageServiceImpl implements GramStorageService {
 
 	private final ObjectMapper objectMapper; // JSON 직렬화 및 역직렬화를 위한 ObjectMapper
 	private final FilePathHelper filePathHelper;
@@ -54,11 +54,12 @@ public class GramStorageServiceImpl {
 	public GramInfoRequest findGramInfo(String gramId) {
 		// 파일 경로 생성
 		String resourcePath = filePathHelper.getFilePath(gramId);
+		log.info("resourcePath ::: {}", resourcePath);
 
 		try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(resourcePath)) {
 			if (inputStream == null) {
 				log.warn("Resource not found in classpath: {}", resourcePath);
-				throw new BusinessException(GramStorageErrorCode.DATA_NOT_FOUND);
+				throw new BusinessException(GramStorageErrorCode.DATA_NOT_FOUND, resourcePath);
 			}
 			// JSON 파일을 GramInfoRequest 객체로 역직렬화
 			return objectMapper.readValue(inputStream, GramInfoRequest.class);
@@ -75,8 +76,8 @@ public class GramStorageServiceImpl {
 	 * @return 저장된 전문 ID 리스트
 	 */
 	public List<String> findAllGramList() {
-		String resourcePattern = filePathHelper.getBasePath() + ".json";
-
+		String resourcePattern = filePathHelper.getFilePath("*");
+		log.info("resourcePattern ::: {}", resourcePattern);
 		try {
 			ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 			Resource[] resources = resolver.getResources(resourcePattern);
