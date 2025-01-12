@@ -7,16 +7,14 @@ jasypt:
       suffix: )
 
 gram:
-  file-path: resources/gram
   type: lottecard
-
-file:
+  file-path: resources/gram
   json-path:
     local: api-application/src/main/resources/gram/${gram.type}
     jar: classpath:gram/${gram.type}
 
 db:
-  active: false
+  active: true
 
 spring:
   messages:

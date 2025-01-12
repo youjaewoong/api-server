@@ -1,8 +1,8 @@
 package api.server.gramstorage.service;
 
 import api.server.common.exception.custom.BusinessException;
-import api.server.common.helper.FilePathHelper;
 import api.server.gramstorage.enmus.GramStorageErrorCode;
+import api.server.gramstorage.helpler.GramFilePathHelper;
 import api.server.gramstorage.request.GramInfoRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class GramStorageServiceImpl implements GramStorageService {
 
 	private final ObjectMapper objectMapper; // JSON 직렬화 및 역직렬화를 위한 ObjectMapper
-	private final FilePathHelper filePathHelper;
+	private final GramFilePathHelper gramFilePathHelper;
 
 
 	/**
@@ -53,7 +53,7 @@ public class GramStorageServiceImpl implements GramStorageService {
 	 */
 	public GramInfoRequest findGramInfo(String gramId) {
 		// 파일 경로 생성
-		String resourcePath = filePathHelper.getFilePath(gramId);
+		String resourcePath = gramFilePathHelper.getFilePath(gramId);
 		log.info("resourcePath ::: {}", resourcePath);
 
 		try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(resourcePath)) {
@@ -76,7 +76,7 @@ public class GramStorageServiceImpl implements GramStorageService {
 	 * @return 저장된 전문 ID 리스트
 	 */
 	public List<String> findAllGramList() {
-		String resourcePattern = filePathHelper.getFilePath("*");
+		String resourcePattern = gramFilePathHelper.getFilePath("*");
 		log.info("resourcePattern ::: {}", resourcePattern);
 		try {
 			ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
@@ -87,7 +87,7 @@ public class GramStorageServiceImpl implements GramStorageService {
 						try {
 							String fileName = resource.getFilename();
 							return fileName != null
-									? fileName.replace(filePathHelper.getFileExtension(), "")
+									? fileName.replace(gramFilePathHelper.getFileExtension(), "")
 									: null;
 						} catch (Exception e) {
 							log.error("Failed to process resource: {}", resource, e);

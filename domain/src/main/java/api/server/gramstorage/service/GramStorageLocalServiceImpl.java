@@ -1,8 +1,8 @@
 package api.server.gramstorage.service;
 
 import api.server.common.exception.custom.BusinessException;
-import api.server.common.helper.FilePathHelper;
 import api.server.gramstorage.enmus.GramStorageErrorCode;
+import api.server.gramstorage.helpler.GramFilePathHelper;
 import api.server.gramstorage.request.GramInfoRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ import java.util.stream.Stream;
 public class GramStorageLocalServiceImpl implements GramStorageService {
 
 	private final ObjectMapper objectMapper; // JSON 직렬화 및 역직렬화를 위한 ObjectMapper
-	private final FilePathHelper filePathHelper;
+	private final GramFilePathHelper gramFilePathHelper;
 
 
 	/**
@@ -46,7 +46,7 @@ public class GramStorageLocalServiceImpl implements GramStorageService {
 		}
 
 		// 파일 경로 생성
-		String filePath = filePathHelper.getFilePath(gramId);
+		String filePath = gramFilePathHelper.getFilePath(gramId);
 		Path path = Paths.get(filePath);
 
 		try {
@@ -69,7 +69,7 @@ public class GramStorageLocalServiceImpl implements GramStorageService {
 	 */
 	public GramInfoRequest findGramInfo(String gramId) {
 		// 파일 경로 생성
-		String filePath = filePathHelper.getFilePath(gramId);
+		String filePath = gramFilePathHelper.getFilePath(gramId);
 		Path path = Paths.get(filePath);
 
 		// 파일 존재 여부 및 읽기 가능 여부 확인
@@ -95,7 +95,7 @@ public class GramStorageLocalServiceImpl implements GramStorageService {
 	 */
 	public List<String> findAllGramList() {
 		// 저장 경로 가져오기
-		Path path = Paths.get(filePathHelper.getBasePath());
+		Path path = Paths.get(gramFilePathHelper.getBasePath());
 
 		// 디렉토리가 존재하지 않거나 유효하지 않으면 빈 리스트 반환
 		if (!Files.exists(path) || !Files.isDirectory(path)) {
@@ -107,7 +107,7 @@ public class GramStorageLocalServiceImpl implements GramStorageService {
 			// 디렉토리 내 모든 파일을 필터링하여 ID 리스트 생성
 			return files.filter(Files::isRegularFile) // 정규 파일만 필터링
 					.map(file -> file.getFileName().toString()
-							.replace(filePathHelper.getFileExtension(), "")) // 확장자 제거
+							.replace(gramFilePathHelper.getFileExtension(), "")) // 확장자 제거
 					.collect(Collectors.toList());
 		} catch (IOException e) {
 			// 파일 리스트 조회 실패 시 로그를 출력하고 BusinessException 발생

@@ -133,6 +133,9 @@ public class DataSourceConfig {
         hikariConfig.setConnectionTimeout(connectionTimeout);
         hikariConfig.setValidationTimeout(validationTimeout);
 
+        // 테스트 쿼리 추가
+        hikariConfig.setConnectionTestQuery("SELECT 1");
+
         return new HikariDataSource(hikariConfig);
     }
 }

@@ -6,10 +6,8 @@ import api.server.fixedlength.service.FixedLengthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
@@ -19,8 +17,24 @@ public class FixedLengthController implements FixedLengthControllerApi {
 
 	private final FixedLengthService fixedLengthService;
 
+
 	@Override
-	public ResponseEntity<CompletableFuture<FixedLengthResponse>> findFixedLengthData(@RequestBody FixedLengthRequest fixedLengthRequest) throws IOException {
-		return ResponseEntity.ok(fixedLengthService.findFixedLengthData(fixedLengthRequest));
+	public ResponseEntity<FixedLengthResponse> findFixedLengthSync(FixedLengthRequest fixedLengthRequest) {
+		return ResponseEntity.ok(fixedLengthService.findFixedLengthSync(fixedLengthRequest));
+	}
+
+	@Override
+	public ResponseEntity<CompletableFuture<FixedLengthResponse>> findFixedLengthAsync(FixedLengthRequest fixedLengthRequest) {
+		return ResponseEntity.ok(fixedLengthService.findFixedLengthAsync(fixedLengthRequest));
+	}
+
+	@Override
+	public void findFixedLengthNotify(FixedLengthRequest fixedLengthRequest) {
+		fixedLengthService.procFixedLengthNotify(fixedLengthRequest);
+	}
+
+	@Override
+	public void findFixedLengthDeferred(FixedLengthRequest fixedLengthRequest) {
+		fixedLengthService.procFixedLengthDeferred(fixedLengthRequest);
 	}
 }

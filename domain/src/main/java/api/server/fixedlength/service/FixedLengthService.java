@@ -1,8 +1,6 @@
 package api.server.fixedlength.service;
 
 import api.server.common.exception.custom.BusinessException;
-import api.server.common.helper.FilePathHelper;
-import api.server.common.message.MessageHelper;
 import api.server.common.properties.GramProperties;
 import api.server.fixedlength.cache.FixedLengthJsonCache;
 import api.server.fixedlength.cache.HeaderCache;
@@ -13,11 +11,11 @@ import api.server.fixedlength.helper.FixedLengthLengthCalculatorHelper;
 import api.server.fixedlength.request.FixedLengthRequest;
 import api.server.fixedlength.response.FixedLengthResponse;
 import api.server.fixedlength.vo.FixedLengthJsonVO;
+import api.server.gramstorage.helpler.GramFilePathHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,7 +33,7 @@ public class FixedLengthService {
 
     private final GramProperties gramProperties;
 
-    private final FilePathHelper filePathHelper;
+    private final GramFilePathHelper gramFilePathHelper;
 
     @Value("${socket.server.host:localhost}")
     private String socketHost;
@@ -51,7 +49,58 @@ public class FixedLengthService {
      * @return 응답 데이터
      * @throws IOException 파일 처리 오류
      */
-    public CompletableFuture<FixedLengthResponse> findFixedLengthData(FixedLengthRequest fixedLengthRequest) throws IOException {
+    public FixedLengthResponse findFixedLengthSync(FixedLengthRequest fixedLengthRequest) {
+
+        // Step 1: 헤더 생성 및 캐싱
+        String headerData = HeaderCache.getHeader(gramProperties.getType(), fixedLengthRequest);
+        log.info("Header: {}", headerData);
+        log.info("Header Length: {}", headerData.length());
+
+        // Step 2: JSON 데이터 로드 및 캐싱
+        String jsonFilePath =  gramFilePathHelper.getFilePath(fixedLengthRequest.getGramId());
+        FixedLengthJsonVO jsonModel = FixedLengthJsonCache.getJson(jsonFilePath);
+        log.info("jsonModel: {}", jsonModel);
+
+        // Step 3: 요청 바디 데이터 생성
+        String bodyData = FixedLengthHelper.toFixedLengthBody(jsonModel.getInFields(), fixedLengthRequest.getInFields());
+        log.info("Body: {}", bodyData);
+        log.info("Body Length: {}", bodyData.length());
+
+        // Step 4: 헤더와 바디 결합
+        String fixedLengthData = headerData + bodyData;
+        log.info("FixedLengthData: {}", fixedLengthData);
+
+        // Step 5: 소켓 통신
+        String fixedLengthResponse = sendFixedLengthRequest(fixedLengthData);
+        log.info("FixedLengthResponse: {}", fixedLengthResponse);
+
+        // Step 6: 고정 길이 데이터를 JSON으로 매핑
+        Map<String, String> outFields = FixedLengthJsonLoaderHelper.mapFixedLengthToJson(fixedLengthResponse, jsonModel.getOutFields());
+
+        // Step 7: 길이 계산
+        int inHeaderTotal = headerData.length();
+        int inBodyTotal = FixedLengthLengthCalculatorHelper.calculateTotalLength(jsonModel.getInFields());
+        int outBodyTotal = FixedLengthLengthCalculatorHelper.calculateTotalLength(jsonModel.getOutFields());
+
+        // Step 8: 응답 생성
+        return FixedLengthResponse.createResponse(
+                fixedLengthRequest.getGramId(),
+                fixedLengthRequest.getServiceId(),
+                inHeaderTotal,
+                inBodyTotal,
+                outFields,
+                outBodyTotal);
+    }
+
+
+    /**
+     * FixedLength 요청 처리 및 응답 생성.
+     *
+     * @param fixedLengthRequest 요청 데이터
+     * @return 응답 데이터
+     * @throws IOException 파일 처리 오류
+     */
+    public CompletableFuture<FixedLengthResponse> findFixedLengthAsync(FixedLengthRequest fixedLengthRequest) {
         return CompletableFuture.supplyAsync(() -> {
             try {
 
@@ -61,7 +110,7 @@ public class FixedLengthService {
                 log.info("Header Length: {}", headerData.length());
 
                 // Step 2: JSON 데이터 로드 및 캐싱
-                String jsonFilePath =  filePathHelper.getFilePath(fixedLengthRequest.getGramId());
+                String jsonFilePath =  gramFilePathHelper.getFilePath(fixedLengthRequest.getGramId());
                 FixedLengthJsonVO jsonModel = FixedLengthJsonCache.getJson(jsonFilePath);
                 log.info("jsonModel: {}", jsonModel);
 
@@ -101,6 +150,14 @@ public class FixedLengthService {
         });
     }
 
+    public void procFixedLengthNotify(FixedLengthRequest fixedLengthRequest) {
+        // TODO 구현 예정
+    }
+
+    public void procFixedLengthDeferred(FixedLengthRequest fixedLengthRequest) {
+        // TODO 구현 예정
+    }
+
     private String sendFixedLengthRequest(String request) {
         try (Socket socket = new Socket(socketHost, socketPort);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
@@ -114,6 +171,5 @@ public class FixedLengthService {
             throw new BusinessException(FixedLengthErrorCode.DATA_NOT_FOUND);
         }
     }
-
 
 }

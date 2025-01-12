@@ -1,20 +1,18 @@
-package api.server.common.helper;
+package api.server.gramstorage.helpler;
 
-import api.server.common.properties.FilePathProperties;
+import api.server.common.properties.GramProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
-import java.nio.file.Paths;
-import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class FilePathHelper {
+public class GramFilePathHelper {
 
-    private final FilePathProperties filePathProperties;
+    private final GramProperties gramProperties;
 
     private static final String FILE_EXTENSION = ".json"; // 파일 확장자
 
@@ -26,9 +24,9 @@ public class FilePathHelper {
      */
     public String getBasePath() {
         if (isRunningInJar()) {
-            return filePathProperties.getJar();
+            return gramProperties.getJsonPathJar();
         }
-        return filePathProperties.getLocal();
+        return gramProperties.getJsonPathLocal();
     }
 
 

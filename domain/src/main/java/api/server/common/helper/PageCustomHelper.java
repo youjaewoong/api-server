@@ -1,8 +1,7 @@
-package api.server.common.library;
-
-import com.github.pagehelper.page.PageMethod;
+package api.server.common.helper;
 
 import api.server.common.model.SearchCriteria;
+import com.github.pagehelper.page.PageMethod;
 
 public class PageCustomHelper {
 

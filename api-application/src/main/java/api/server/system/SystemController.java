@@ -1,9 +1,9 @@
 package api.server.system;
 
-import api.server.common.helper.FilePathHelper;
 import api.server.fixedlength.header.HeaderFactory;
 import api.server.common.helper.RequestHelper;
 import api.server.common.properties.GramProperties;
+import api.server.gramstorage.helpler.GramFilePathHelper;
 import api.server.system.response.SystemLogResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ public class SystemController implements SystemControllerApi {
 
 	private final GramProperties gramProperties;
 
-	private final FilePathHelper filePathHelper;
+	private final GramFilePathHelper gramFilePathHelper;
 
 
 	@Override
@@ -53,7 +53,7 @@ public class SystemController implements SystemControllerApi {
 
 	@Override
 	public ResponseEntity<Object> findGramBasePath() {
-		return ResponseEntity.ok(filePathHelper.getBasePath());
+		return ResponseEntity.ok(gramFilePathHelper.getBasePath());
 	}
 
 }

@@ -1,6 +1,8 @@
 package api.server.common.config.datasource;
 
 import api.server.common.type.DefaultEnumTypeHandler;
+import api.server.common.type.YesNoBooleanTypeHandler;
+import common.standard.enums.GenericEnum;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -36,6 +38,9 @@ public class MyBatisConfig {
 
         // 데이터베이스 필드와 Java 객체 필드 간 underscore_case => camelCase 매핑 활성화
         configuration.setMapUnderscoreToCamelCase(true);
+
+        // YesNoBooleanTypeHandler 등록
+        configuration.getTypeHandlerRegistry().register(Boolean.class, YesNoBooleanTypeHandler.class);
 
         // 필요하면 추가 설정 적용 가능
         // 예: configuration.setLazyLoadingEnabled(true);

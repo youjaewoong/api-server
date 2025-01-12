@@ -5,6 +5,9 @@ import api.server.common.constant.GramInfoConstant;
 import api.server.fixedlength.header.HeaderType;
 import lombok.Data;
 
+/**
+ * 롯데카드 공통 해더 영역
+ */
 @Data
 public class LottecardCommonHeaderVO implements HeaderType {
 

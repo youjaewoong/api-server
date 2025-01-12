@@ -1,7 +1,7 @@
 package api.server.sample.service;
 
 import api.server.common.exception.custom.BusinessException;
-import api.server.common.library.PageCustomHelper;
+import api.server.common.helper.PageCustomHelper;
 import api.server.common.model.ListResponse;
 import api.server.common.model.PageResponse;
 import api.server.sample.SampleClient;
