@@ -1,10 +1,15 @@
 package api.server.fixedlength.header;
 
 
+import api.server.common.constant.CompanyConstant;
+import api.server.fixedlength.builder.LottecardBatchHeaderBuilder;
 import api.server.fixedlength.builder.LottecardHeaderBuilder;
+import api.server.fixedlength.enmus.CommonHeaderType;
+import api.server.fixedlength.request.FixedLengthRequest;
 import api.server.fixedlength.vo.CustomHeaderVO;
 import api.server.fixedlength.vo.LottecardCommonHeaderVO;
 import lombok.experimental.UtilityClass;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,8 +22,8 @@ public class HeaderFactory {
 
     static {
         // 헤더 클래스 등록
-        headerMap.put("lottecard", LottecardCommonHeaderVO.class);
-        headerMap.put("custom", CustomHeaderVO.class);
+        headerMap.put(CompanyConstant.LOTTE_CARD, LottecardCommonHeaderVO.class);
+        headerMap.put(CompanyConstant.CUSTOM, CustomHeaderVO.class);
     }
 
     /**
@@ -37,9 +42,13 @@ public class HeaderFactory {
     }
 
 
-    public static Header getHeaderBuilder(String type) {
-        if (type.equals("lottecard")) {
-            return new LottecardHeaderBuilder();
+    public static Header getHeaderBuilder(String type, FixedLengthRequest request) {
+        if (type.equals(CompanyConstant.LOTTE_CARD)) {
+            if (request.getCommonHeaderType() == CommonHeaderType.BATCH) {
+                return new LottecardBatchHeaderBuilder();
+            } else {
+                return new LottecardHeaderBuilder();
+            }
         }
         throw new IllegalArgumentException("Unsupported header type: " + type);
     }

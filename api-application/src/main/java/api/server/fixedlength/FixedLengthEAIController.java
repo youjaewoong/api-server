@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-public class FixedLengthController implements FixedLengthControllerApi {
+public class FixedLengthEAIController implements FixedLengthEAIControllerApi {
 
 	private final FixedLengthService fixedLengthService;
 

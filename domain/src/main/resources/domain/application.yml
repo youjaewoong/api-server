@@ -14,7 +14,7 @@ gram:
     jar: classpath:gram/${gram.type}
 
 db:
-  active: true
+  active: false
 
 spring:
   messages:

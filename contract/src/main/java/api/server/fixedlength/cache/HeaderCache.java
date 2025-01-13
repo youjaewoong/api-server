@@ -22,7 +22,7 @@ public class HeaderCache {
      */
     public static String getHeader(String type, FixedLengthRequest request) {
         return headerCacheMap.computeIfAbsent(type, key -> {
-            Header headerBuilder = HeaderFactory.getHeaderBuilder(type);
+            Header headerBuilder = HeaderFactory.getHeaderBuilder(type, request);
             return headerBuilder.buildHeader(request);
         });
     }
