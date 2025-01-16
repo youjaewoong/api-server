@@ -14,10 +14,10 @@ import java.util.Map;
 @Schema(description = "FixedLength EAI 요청")
 public class FixedLengthRequest {
 
-    @Schema(description = "Gram ID", example = "TEST01", required = true)
+    @Schema(description = "Gram ID", example = "TEST001", required = true)
     private String gramId;
 
-    @Schema(description = "Service ID", example = "TEST01_S", required = true)
+    @Schema(description = "Service ID", example = "TEST001_S", required = true)
     private String serviceId;
 
     @Schema(description = "입력 필드 데이터", example = "{\"id\": \"test001\", \"accNo\": \"5556666611\"}", required = true)
@@ -27,6 +27,7 @@ public class FixedLengthRequest {
             description = "Header type of the request",
             example = "EAI",
             required = true,
+            hidden = true,
             allowableValues = {"EAI", "BATCH", "MCI"}
     )
     @Setter

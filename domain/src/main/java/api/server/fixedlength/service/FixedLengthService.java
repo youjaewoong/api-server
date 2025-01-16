@@ -43,14 +43,35 @@ public class FixedLengthService {
 
 
     /**
-     * FixedLength 요청 처리 및 응답 생성.
+     * 동기 요청 처리 및 응답 생성.
      *
      * @param fixedLengthRequest 요청 데이터
      * @return 응답 데이터
-     * @throws IOException 파일 처리 오류
      */
     public FixedLengthResponse findFixedLengthSync(FixedLengthRequest fixedLengthRequest) {
+        return getFixedLengthResponse(fixedLengthRequest);
+    }
 
+
+    /**
+     * 비동기 요청 처리 및 응답 생성.
+     *
+     * @param fixedLengthRequest 요청 데이터
+     * @return 응답 데이터
+     */
+    public CompletableFuture<FixedLengthResponse> findFixedLengthAsync(FixedLengthRequest fixedLengthRequest) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                return getFixedLengthResponse(fixedLengthRequest);
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                throw e;
+            }
+        });
+    }
+
+
+    private FixedLengthResponse getFixedLengthResponse(FixedLengthRequest fixedLengthRequest) {
         // Step 1: 헤더 생성 및 캐싱
         String headerData = HeaderCache.getHeader(gramProperties.getType(), fixedLengthRequest);
         log.info("Header: {}", headerData);
@@ -92,70 +113,10 @@ public class FixedLengthService {
                 outBodyTotal);
     }
 
-
-    /**
-     * FixedLength 요청 처리 및 응답 생성.
-     *
-     * @param fixedLengthRequest 요청 데이터
-     * @return 응답 데이터
-     * @throws IOException 파일 처리 오류
-     */
-    public CompletableFuture<FixedLengthResponse> findFixedLengthAsync(FixedLengthRequest fixedLengthRequest) {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-
-                // Step 1: 헤더 생성 및 캐싱
-                String headerData = HeaderCache.getHeader(gramProperties.getType(), fixedLengthRequest);
-                log.info("Header: {}", headerData);
-                log.info("Header Length: {}", headerData.length());
-
-                // Step 2: JSON 데이터 로드 및 캐싱
-                String jsonFilePath =  gramFilePathHelper.getFilePath(fixedLengthRequest.getGramId());
-                FixedLengthJsonVO jsonModel = FixedLengthJsonCache.getJson(jsonFilePath);
-                log.info("jsonModel: {}", jsonModel);
-
-                // Step 3: 요청 바디 데이터 생성
-                String bodyData = FixedLengthHelper.toFixedLengthBody(jsonModel.getInFields(), fixedLengthRequest.getInFields());
-                log.info("Body: {}", bodyData);
-                log.info("Body Length: {}", bodyData.length());
-
-                // Step 4: 헤더와 바디 결합
-                String fixedLengthData = headerData + bodyData;
-                log.info("FixedLengthData: {}", fixedLengthData);
-
-                // Step 5: 소켓 통신
-                String fixedLengthResponse = sendFixedLengthRequest(fixedLengthData);
-                log.info("FixedLengthResponse: {}", fixedLengthResponse);
-
-                // Step 6: 고정 길이 데이터를 JSON으로 매핑
-                Map<String, String> outFields = FixedLengthJsonLoaderHelper.mapFixedLengthToJson(fixedLengthResponse, jsonModel.getOutFields());
-
-                // Step 7: 길이 계산
-                int inHeaderTotal = headerData.length();
-                int inBodyTotal = FixedLengthLengthCalculatorHelper.calculateTotalLength(jsonModel.getInFields());
-                int outBodyTotal = FixedLengthLengthCalculatorHelper.calculateTotalLength(jsonModel.getOutFields());
-
-                // Step 8: 응답 생성
-                return FixedLengthResponse.createResponse(
-                        fixedLengthRequest.getGramId(),
-                        fixedLengthRequest.getServiceId(),
-                        inHeaderTotal,
-                        inBodyTotal,
-                        outFields,
-                        outBodyTotal);
-            } catch (Exception e) {
-                log.error(e.getMessage(), e);
-                throw e;
-            }
-        });
-    }
-
     public void procFixedLengthNotify(FixedLengthRequest fixedLengthRequest) {
-        // TODO 구현 예정
     }
 
     public void procFixedLengthDeferred(FixedLengthRequest fixedLengthRequest) {
-        // TODO 구현 예정
     }
 
     private String sendFixedLengthRequest(String request) {

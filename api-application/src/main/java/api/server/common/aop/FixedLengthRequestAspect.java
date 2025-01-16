@@ -1,5 +1,6 @@
 package api.server.common.aop;
 
+import api.server.common.constant.ControllerNameConstant;
 import api.server.fixedlength.enmus.CommonHeaderType;
 import api.server.fixedlength.request.FixedLengthRequest;
 import org.aspectj.lang.JoinPoint;
@@ -17,9 +18,9 @@ public class FixedLengthRequestAspect {
         String controllerName = joinPoint.getTarget().getClass().getSimpleName();
 
         // 클래스 이름에 따라 headerType 설정
-        if (controllerName.contains("BatchController")) {
+        if (controllerName.contains(ControllerNameConstant.BATCH_NAME)) {
             request.setCommonHeaderType(CommonHeaderType.BATCH);
-        } else if (controllerName.contains("Controller")) {
+        } else if (controllerName.contains(ControllerNameConstant.EAI_NAME)) {
             request.setCommonHeaderType(CommonHeaderType.EAI);
         }
     }
