@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("web-client")
 public interface WebClientControllerApi {
 
-	@Operation(summary = "sync 목록 정보 조회)",
+	@Operation(summary = "sync 목록 정보 조회",
 			description = "sync 샘플 정보를 조회합니다.",
 			responses = {@ApiResponse(responseCode = "200",
 					content = @Content(schema = @Schema(implementation = String.class)))
