@@ -53,6 +53,9 @@ management:
       base-path: /actuator
       exposure:
         include: "health,metrics,loggers,status"
+  health:
+    db:
+      enabled: false   # DB 헬스 체크 비활성화
 
 pagehelper:
   helper-dialect: sqlserver2012

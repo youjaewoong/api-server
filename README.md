@@ -52,10 +52,10 @@ gradlew bootJar --offline -g D:/dev/devtool/gradle-cache
 #1 local : 9001
 java -jar -Dspring.profiles.active=local api-application.jar
 
-#2 dev : 9002
+#2 dev : 9001
 java -jar -Dspring.profiles.active=dev api-application.jar
 
-#3 prod : 9003
+#3 prod : 9001
 java -jar -Dspring.profiles.active=prod api-application.jar
 ```
 
