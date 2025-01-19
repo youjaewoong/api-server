@@ -14,7 +14,7 @@ public class HeaderCache {
     private static final ConcurrentHashMap<String, String> headerCacheMap = new ConcurrentHashMap<>();
 
     /**
-     * 헤더 데이터를 캐싱하거나 생성.
+     * 헤더 데이터를 캐싱하거나 생성 팩토리패턴 으로 해더 구분 처리
      *
      * @param type    요청 유형
      * @param request 요청 데이터

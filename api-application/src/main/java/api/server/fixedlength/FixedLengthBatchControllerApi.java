@@ -1,7 +1,7 @@
 package api.server.fixedlength;
 
 import api.server.fixedlength.request.FixedLengthRequest;
-import api.server.fixedlength.response.FixedLengthResponse;
+import api.server.fixedlength.response.common.FixedLengthResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

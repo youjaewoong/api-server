@@ -17,11 +17,11 @@ import java.net.Socket;
  *  - @PostConstruct 사용하여 별도의 스레드에서 실행.
  * </pre>
  */
-@Profile({"local","dev"})
+@Profile({"local"})
 @Component
 @Slf4j
 public class FixedLengthSocketServer {
-    private static final int PORT = 9090;
+    private static final int PORT = 9009;
 
     @PostConstruct
     public void startServer() {

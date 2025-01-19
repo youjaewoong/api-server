@@ -1,7 +1,7 @@
 package api.server.fixedlength;
 
 import api.server.fixedlength.request.FixedLengthRequest;
-import api.server.fixedlength.response.FixedLengthResponse;
+import api.server.fixedlength.response.common.FixedLengthResponse;
 import api.server.fixedlength.service.FixedLengthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
