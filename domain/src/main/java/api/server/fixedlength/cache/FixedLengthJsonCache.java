@@ -6,7 +6,6 @@ import api.server.fixedlength.vo.FixedLengthJsonVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.BindException;
 
 import java.io.File;
 import java.io.IOException;
