@@ -1,6 +1,7 @@
 package api.server.common.vo;
 
 
+import api.server.common.enums.GramType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,4 +26,7 @@ public class FieldInfoVO {
 
     /** 필드 데이터 오프셋 (시작 위치) */
     private int offset;
+
+    /** 필드 데이터 타입 C:Char, N:number, L:list */
+    private GramType gramType;
 }

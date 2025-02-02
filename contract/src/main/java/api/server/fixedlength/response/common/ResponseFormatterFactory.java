@@ -19,6 +19,16 @@ public class ResponseFormatterFactory {
         RESPONSE_FORMATTER_MAP.put("TEST001", TEST001Response::new);
     }
 
+
+    /**
+     * <pre>
+     * 포맷팅 처리 및 Object 구조로 반환 합니다.
+     * FixedLengthBasicResponse 기본 구조로 리턴 처리 합니다.
+     * </pre>
+     *
+     * @param gramId 전문 ID
+     * @return 응답 객체
+     */
     public static ResponseFormatter getFormatter(String gramId) {
         return RESPONSE_FORMATTER_MAP.getOrDefault(gramId, FixedLengthBasicResponse::new).get();
     }

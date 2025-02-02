@@ -23,7 +23,7 @@ public class FixedLengthBasicResponse implements ResponseFormatter {
 											  String serviceId,
 											  int inHeaderTotal,
 											  int inBodyTotal,
-											  Map<String, String> outFields,
+											  Map<String, Object> outFields,
 											  int outBodyTotal) {
 
 		// 포맷팅 처리

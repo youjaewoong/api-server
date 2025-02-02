@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "WebClient 통신", description = "RestApi 통신을 테스트 합니다.")
 @Validated
-@RequestMapping("web-client")
+@RequestMapping("api-server/web-client")
 public interface WebClientControllerApi {
 
 	@Operation(summary = "sync 목록 정보 조회",

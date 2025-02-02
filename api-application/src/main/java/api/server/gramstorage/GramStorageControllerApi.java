@@ -17,7 +17,7 @@ import java.util.Map;
 
 @Tag(name = "전문포맷 정의", description = "전문 IN/OUT 포맷정의서를 저장 합니다.")
 @Validated
-@RequestMapping("gram-storage")
+@RequestMapping("api-server/gram-storage")
 public interface GramStorageControllerApi {
 
 	@Operation(summary = "엑셀 파일 업로드 및 데이터 저장",

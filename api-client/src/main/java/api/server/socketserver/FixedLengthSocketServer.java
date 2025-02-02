@@ -38,10 +38,25 @@ public class FixedLengthSocketServer {
                         String request = in.readLine();
                         log.info("Received: {}", request);
 
-                        // 응답 전문 생성
-                        String response = String.format("%-10s%-10s%-30s", "홍길동", "22", "test@example.com");
+                        // 응답 전문 생성 TEST001 List 2건
+                        String response = String.format("%-10s%-10s%-30s%-1s%-10s%-10s%-10s%-10s%-10s%-10s",
+                                "홍길동", "22", "test@example.com", 2,
+                                "테스트1", "테스트2", "테스트3",
+                                "테스트4", "테스트5", "테스트6");
 
-                        // 응답 전송
+                        // 응답 전문 생성 TEST002 List 1건씩
+                        /**
+                        String response = String.format("%-10s%-10s%-30s%-1s%-10s%-10s%-10s%-1s%-10s%-10s%-10s",
+                                "홍길동", "22", "test@example.com", 1,
+                                "테스트1", "테스트2", "테스트3", 1,
+                                "서브테스트1", "서브테스트2", "서브테스트3");
+                        */
+
+                        // 응답 전문 생성 TEST003 단건
+                        /**
+                        String response = String.format("%-10s%-10s%-30s",
+                                "홍길동", "22", "test@example.com");
+                         */
                         out.println(response);
                     }
                 }

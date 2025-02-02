@@ -1,5 +1,6 @@
 package api.server.fixedlength.vo;
 
+import api.server.common.enums.GramType;
 import api.server.fixedlength.helper.FixedLengthLengthCalculatorHelper;
 import lombok.Data;
 import java.util.List;
@@ -24,6 +25,7 @@ public class FixedLengthJsonVO {
         private String fieldName;
         private int length;
         private int offset;
+        private GramType gramType;
 
         @Override
         public int getLength() {

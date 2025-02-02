@@ -1,34 +1,63 @@
 {
   "gramId" : "TEST001",
   "gramName" : "테스트001",
-  "serviceId" : "테스트001_01",
+  "serviceId" : "TEST001_I",
   "inFields" : [ {
     "fieldId" : "id",
     "fieldName" : "아이디",
     "length" : 10,
-    "offset" : 0
+    "offset" : 0,
+    "gramType" : "C"
   }, {
     "fieldId" : "accNo",
     "fieldName" : "계좌번호",
     "length" : 10,
-    "offset" : 10
+    "offset" : 10,
+    "gramType" : "C"
   } ],
   "outFields" : [ {
     "fieldId" : "name",
     "fieldName" : "이름",
     "length" : 10,
-    "offset" : 0
+    "offset" : 0,
+    "gramType" : "C"
   }, {
     "fieldId" : "age",
     "fieldName" : "나이",
     "length" : 10,
-    "offset" : 10
+    "offset" : 10,
+    "gramType" : "N"
   }, {
     "fieldId" : "email",
     "fieldName" : "이메일",
     "length" : 30,
-    "offset" : 20
+    "offset" : 20,
+    "gramType" : "C"
+  }, {
+    "fieldId" : "groupCnt1",
+    "fieldName" : "그룹건수1",
+    "length" : 1,
+    "offset" : 50,
+    "gramType" : "L"
+  }, {
+    "fieldId" : "test1",
+    "fieldName" : "테스트1",
+    "length" : 10,
+    "offset" : 51,
+    "gramType" : "C"
+  }, {
+    "fieldId" : "test2",
+    "fieldName" : "테스트2",
+    "length" : 10,
+    "offset" : 61,
+    "gramType" : "C"
+  }, {
+    "fieldId" : "test3",
+    "fieldName" : "테스트3",
+    "length" : 10,
+    "offset" : 71,
+    "gramType" : "C"
   } ],
   "totalInLength" : 20,
-  "totalOutLength" : 50
+  "totalOutLength" : 81
 }

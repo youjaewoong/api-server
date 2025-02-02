@@ -8,6 +8,6 @@ FixedLengthResponse formatResponse(String gramId,
                                    String serviceId,
                                    int inHeaderTotal,
                                    int inBodyTotal,
-                                   Map<String, String> outFields,
+                                   Map<String, Object> outFields,
                                    int outBodyTotal);
 }

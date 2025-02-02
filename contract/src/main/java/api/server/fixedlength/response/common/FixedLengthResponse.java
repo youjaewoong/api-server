@@ -34,6 +34,6 @@ public class FixedLengthResponse {
 	private int outBodyTotal;
 
 	/** 응답 바디 총 길이 */
-	private Map<String, String> outFields;
+	private Map<String, Object> outFields;
 
 }

@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Tag(name = "시스템 정보", description = "시스템 정보를 확인합니다.")
 @Validated
-@RequestMapping("system")
+@RequestMapping("api-server/system")
 public interface SystemControllerApi {
 
 	@Operation(summary = "요청 IP 정보",

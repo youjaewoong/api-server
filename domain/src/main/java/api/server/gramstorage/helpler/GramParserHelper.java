@@ -1,6 +1,7 @@
 package api.server.gramstorage.helpler;
 
 
+import api.server.common.enums.GramType;
 import api.server.common.exception.custom.BusinessException;
 import api.server.common.vo.FieldInfoVO;
 import api.server.gramstorage.enmus.GramStorageErrorCode;
@@ -42,12 +43,14 @@ public class GramParserHelper {
 				String fieldName = row.getCell(2).getStringCellValue(); // 필드 이름
 				int length = (int) row.getCell(3).getNumericCellValue(); // 필드 길이
 				int offset = (int) row.getCell(4).getNumericCellValue(); // 필드 오프셋
+				GramType gramType = GramType.valueOf(row.getCell(5).getStringCellValue()); // 필드 오프셋
 
 				FieldInfoVO fieldInfo = FieldInfoVO.builder()
 						.fieldId(fieldId)
 						.fieldName(fieldName)
 						.length(length)
 						.offset(offset)
+						.gramType(gramType)
 						.build();
 
 				if ("in".equalsIgnoreCase(type)) {

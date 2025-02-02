@@ -27,7 +27,7 @@ public class TEST001Response implements ResponseFormatter {
 											  String serviceId,
 											  int inHeaderTotal,
 											  int inBodyTotal,
-											  Map<String, String> outFields,
+											  Map<String, Object> outFields,
 											  int outBodyTotal) {
 
 		// 포맷팅 처리
@@ -35,6 +35,7 @@ public class TEST001Response implements ResponseFormatter {
 		outFields.put("Phone2", StringFormatHelper.formatPhoneNumber("0105556666"));
 		outFields.put("yorN1", StringFormatHelper.getYesOrNo(null));
 		outFields.put("yorN2", StringFormatHelper.getYesOrNo(""));
+
 		outFields.put("yorN3", StringFormatHelper.getYesOrNo("Yest"));
 		outFields.put("formatAmount1", AmountFormatHelper.formatAmount("100000"));
 		outFields.put("formatAmount2", AmountFormatHelper.formatAmount(100000));

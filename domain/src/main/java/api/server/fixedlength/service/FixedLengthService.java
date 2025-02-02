@@ -166,7 +166,7 @@ public class FixedLengthService {
         log.info("FixedLengthResponse: {}", fixedLengthResponse);
 
         // Step 6: 고정 길이 데이터를 JSON 으로 매핑
-        Map<String, String> outFields =
+        Map<String, Object> outFields =
                 FixedLengthJsonLoaderHelper.mapFixedLengthToJson(fixedLengthResponse, jsonModel.getOutFields());
 
         // Step 7: 길이 계산
