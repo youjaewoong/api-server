@@ -6,7 +6,6 @@ import api.server.fixedlength.header.Header;
 import api.server.fixedlength.helper.FixedLengthHelper;
 import api.server.fixedlength.request.FixedLengthRequest;
 import api.server.fixedlength.vo.LottecardBatchHeaderVO;
-import api.server.fixedlength.vo.LottecardCommonHeaderVO;
 
 public class LottecardBatchHeaderBuilder implements Header {
 

@@ -101,7 +101,6 @@ public class FixedLengthService {
     }
 
 
-
     /**
      * Notify (단방향) 요청 처리 및 Void.
      *
@@ -141,45 +140,58 @@ public class FixedLengthService {
      * @return 공통 응답 객체
      */
     private FixedLengthResponse getFixedLengthResponse(FixedLengthRequest fixedLengthRequest) {
-        // Step 1: 헤더 생성 및 캐싱
-        String headerData = HeaderCache.getHeader(gramProperties.getType(), fixedLengthRequest);
-        log.info("Header: {}", headerData);
-        log.info("Header Length: {}", headerData.length());
 
-        // Step 2: JSON 데이터 로드 및 캐싱
+        // Step 1: JSON 데이터 로드 및 캐싱
         String jsonFilePath =  gramFilePathHelper.getFilePath(fixedLengthRequest.getGramId());
         FixedLengthJsonVO jsonModel = FixedLengthJsonCache.getJson(jsonFilePath);
         log.info("jsonModel: {}", jsonModel);
 
-        // Step 3: 요청 바디 데이터 생성
-        String bodyData = FixedLengthHelper.toFixedLengthBody(jsonModel.getInFields(), fixedLengthRequest.getInFields());
-        log.info("Body: {}", bodyData);
-        log.info("Body Length: {}", bodyData.length());
+        // Step 2: 요청 바디 데이터 생성
+        String inBodyData = FixedLengthHelper.toFixedLengthBody(jsonModel.getInFields(), fixedLengthRequest.getInFields());
+        int inBodySize = inBodyData.length();
+        log.info("inBody Data: {}", inBodyData);
+        log.info("inBody Size: {}", inBodySize);
+
+        // Step 3: 헤더 생성 및 캐싱
+        fixedLengthRequest.setInFieldLength(inBodySize);
+        String inHeaderData = HeaderCache.getHeader(gramProperties.getType(), fixedLengthRequest);
+        int inHeaderDataSize = inHeaderData.length();
+        log.info("inHeader Data: {}", inHeaderData);
+        log.info("inHeaderData Size: {}", inHeaderData.length());
 
         // Step 4: 헤더와 바디 결합
-        String fixedLengthData = headerData + bodyData;
-        log.info("FixedLengthData: {}", fixedLengthData);
+        String inFixedLengthData = inHeaderData + inBodyData;
+        log.info("inFixedLengthData: {}", inFixedLengthData);
 
         // Step 5: 소켓 통신 템플릿 메소드 패턴 처리
         FixedLengthTestSocketProcessor processor = new FixedLengthTestSocketProcessor();
-        String fixedLengthResponse = processor.process(fixedLengthData);
-        log.info("FixedLengthResponse: {}", fixedLengthResponse);
+        String outFixedLengthData = processor.process(inFixedLengthData);
+        int outFixedLengthSize = outFixedLengthData.length();
+        log.info("outFixedLength Data: {}", outFixedLengthData);
+        log.info("outFixedLength Size: {}", outFixedLengthSize);
 
-        // Step 6: 고정 길이 데이터를 JSON 으로 매핑
+        // Step 6: OutPut 데이터 추출
+        String outHeader = outFixedLengthData.substring(0, inHeaderDataSize);
+        String outData = outFixedLengthData.substring(inHeaderDataSize, outFixedLengthSize);
+        log.info("전문응답일시: {}", outHeader.substring(133,150));
+        log.info("처리결과코드: {}", outHeader.charAt(150));
+        log.info("메시지응답코드: {}", outHeader.substring(151,159));
+        log.info("outData: {}", outData);
+
+        // Step 7: 고정 길이 데이터를 JSON 으로 매핑
         Map<String, Object> outFields =
-                FixedLengthJsonLoaderHelper.mapFixedLengthToJson(fixedLengthResponse, jsonModel.getOutFields());
+                FixedLengthJsonLoaderHelper.mapFixedLengthToJson(outData, jsonModel.getOutFields());
 
-        // Step 7: 길이 계산
-        int inHeaderTotal = headerData.length();
+        // Step 8: 길이 계산
         int inBodyTotal = FixedLengthLengthCalculatorHelper.calculateTotalLength(jsonModel.getInFields());
         int outBodyTotal = FixedLengthLengthCalculatorHelper.calculateTotalLength(jsonModel.getOutFields());
 
-        // Step 8: 응답 생성 팩토리
+        // Step 9: 응답 생성 팩토리
         ResponseFormatter formatter = ResponseFormatterFactory.getFormatter(fixedLengthRequest.getGramId());
         return formatter.formatResponse(
                  fixedLengthRequest.getGramId()
                 ,fixedLengthRequest.getServiceId()
-                ,inHeaderTotal
+                ,inHeaderDataSize
                 ,inBodyTotal
                 ,outFields
                 ,outBodyTotal);

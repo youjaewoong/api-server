@@ -39,7 +39,8 @@ public class FixedLengthSocketServer {
                         log.info("Received: {}", request);
 
                         // 응답 전문 생성 TEST001 List 2건
-                        String response = String.format("%-10s%-10s%-30s%-1s%-10s%-10s%-10s%-10s%-10s%-10s",
+                        String response = String.format("%-200s%-10s%-10s%-30s%-1s%-10s%-10s%-10s%-10s%-10s%-10s",
+                                "200  20250208SYSNAME1120000000VOTID 00TEST001 S0120250208170507207192.168.1.1     SERVICE001  123456789987654321OriginalContent     N202301011235450000FSERR001YExtraFieldData                          ",
                                 "홍길동", "22", "test@example.com", 2,
                                 "테스트1", "테스트2", "테스트3",
                                 "테스트4", "테스트5", "테스트6");

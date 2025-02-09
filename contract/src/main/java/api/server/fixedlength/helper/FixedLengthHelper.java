@@ -7,10 +7,7 @@ import lombok.experimental.UtilityClass;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @UtilityClass
 public class FixedLengthHelper {
@@ -144,6 +141,14 @@ public class FixedLengthHelper {
                 });
 
         return sb.toString();
+    }
+
+
+    public int getTotalValueLength(Map<String, String> inFields) {
+        return inFields.values().stream()
+                .filter(Objects::nonNull)
+                .mapToInt(String::length)
+                .sum();
     }
 
 }

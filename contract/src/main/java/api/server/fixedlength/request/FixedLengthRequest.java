@@ -23,6 +23,10 @@ public class FixedLengthRequest {
     @Schema(description = "입력 필드 데이터", example = "{\"id\": \"test001\", \"accNo\": \"5556666611\"}", required = true)
     private Map<String, String> inFields; // key-value 형태의 요청 바디
 
+    @Schema(description = "입력 필드 사이즈", example = "20", hidden = true)
+    @Setter
+    private int inFieldLength;
+
     @Schema(
             description = "Header type of the request",
             example = "EAI",

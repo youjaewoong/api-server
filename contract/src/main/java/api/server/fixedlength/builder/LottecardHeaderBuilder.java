@@ -12,7 +12,8 @@ public class LottecardHeaderBuilder implements Header {
     @Override
     public String buildHeader(FixedLengthRequest request) {
         LottecardCommonHeaderVO header = new LottecardCommonHeaderVO();
-        header.setGramLnth("200");
+
+        header.setGramLnth(String.valueOf(request.getInFieldLength()+200));
         header.setGuid(LottecardGuIdType.VOT.generateWithSuffix("SYSNAME1","120000000"));
         header.setGramPrgNo("00");
         header.setGramNo(request.getGramId());
