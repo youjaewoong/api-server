@@ -1,5 +1,6 @@
 package api.server.gramstorage.helpler;
 
+import api.server.common.constant.ProfileConstant;
 import api.server.common.properties.GramProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +24,10 @@ public class GramFilePathHelper {
      * @return 기본 경로 (개발 또는 JAR 환경)
      */
     public String getBasePath() {
-        if (isRunningInJar()) {
-            return gramProperties.getJsonPathJar();
+        if (isLocal()) {
+            return gramProperties.getJsonPathLocal();
         }
-        return gramProperties.getJsonPathLocal();
+        return gramProperties.getJsonPathJar();
     }
 
 
@@ -46,18 +47,9 @@ public class GramFilePathHelper {
      *
      * @return JAR 환경 여부
      */
-    private boolean isRunningInJar() {
-        try {
-            URL resource = this.getClass().getResource("");
-            if (resource != null) {
-                String protocol = resource.getProtocol();
-                return "jar".equals(protocol); // JAR 환경인지 확인
-            }
-            return false;
-        } catch (Exception e) {
-            log.error("Failed to determine JAR environment", e);
-            return false;
-        }
+    private boolean isLocal() {
+        String profile = System.getProperty("spring.profiles.active");
+        return ProfileConstant.LOCAL.equals(profile);
     }
 
 
