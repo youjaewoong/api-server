@@ -1,19 +1,16 @@
 package api.server.webclient;
 
 import api.server.sample.request.SampleRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Component
+@RequiredArgsConstructor
 public class WebClientAsync {
 
 	private final WebClient webClient;
-
-	// WebClient 주입 (생성자를 통한 DI)
-	public WebClientAsync(WebClient.Builder webClientBuilder) {
-		this.webClient = webClientBuilder.baseUrl("https://jsonplaceholder.typicode.com").build();
-	}
 
 
 	// 비동기 호출 메서드

@@ -20,3 +20,6 @@ spring:
   messages:
     basename: messages
     encoding: UTF-8
+  config:
+    import:
+      - classpath:/api-client/application.yml

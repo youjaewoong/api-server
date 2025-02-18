@@ -1,9 +1,6 @@
-package api.server.sample.service;
+package api.server.restapi;
 
-import api.server.common.model.PageResponse;
 import api.server.sample.request.SampleRequest;
-import api.server.sample.response.SampleResponse;
-import api.server.webclient.WebClientAsync;
 import api.server.webclient.WebClientSync;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,5 +15,10 @@ public class WebClientSyncService {
 
 	public String get() {
 		return webClientSync.get(1);
+	}
+
+	public String post() {
+		SampleRequest sampleRequest = new SampleRequest();
+		return webClientSync.post(sampleRequest);
 	}
 }

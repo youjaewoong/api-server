@@ -1,4 +1,4 @@
-package api.server.sample.service;
+package api.server.restapi;
 
 import api.server.webclient.WebClientAsync;
 import lombok.RequiredArgsConstructor;

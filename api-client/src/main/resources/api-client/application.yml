@@ -2,6 +2,7 @@ spring:
   config:
     activate:
       - on-profile: local, dev
+
 feign:
   cdp:
     url: http://localhost:9001
@@ -11,6 +12,13 @@ feign:
     url: http://172.16.50.71:4002
     ksf-url: http://172.16.50.71:7614/ksf
 
+endpoint:
+  lottecard:
+      eai: http://jsonplaceholder.typicode.com
+      api: http://jsonplaceholder.typicode.com
+  test:
+    eai: http://jsonplaceholder.typicode.com
+    api: http://jsonplaceholder.typicode.com
 ---
 spring:
   config:
@@ -24,3 +32,11 @@ feign:
   api-search:
     url: http://172.16.50.71:4002
     ksf-url: http://172.16.50.71:7614/ksf
+
+endpoint:
+  lottecard:
+    eai: http://jsonplaceholder.typicode.com
+    api: http://jsonplaceholder.typicode.com
+  test:
+    eai: http://jsonplaceholder.typicode.com
+    api: http://jsonplaceholder.typicode.com

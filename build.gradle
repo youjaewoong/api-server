@@ -87,6 +87,9 @@ subprojects {
 
         // openapi 3.0
         implementation "org.springdoc:springdoc-openapi-ui:1.6.11"
+
+        // webflux
+        implementation 'org.springframework.boot:spring-boot-starter-webflux'
     }
     
     compileJava.options.encoding = 'UTF-8'

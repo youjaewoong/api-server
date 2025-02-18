@@ -14,13 +14,23 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api-server/web-client")
 public interface WebClientControllerApi {
 
-	@Operation(summary = "sync 목록 정보 조회",
-			description = "sync 샘플 정보를 조회합니다.",
+	@Operation(summary = "sync get 방식의 목록 정보 조회",
+			description = "sync get 방식의 샘플 정보를 조회합니다.",
 			responses = {@ApiResponse(responseCode = "200",
 					content = @Content(schema = @Schema(implementation = String.class)))
 			}
 	)
 	@GetMapping(value = "sync/get")
 	ResponseEntity<String> findWebClientSync();
+
+
+	@Operation(summary = "sync post 방식의 목록 정보 조회",
+			description = "sync post 방식의 샘플 정보를 조회합니다.",
+			responses = {@ApiResponse(responseCode = "200",
+					content = @Content(schema = @Schema(implementation = String.class)))
+			}
+	)
+	@GetMapping(value = "sync/post")
+	ResponseEntity<String> findWebClientPostSync();
 
 }

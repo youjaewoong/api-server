@@ -1,19 +1,17 @@
 package api.server.webclient;
 
 import api.server.sample.request.SampleRequest;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
+@Slf4j
 @Component
+@RequiredArgsConstructor
 public class WebClientSync {
 
 	private final WebClient webClient;
-
-	// WebClient 주입 (생성자를 통한 DI)
-	public WebClientSync(WebClient.Builder webClientBuilder) {
-		this.webClient = webClientBuilder.baseUrl("https://jsonplaceholder.typicode.com").build();
-	}
-
 
 	// 동기 호출 메서드
 	public String get(int postId) {
@@ -28,6 +26,7 @@ public class WebClientSync {
 
 	// 동기 POST 호출
 	public String post(SampleRequest sampleRequest) {
+
 		// POST 요청 생성
 		return webClient.post()
 				.uri("/posts")          // API 경로

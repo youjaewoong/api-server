@@ -1,6 +1,6 @@
 package api.server.webclient;
 
-import api.server.sample.service.WebClientSyncService;
+import api.server.restapi.WebClientSyncService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +13,15 @@ public class WebClientController implements WebClientControllerApi {
 
 	private final WebClientSyncService webClientSyncService;
 
-
 	@Override
 	public ResponseEntity<String> findWebClientSync() {
+
 		return ResponseEntity.ok(webClientSyncService.get());
+	}
+
+	@Override
+	public ResponseEntity<String> findWebClientPostSync() {
+
+		return ResponseEntity.ok(webClientSyncService.post());
 	}
 }

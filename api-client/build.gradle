@@ -5,7 +5,6 @@ plugins {
 dependencies {
     // module projects
     implementation project(":contract")
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
 }
 
 publishing {
