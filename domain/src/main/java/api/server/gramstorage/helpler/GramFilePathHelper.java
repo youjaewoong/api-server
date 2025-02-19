@@ -49,6 +49,9 @@ public class GramFilePathHelper {
      */
     private boolean isLocal() {
         String profile = System.getProperty("spring.profiles.active");
+        if (profile == null) {
+            return true;
+        }
         return ProfileConstant.LOCAL.equals(profile);
     }
 

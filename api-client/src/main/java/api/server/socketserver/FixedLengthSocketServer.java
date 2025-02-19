@@ -1,5 +1,7 @@
 package api.server.socketserver;
 
+import api.server.common.properties.EndPointProperties;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -19,15 +21,18 @@ import java.net.Socket;
  */
 @Profile({"local"})
 @Component
+@RequiredArgsConstructor
 @Slf4j
 public class FixedLengthSocketServer {
     private static final int PORT = 9009;
 
+    private final EndPointProperties endPointProperties;
+
     @PostConstruct
     public void startServer() {
         new Thread(() -> {
-            try (ServerSocket serverSocket = new ServerSocket(PORT)) {
-                log.info("Fixed-Length Socket Server started on port {}", PORT);
+            try (ServerSocket serverSocket = new ServerSocket(endPointProperties.getFaxPort())) {
+                log.info("Fixed-Length Socket Server started on port {}", endPointProperties.getFaxPort());
 
                 while (true) {
                     try (Socket clientSocket = serverSocket.accept();

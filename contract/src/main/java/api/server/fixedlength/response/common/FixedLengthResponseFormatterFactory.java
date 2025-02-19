@@ -9,10 +9,10 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 @UtilityClass
-public class ResponseFormatterFactory {
+public class FixedLengthResponseFormatterFactory {
 
     // gramId와 해당 ResponseFormatter 생성 로직을 매핑하는 맵
-    private static final Map<String, Supplier<ResponseFormatter>> RESPONSE_FORMATTER_MAP = new HashMap<>();
+    private static final Map<String, Supplier<FixedLengthResponseFormatter>> RESPONSE_FORMATTER_MAP = new HashMap<>();
 
     static {
         // gramId와 대응하는 ResponseFormatter 등록
@@ -29,7 +29,7 @@ public class ResponseFormatterFactory {
      * @param gramId 전문 ID
      * @return 응답 객체
      */
-    public static ResponseFormatter getFormatter(String gramId) {
+    public static FixedLengthResponseFormatter getFormatter(String gramId) {
         return RESPONSE_FORMATTER_MAP.getOrDefault(gramId, FixedLengthBasicResponse::new).get();
     }
 }

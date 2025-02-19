@@ -1,7 +1,7 @@
 package api.server.fixedlength.response;
 
 import api.server.fixedlength.response.common.FixedLengthResponse;
-import api.server.fixedlength.response.common.ResponseFormatter;
+import api.server.fixedlength.response.common.FixedLengthResponseFormatter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +16,7 @@ import java.util.Map;
 @Builder
 @Schema(description = "기본 전문 응답")
 @NoArgsConstructor
-public class FixedLengthBasicResponse implements ResponseFormatter {
+public class FixedLengthBasicResponse implements FixedLengthResponseFormatter {
 
 	@Override
 	public FixedLengthResponse formatResponse(String gramId,

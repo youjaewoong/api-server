@@ -13,16 +13,10 @@ import java.util.Map;
  */
 @Getter
 @Builder
-@Schema(description = "FixedLength 응답")
+@Schema(description = "RestAPI 응답")
 @NoArgsConstructor
 @AllArgsConstructor
 public class RestAPIResponse {
-
-	/** gramId */
-	private String gramId;
-
-	/** serviceId */
-	private String serviceId;
 
 	/** 응답 바디 총 길이 */
 	private Map<String, Object> outFields;

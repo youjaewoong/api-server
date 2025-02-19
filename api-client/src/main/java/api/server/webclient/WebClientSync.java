@@ -6,6 +6,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Mono;
+
+import java.time.Duration;
 
 @Slf4j
 @Component
@@ -35,6 +39,7 @@ public class WebClientSync {
 				.bodyToMono(String.class)   // 응답을 String으로 변환
 				.block();                   // 동기 방식으로 결과 대기 및 반환
 	}
+
 
 	// 동기 POST 호출
 	public String post(RestAPIRequest restAPIRequest) {

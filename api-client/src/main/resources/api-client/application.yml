@@ -14,11 +14,15 @@ feign:
 
 endpoint:
   lottecard:
-      eai: http://jsonplaceholder.typicode.com
-      api: http://jsonplaceholder.typicode.com
+    eai: http://jsonplaceholder.typicode.com
+    api: http://jsonplaceholder.typicode.com
+    fax: localhost
+    fax-port: 9009
   test:
     eai: http://jsonplaceholder.typicode.com
     api: http://jsonplaceholder.typicode.com
+    fax: localhost
+    fax-port: 9009
 ---
 spring:
   config:
@@ -37,6 +41,10 @@ endpoint:
   lottecard:
     eai: http://jsonplaceholder.typicode.com
     api: http://jsonplaceholder.typicode.com
+    fax: http://localhost
+    fax-port: test
   test:
     eai: http://jsonplaceholder.typicode.com
     api: http://jsonplaceholder.typicode.com
+    fax: http://localhost
+    fax-port: 9009

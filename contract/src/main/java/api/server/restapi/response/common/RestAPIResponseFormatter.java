@@ -4,7 +4,5 @@ import java.util.Map;
 
 public interface RestAPIResponseFormatter {
 
-RestAPIResponse formatResponse(String gramId,
-                               String serviceId,
-                               Map<String, Object> outFields);
+    RestAPIResponse formatResponse(Map<String, Object> outFields);
 }

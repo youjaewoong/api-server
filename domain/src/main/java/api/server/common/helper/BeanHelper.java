@@ -22,7 +22,6 @@ public class BeanHelper {
      *
      * @param beanName 가져올 Bean의 이름
      * @return 해당 이름의 Bean 객체
-     * @throws BeansException Bean을 찾을 수 없거나 가져올 수 없는 경우 예외 발생
      */
     public static Object getBean(String beanName) {
         ApplicationContext applicationContext = ApplicationContextProvider.getApplicationContext();

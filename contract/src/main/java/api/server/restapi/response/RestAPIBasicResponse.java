@@ -19,15 +19,11 @@ import java.util.Map;
 public class RestAPIBasicResponse implements RestAPIResponseFormatter {
 
 	@Override
-	public RestAPIResponse formatResponse(String gramId,
-										  String serviceId,
-										  Map<String, Object> outFields) {
+	public RestAPIResponse formatResponse(Map<String, Object> outFields) {
 
 		// 포맷팅 처리
 		return RestAPIResponse
 				.builder()
-				.gramId(gramId)
-				.serviceId(serviceId)
 				.outFields(outFields)
 				.build();
 	}

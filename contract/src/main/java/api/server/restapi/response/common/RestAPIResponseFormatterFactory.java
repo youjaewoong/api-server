@@ -1,7 +1,7 @@
 package api.server.restapi.response.common;
 
 import api.server.restapi.response.RestAPIBasicResponse;
-import api.server.restapi.response.lottecard.TEST001Response;
+import api.server.restapi.response.lottecard.PIS000062Response;
 import lombok.experimental.UtilityClass;
 
 import java.util.HashMap;
@@ -16,7 +16,7 @@ public class RestAPIResponseFormatterFactory {
 
     static {
         // gramId와 대응하는 ResponseFormatter 등록
-        RESPONSE_FORMATTER_MAP.put("TEST001", TEST001Response::new);
+        RESPONSE_FORMATTER_MAP.put("PIS000062", PIS000062Response::new);
     }
 
 

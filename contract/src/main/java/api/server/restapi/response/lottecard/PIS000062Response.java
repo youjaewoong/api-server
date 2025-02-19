@@ -19,12 +19,10 @@ import java.util.Map;
 @Builder
 @Schema(description = "TEST001 전문 응답")
 @NoArgsConstructor
-public class TEST001Response implements RestAPIResponseFormatter {
+public class PIS000062Response implements RestAPIResponseFormatter {
 
 	@Override
-	public RestAPIResponse formatResponse(String gramId,
-                                          String serviceId,
-                                          Map<String, Object> outFields) {
+	public RestAPIResponse formatResponse(Map<String, Object> outFields) {
 
 		// 포맷팅 처리
 		outFields.put("Phone1", StringFormatHelper.formatPhoneNumber("01055556666"));
@@ -49,8 +47,6 @@ public class TEST001Response implements RestAPIResponseFormatter {
 
 		return RestAPIResponse
 				.builder()
-				.gramId(gramId)
-				.serviceId(serviceId)
 				.outFields(outFields)
 				.build();
 	}

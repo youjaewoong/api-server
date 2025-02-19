@@ -9,8 +9,8 @@ import api.server.fixedlength.helper.FixedLengthJsonLoaderHelper;
 import api.server.fixedlength.helper.FixedLengthLengthCalculatorHelper;
 import api.server.fixedlength.request.FixedLengthRequest;
 import api.server.fixedlength.response.common.FixedLengthResponse;
-import api.server.fixedlength.response.common.ResponseFormatter;
-import api.server.fixedlength.response.common.ResponseFormatterFactory;
+import api.server.fixedlength.response.common.FixedLengthResponseFormatter;
+import api.server.fixedlength.response.common.FixedLengthResponseFormatterFactory;
 import api.server.fixedlength.socket.FixedLengthTestSocketProcessor;
 import api.server.fixedlength.vo.FixedLengthJsonVO;
 import api.server.gramstorage.helpler.GramFilePathHelper;
@@ -187,7 +187,7 @@ public class FixedLengthService {
         int outBodyTotal = FixedLengthLengthCalculatorHelper.calculateTotalLength(jsonModel.getOutFields());
 
         // Step 9: 응답 생성 팩토리
-        ResponseFormatter formatter = ResponseFormatterFactory.getFormatter(fixedLengthRequest.getGramId());
+        FixedLengthResponseFormatter formatter = FixedLengthResponseFormatterFactory.getFormatter(fixedLengthRequest.getGramId());
         return formatter.formatResponse(
                  fixedLengthRequest.getGramId()
                 ,fixedLengthRequest.getServiceId()

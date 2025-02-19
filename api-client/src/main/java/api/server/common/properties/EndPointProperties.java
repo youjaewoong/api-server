@@ -1,11 +1,14 @@
 package api.server.common.properties;
 
 import lombok.Getter;
+import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Objects;
 
 /**
  * <pre>
@@ -13,17 +16,23 @@ import javax.annotation.PostConstruct;
  *  Environment 객체를 활용하여 application.yml 에서 설정된 값을 동적으로 가져옵니다.
  * </pre>
  */
+@Slf4j
 @Getter
 @Component
+@ToString
 public class EndPointProperties {
 
     private final Environment environment;
+
+    private static final String END_POINT = "endpoint.";
 
     @Value("${gram.type}")
     private String gramType;
 
     private String eai;
     private String api;
+    private String fax;
+    private int faxPort;
 
     public EndPointProperties(Environment environment) {
         this.environment = environment;
@@ -34,8 +43,10 @@ public class EndPointProperties {
         if (gramType == null) {
             throw new IllegalStateException("gramType 값이 설정되지 않았습니다.");
         }
-        this.eai = environment.getProperty("endpoint." + gramType + ".eai");
-        this.api = environment.getProperty("endpoint." + gramType + ".api");
+        this.eai = environment.getProperty(END_POINT + gramType + ".eai");
+        this.api = environment.getProperty(END_POINT + gramType + ".api");
+        this.fax = environment.getProperty(END_POINT + gramType + ".fax");
+        this.faxPort = Integer.parseInt(Objects.requireNonNull(environment.getProperty(END_POINT + gramType + ".fax-port")));
     }
 
 }

@@ -4,9 +4,8 @@ import api.server.common.helper.AmountFormatHelper;
 import api.server.common.helper.DateFormatHelper;
 import api.server.common.helper.StringFormatHelper;
 import api.server.fixedlength.response.common.FixedLengthResponse;
-import api.server.fixedlength.response.common.ResponseFormatter;
+import api.server.fixedlength.response.common.FixedLengthResponseFormatter;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +19,7 @@ import java.util.Map;
 @Builder
 @Schema(description = "TEST001 전문 응답")
 @NoArgsConstructor
-public class TEST001Response implements ResponseFormatter {
+public class TEST001Response implements FixedLengthResponseFormatter {
 
 	@Override
 	public FixedLengthResponse formatResponse(String gramId,
