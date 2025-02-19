@@ -34,8 +34,8 @@ public enum LottecardGuIdType {
     },
     VOT {
         @Override
-        public String generateWithSuffix(String systemName, String messageTimestamp) {
-            return String.format("%s%s%sVOTID", FixedLengthHelper.getCurrentSystemDate(), systemName, messageTimestamp);
+        public String generateWithSuffix(String systemName) {
+            return String.format("%s%s%s", FixedLengthHelper.getCurrentSystemDate(), systemName, FixedLengthHelper.getCurrentTimeFormat());
         }
     };
 
@@ -50,6 +50,10 @@ public enum LottecardGuIdType {
     }
 
     public String generateWithSuffix(String systemName, String messageTimestamp) {
+        throw new UnsupportedOperationException(GENERATE_ERROR);
+    }
+
+    public String generateWithSuffix(String systemName) {
         throw new UnsupportedOperationException(GENERATE_ERROR);
     }
 

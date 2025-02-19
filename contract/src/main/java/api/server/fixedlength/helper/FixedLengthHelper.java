@@ -89,6 +89,15 @@ public class FixedLengthHelper {
 
 
     /**
+     * 시스템 현재 날짜 및 시간 패턴 HHmmssSSSS 형식으로 반환합니다.
+     */
+    public static String getCurrentTimeFormat() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmmssSSSS");
+        return now.format(formatter);
+    }
+
+    /**
      * 현재 시간을 yyyyMMddHHmmssSSS 형식으로 반환합니다.
      * @return 현재 시간 문자열 (yyyyMMddHHmmssSSS 형식)
      */

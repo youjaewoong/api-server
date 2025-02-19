@@ -14,10 +14,8 @@ public class LottecardHeaderBuilder implements Header {
         LottecardCommonHeaderVO header = new LottecardCommonHeaderVO();
 
         header.setGramLnth(String.valueOf(request.getInFieldLength()+200));
-        header.setGuid(LottecardGuIdType.VOT.generateWithSuffix("SYSNAME1","120000000"));
-        header.setGramPrgNo("00");
-        header.setGramNo(request.getGramId());
-        header.setAkRspDc(GramInfoConstant.SEND);
+        header.setGuid(LottecardGuIdType.VOT.generateWithSuffix(GramInfoConstant.SYS_CD_AIC));
+        header.setGramNo(request.getGramId()); // 메타 전문번호
         header.setRspBizDc("01");
         header.setGramAkDtti(FixedLengthHelper.getCurrentTimestamp());
         header.setIpAdd("192.168.1.1");

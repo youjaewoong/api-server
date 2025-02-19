@@ -1,5 +1,6 @@
 package api.server.webclient;
 
+import api.server.restapi.request.RestAPIRequest;
 import api.server.sample.request.SampleRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,11 +27,21 @@ public class WebClientSync {
 
 	// 동기 POST 호출
 	public String post(SampleRequest sampleRequest) {
-
 		// POST 요청 생성
 		return webClient.post()
 				.uri("/posts")          // API 경로
 				.bodyValue(sampleRequest)	// 요청 본문 설정 (JSON 변환 자동 처리)
+				.retrieve()                 // 응답 처리 시작
+				.bodyToMono(String.class)   // 응답을 String으로 변환
+				.block();                   // 동기 방식으로 결과 대기 및 반환
+	}
+
+	// 동기 POST 호출
+	public String post(RestAPIRequest restAPIRequest) {
+		// POST 요청 생성
+		return webClient.post()
+				.uri("/posts")          // API 경로
+				.bodyValue(restAPIRequest)	// 요청 본문 설정 (JSON 변환 자동 처리)
 				.retrieve()                 // 응답 처리 시작
 				.bodyToMono(String.class)   // 응답을 String으로 변환
 				.block();                   // 동기 방식으로 결과 대기 및 반환

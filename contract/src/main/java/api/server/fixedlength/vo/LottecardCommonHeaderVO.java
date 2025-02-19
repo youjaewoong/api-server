@@ -59,7 +59,7 @@ public class LottecardCommonHeaderVO implements HeaderType {
      * </pre>
      */
     @FixedLength(length = 2, offset = 36)
-    private String gramPrgNo;
+    private String gramPrgNo = "00";
 
 
     /**
@@ -97,7 +97,7 @@ public class LottecardCommonHeaderVO implements HeaderType {
      * </pre>
      */
     @FixedLength(length = 1, offset = 46)
-    private String akRspDc;
+    private String akRspDc = GramInfoConstant.SEND;
 
 
     /**
