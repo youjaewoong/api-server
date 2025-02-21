@@ -24,7 +24,7 @@ import java.util.concurrent.CompletableFuture;
 @Tag(name = "회원", description = "회원 전문을 호출 합니다.")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api-server/member")
+@RequestMapping("api-server/api/member")
 public class MemberController {
 
     private final LottecardService lottecardService;
@@ -36,7 +36,7 @@ public class MemberController {
             }
     )
     @PostMapping(value = "pis000062")
-    ResponseEntity<CompletableFuture<RestAPIResponse>> pis000062(@RequestBody RestAPIRequest restAPIRequest) {
+    ResponseEntity<RestAPIResponse> pis000062(@RequestBody RestAPIRequest restAPIRequest) {
 
         restAPIRequest.setGramNo(GramInfoConstant.PIS000062); // 회원정보 전문
         restAPIRequest.setRspBizDc(GramInfoConstant.TEST); // 회원코드

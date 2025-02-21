@@ -1,7 +1,6 @@
 package api.server.lottecard.service;
 
 import api.server.common.exception.custom.BusinessException;
-import api.server.fixedlength.response.common.FixedLengthResponseFormatterFactory;
 import api.server.lottecard.service.enums.LottecardErrorCode;
 import api.server.restapi.request.RestAPIRequest;
 import api.server.restapi.response.common.RestAPIResponse;
@@ -10,6 +9,7 @@ import api.server.restapi.response.common.RestAPIResponseFormatterFactory;
 import api.server.webclient.WebClientSync;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Async;
@@ -17,27 +17,15 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class LottecardService {
 
 	private final WebClientSync webClientSync;
 
-	@Qualifier("taskExecutor")
-	private final ThreadPoolTaskExecutor taskExecutor;
-
 	private final ObjectMapper objectMapper;
-
-	public LottecardService(@Qualifier("taskExecutor") ThreadPoolTaskExecutor taskExecutor,
-							WebClientSync webClientSync,
-							ObjectMapper objectMapper) {
-
-		this.taskExecutor = taskExecutor;
-		this.webClientSync = webClientSync;
-		this.objectMapper = objectMapper;
-	}
 
 
 	/**
@@ -46,26 +34,18 @@ public class LottecardService {
 	 * @param restAPIRequest 요청 데이터
 	 * @return 응답 전문 반환
 	 */
-	@Async("taskExecutor")
-	public CompletableFuture<RestAPIResponse> post(RestAPIRequest restAPIRequest) {
+	public RestAPIResponse post(RestAPIRequest restAPIRequest) {
+		try {
+			String result = webClientSync.post(restAPIRequest);
+			Map<String, Object> resultMap = objectMapper.readValue(result, new TypeReference<>(){});
 
-		return CompletableFuture.supplyAsync(() -> {
-			try {
-				String result = webClientSync.post(restAPIRequest);
-				Map<String, Object> resultMap = objectMapper.readValue(result, new TypeReference<>(){});
+			RestAPIResponseFormatter formatter = RestAPIResponseFormatterFactory.getFormatter(restAPIRequest.getGramNo());
+			return formatter.formatResponse(resultMap);
 
-				RestAPIResponseFormatter formatter = RestAPIResponseFormatterFactory.getFormatter(restAPIRequest.getGramNo());
-				return formatter.formatResponse(resultMap);
-
-			} catch (Exception e) {
-				log.error("post BusinessException: {}", e.getMessage());
-				throw new BusinessException(LottecardErrorCode.INTERNAL_SERVER_ERROR, e.getMessage()); // 래핑
-			}
-		}, taskExecutor).exceptionally(e -> {
-			log.error("Async processing failed: {}", e.getMessage(), e);
-			throw new BusinessException(LottecardErrorCode.INTERNAL_SERVER_ERROR);
-		});
-
+		} catch (Exception e) {
+			log.error("post BusinessException: {}", e.getMessage());
+			throw new BusinessException(LottecardErrorCode.INTERNAL_SERVER_ERROR, e.getMessage()); // 래핑
+		}
 	}
 
 
