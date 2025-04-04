@@ -33,6 +33,8 @@ public class EndPointProperties {
     private String api;
     private String fax;
     private int faxPort;
+    private String poc;
+    private int pocPort;
 
     public EndPointProperties(Environment environment) {
         this.environment = environment;
@@ -46,7 +48,9 @@ public class EndPointProperties {
         this.eai = environment.getProperty(END_POINT + gramType + ".eai");
         this.api = environment.getProperty(END_POINT + gramType + ".api");
         this.fax = environment.getProperty(END_POINT + gramType + ".fax");
+        this.poc = environment.getProperty(END_POINT + gramType + ".poc");
         this.faxPort = Integer.parseInt(Objects.requireNonNull(environment.getProperty(END_POINT + gramType + ".fax-port")));
+        this.pocPort = Integer.parseInt(Objects.requireNonNull(environment.getProperty(END_POINT + gramType + ".poc-port")));
     }
 
 }

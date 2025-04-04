@@ -24,7 +24,6 @@ import java.net.Socket;
 @RequiredArgsConstructor
 @Slf4j
 public class FixedLengthSocketServer {
-    private static final int PORT = 9009;
 
     private final EndPointProperties endPointProperties;
 

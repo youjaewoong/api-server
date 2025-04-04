@@ -1,7 +1,7 @@
-package api.server.lottecard.service;
+package api.server.payment.service;
 
 import api.server.common.exception.custom.BusinessException;
-import api.server.lottecard.service.enums.LottecardErrorCode;
+import api.server.payment.service.enums.LottecardErrorCode;
 import api.server.restapi.request.RestAPIRequest;
 import api.server.restapi.response.common.RestAPIResponse;
 import api.server.restapi.response.common.RestAPIResponseFormatter;
@@ -11,9 +11,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;

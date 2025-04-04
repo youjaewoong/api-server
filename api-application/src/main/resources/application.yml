@@ -40,6 +40,7 @@ common:
       urls:
         - "http://swagger.subdomain.com:9001"
         - "http://localhost:9001"
+        - "http://localhost:3000"
         - "http://api-subdomain-01"
         - "http://api-subdomain-02"
         - "http://dev.api-server.com"

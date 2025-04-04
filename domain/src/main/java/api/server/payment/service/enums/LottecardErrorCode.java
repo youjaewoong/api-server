@@ -1,4 +1,4 @@
-package api.server.lottecard.service.enums;
+package api.server.payment.service.enums;
 import api.server.common.exception.enums.ErrorCodes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

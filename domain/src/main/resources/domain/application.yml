@@ -7,7 +7,7 @@ jasypt:
       suffix: )
 
 gram:
-  type: lottecard
+  type: poc
   file-path: resources/gram
   json-path:
     local: api-application/src/main/resources/gram/${gram.type}

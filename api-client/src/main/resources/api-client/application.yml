@@ -23,6 +23,11 @@ endpoint:
     api: http://jsonplaceholder.typicode.com
     fax: localhost
     fax-port: 9009
+  poc:
+    eai: http://jsonplaceholder.typicode.com
+    api: http://jsonplaceholder.typicode.com
+    fax: localhost
+    fax-port: 9009
 ---
 spring:
   config:
@@ -47,4 +52,8 @@ endpoint:
     eai: http://jsonplaceholder.typicode.com
     api: http://jsonplaceholder.typicode.com
     fax: http://localhost
+  poc:
+    eai: http://jsonplaceholder.typicode.com
+    api: http://jsonplaceholder.typicode.com
+    fax: localhost
     fax-port: 9009
