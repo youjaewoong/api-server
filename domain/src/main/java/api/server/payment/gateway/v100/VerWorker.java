@@ -14,7 +14,7 @@ import java.util.*;
  * @author 케이알파트너스
  *
  */
-public class VerWorker extends AbstractVer{
+public class VerWorker extends AbstractVer {
     private VerDBProc dbproc;
     private VerData verData;
 
@@ -22,20 +22,24 @@ public class VerWorker extends AbstractVer{
         verData = new VerData();
     }
 
-    protected void setAppParameter(){
+    public void setAppParameter(){
         appWorker.appData = (AppData)verData;
         dbproc = new VerDBProc(AbstractApp.g_dbcm);
+    }
+
+    @Override
+    protected void procTransaction() throws MyException {
+
     }
 
     /* (non-Javadoc)
      * @see com.mcpay.app.ExtractWorker#runTransaction(java.io.InputStream, java.io.OutputStream)
      */
-    protected void procTransaction() throws MyException {
-        Map<String, String> dataInfo = verData.getRecvInfo();
+    public void procTransaction(Map<String, String> dataInfo) throws MyException {
         //////////////////////////////////////////////////////////////////////////
         // 전문코드별 처리
         //////////////////////////////////////////////////////////////////////////
-        int format = Integer.parseInt((String)dataInfo.get("RH00"));
+        int format = Integer.parseInt(dataInfo.get("RH00"));
         try{
             switch(format){
                 case AppData.F0100:     //신용카드 승인
@@ -174,7 +178,8 @@ public class VerWorker extends AbstractVer{
             //////////////////////////////////////////////////////////////////////////
             // VAN 거래 요청(거래 저장)
             //////////////////////////////////////////////////////////////////////////
-            String m_run = AppUtil.checkNull(AbstractApp.g_appCfg.getServerRun("EXIMGW"));
+            // String m_run = AppUtil.checkNull(AbstractApp.g_appCfg.getServerRun("EXIMGW"));
+            String m_run = "REAL";
 
             //2022.04.22 KICC 개발기 및 테스트기 통신 고날 mid 분기 추가 walter.
             System.out.println("[VerWorker::procF0100] RB01 : " + AppUtil.checkNull(dataInfo.get("RB01")));

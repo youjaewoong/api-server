@@ -19,9 +19,9 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 /************************************************
- * 
+ *
  * @author 케이알파트너스
- * 
+ *
  */
 public abstract class AppVANClient {
     public static int TYPE_LEN = 1;
@@ -120,7 +120,7 @@ public abstract class AppVANClient {
             m_socket = new Socket();
             m_socket.connect(new InetSocketAddress(AbstractApp.g_appCfg.getVANHost(name), AbstractApp.g_appCfg.getVANPort(name)), 10000);
             m_socket.setSoTimeout(AbstractApp.g_appCfg.getVANTimeout(name));
-               
+
             m_is = m_socket.getInputStream();
             m_os = m_socket.getOutputStream();
 

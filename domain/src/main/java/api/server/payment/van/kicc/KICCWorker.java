@@ -12,6 +12,7 @@ import api.server.payment.gateway.AppWorker;
 import api.server.payment.my.MyException;
 import api.server.payment.van.AppVAN;
 import api.server.payment.van.AppVANClient;
+import api.server.payment.van.AppVANManager;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -70,17 +71,14 @@ public class KICCWorker implements AppVAN {
         // VAN 가맹점 아이디, 터미널 아이디, 사업자 번호 추출
         //////////////////////////////////////////////////////////////////////////
         if(!transType.equals("0200") && !transType.equals("0202") && !transType.equals("0204") && !transType.equals("0206") && !transType.equals("0125")){ //2013.06.11
-            try{
-                vanDBProc.selectMerchant(dataInfo);
-                
-                // Edgar 2024.10.23 추가 (에러로그에 warnnig정보 기록)
-                if(dataInfo.get("VD_TMP_WARN") != null) {
-                	appWorker.errorLog("[WARN]" + dataInfo.get("VD_TMP_WARN"));
-                }
-                
-            }catch(MyException e){
-                throw e;
+            // 가맹점 정보 조회
+            // vanDBProc.selectMerchant(dataInfo);
+
+            // Edgar 2024.10.23 추가 (에러로그에 warnnig정보 기록)
+            if(dataInfo.get("VD_TMP_WARN") != null) {
+                appWorker.errorLog("[WARN]" + dataInfo.get("VD_TMP_WARN"));
             }
+
         }
 
         //////////////////////////////////////////////////////////////////////////
@@ -90,9 +88,9 @@ public class KICCWorker implements AppVAN {
             if(transType.equals("0100") || transType.equals("0102") || transType.equals("0122") || transType.equals("0120") || transType.equals("0140") || transType.equals("0180") || transType.equals("0181") || transType.equals("0184") 
                 /*|| transType.equals("0400")*/){   //환급거래 주문번호 확인 안함 20130311
                 //동일 주문번호 확인, BIN 데이터 확인(해외카드 전용)
-                vanDBProc.selectTransact(dataInfo);
+                // vanDBProc.selectTransact(dataInfo);
                 //하나카드 요청정보 수집
-                vanDBProc.selectRiskInfo(dataInfo);
+                // vanDBProc.selectRiskInfo(dataInfo);
             }else if(transType.equals("0200") || transType.equals("0202")){
                 //원거래 데이터 추출
                 vanReq.put("VS_FIELD05", getCurrency(AppUtil.checkNull(dataInfo.get("RB03"))));
@@ -113,7 +111,7 @@ public class KICCWorker implements AppVAN {
             formatData(vanReq, dataInfo);
 
             //요청 데이터 저장
-            vanDBProc.insertTransact(vanReq, dataInfo);
+            // vanDBProc.insertTransact(vanReq, dataInfo);
            
             dataInfo.put("VD_SEQNO", AppUtil.checkNull(vanReq.get("VD_SEQNO")));
         }catch(MyException e){
@@ -137,7 +135,9 @@ public class KICCWorker implements AppVAN {
                 //////////////////////////////////////////////////////////////////////////
                 long startTime = System.currentTimeMillis();
                 try{
-                    vanConn = AbstractApp.g_van.getConnection(VAN_NAME, appWorker);
+
+                    //vanConn = AbstractApp.g_van.getConnection(VAN_NAME, appWorker);
+                    vanConn = new AppVANManager().getConnection(VAN_NAME, appWorker);
                     appWorker.accessLog(AbstractWorker.CV, (VAN_NAME+"|"+vanConn.getID()).getBytes());
                }catch(MyException e){
                     throw e;

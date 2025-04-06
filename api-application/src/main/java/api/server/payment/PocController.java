@@ -34,7 +34,7 @@ public class PocController {
             }
     )
     @PostMapping(value = "payment")
-    public ResponseEntity<Void> processPayment(@RequestBody PaymentRequest paymentRequest) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public ResponseEntity<Void> processPayment(@RequestBody PaymentRequest paymentRequest) throws Exception {
         pocService.procPayment(paymentRequest);
         return ResponseEntity.ok().build();
     }

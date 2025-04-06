@@ -68,7 +68,8 @@ public class AppVANManager {
 
         try {
             // PVC(Virtual Circuit) 타입인 경우
-            if (AbstractApp.g_appCfg.getVANType(name).equals("PVC")) {
+            // if (AbstractApp.g_appCfg.getVANType(name).equals("PVC")) {
+            if (name.equals("PVC")) {
                 if (vanConnections.size() > 0) {
                     // 해당 시스템의 연결 풀에서 사용 가능한 클라이언트를 가져옴
                     Vector freeConnections = (Vector) vanConnections.get(name);

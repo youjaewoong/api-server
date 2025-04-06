@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class AppWorker extends AbstractWorker {
 	//버전별 Worker클래스명 정의(obfuscator를 사용하지 않을때만 가능)
-    private final String verClasses[] = {"com.eximbay.app.gateway.v100.VerWorker"};
+    private final String verClasses[] = {"api.server.payment.gateway.v100.VerWorker"};
 
     public AppData appData;
 
