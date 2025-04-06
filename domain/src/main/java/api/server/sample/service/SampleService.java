@@ -4,8 +4,6 @@ import api.server.common.exception.custom.BusinessException;
 import api.server.common.helper.PageCustomHelper;
 import api.server.common.model.ListResponse;
 import api.server.common.model.PageResponse;
-import api.server.sample.SampleClient;
-import api.server.sample.SampleSearchClient;
 import api.server.sample.enmus.SampleErrorCode;
 import api.server.sample.infrastructure.SampleCommandRepository;
 import api.server.sample.infrastructure.SampleQueryRepository;
@@ -17,7 +15,6 @@ import api.server.sample.request.SampleRequest;
 import api.server.sample.request.UpdateSample;
 import api.server.sample.response.SampleAddressInfoResponse;
 import api.server.sample.response.SampleDetailResponse;
-import api.server.sample.response.SampleFeignResponse;
 import api.server.sample.response.SampleResponse;
 import common.standard.response.GenericCollectionResponse;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +32,6 @@ public class SampleService {
 
 	private final SampleQueryRepository query;
 	private final SampleCommandRepository command;
-	private final SampleClient sampleClient;
-	private final SampleSearchClient sampleSearchClient;
 
 	/**
 	 * 목록 정보 조회(페이지 단위)
@@ -222,28 +217,6 @@ public class SampleService {
 		}
 	}
 
-	/**
-	 * FeignClient 통한 외부 API 조회
-	 */
-	public ListResponse<SampleFeignResponse> findSampleFeign() {
-		return new ListResponse<>(sampleClient.selectSampleFeign());
-	}
-
-	/**
-	 * 검색 API 데이터 호출
-	 */
-	public Boolean findSampleSearch() {
-
-		//String where = URLEncoder.encode("Subject='급구'", Charset.forName("EUC-KR"));
-		String search = sampleSearchClient.selectSampleSearch(
-				"Title,Content",
-				"albamon.vMon_Konan_Community&", null, 10);
-		String volumes = sampleSearchClient.selectVolume();
-
-		log.debug("search search >>> {}", search);
-		log.debug("search volumes >>> {}", volumes);
-		return true;
-	}
 
 	/**
 	 * 문자열 "99" to 숫자 99

@@ -65,6 +65,7 @@ subprojects {
     dependencies {
 
     	implementation files('../libs/common-standard-lib-1.20.6.jar')
+        implementation files('../libs/eximKmsClient-1.0.jar')
 
         implementation 'com.fasterxml.jackson.core:jackson-databind'
         implementation 'javax.validation:validation-api'

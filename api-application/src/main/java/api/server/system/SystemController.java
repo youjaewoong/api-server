@@ -2,8 +2,6 @@ package api.server.system;
 
 import api.server.fixedlength.header.HeaderFactory;
 import api.server.common.helper.RequestHelper;
-import api.server.common.properties.GramProperties;
-import api.server.gramstorage.helpler.GramFilePathHelper;
 import api.server.system.response.SystemLogResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,10 +15,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class SystemController implements SystemControllerApi {
-
-	private final GramProperties gramProperties;
-
-	private final GramFilePathHelper gramFilePathHelper;
 
 
 	@Override
@@ -42,18 +36,6 @@ public class SystemController implements SystemControllerApi {
 				.profile(System.getProperty("spring.profiles.active"))
 				.build();
 		return ResponseEntity.ok(response);
-	}
-
-
-	@Override
-	public ResponseEntity<Object> findCommonHeader() {
-		String type = gramProperties.getType(); // application.yml의 type 값 읽기
-		return ResponseEntity.ok(HeaderFactory.getHeader(type));
-	}
-
-	@Override
-	public ResponseEntity<Object> findGramBasePath() {
-		return ResponseEntity.ok(gramFilePathHelper.getBasePath());
 	}
 
 }

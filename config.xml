@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="euc-kr"?>
+<configuration>
+    <!--Gateway Server-->
+    <server-config>
+        <server-common name="enable" value="Y" />
+        <server-system name="EXIMGW">
+            <!-- <attr name="host" value="172.27.1.11"/> -->
+            <attr name="host" value="127.0.0.1"/>
+            <attr name="port" value="14201"/>
+            <attr name="threads" value="10"/>
+            <attr name="timeout" value="60000"/>
+            <attr name="run" value="TEST" />
+        </server-system>
+    </server-config>
+    <db-config>
+        <db-system name="eximgw">
+            <attr name="url" value="jdbc:mysql://rds-test-eximbay-seoul-aurora-instance-1.cxcu06cquaz5.ap-northeast-2.rds.amazonaws.com:13306/EXIMGW?useSSL=true&amp;verifyServerCertificate=false" />
+            <!--   <attr name="url" value="jdbc:mysql://192.168.0.78:3307/EXIMGW" />-->
+            <attr name="user" value="hUMdmLINzrftfwWGW4FHqQ==" />
+            <attr name="password" value="ZM26FnZR/7gSjH+500CpGg==" />
+            <attr name="initconn" value="2" />
+            <attr name="maxconn" value="5" />
+            <attr name="limitmax" value="0" />
+        </db-system>
+    </db-config>
+    <!-- KMS config-->
+    <kms-config>
+        <kms-common value="Y" name="enable"/>
+        <kms-system name="kms">
+            <attr value="172.27.1.11" name="kmsHost"/>
+            <attr value="44222" name="kmsPort"/>
+            <attr value="PG_PROP_KEY_DEV" name="kmsPropSvcId"/>
+            <attr value="PG_CEK_01_DEV" name="kmsCekSvcId-01"/>
+            <attr value="01" name="kmsCekLastKeyIndex"/>
+        </kms-system>
+    </kms-config>
+    <!--VAN-->
+    <van-config>
+        <van-common name="enable" value="Y" />
+        <van-system name="KICC">
+            <attr name="host" value="localhost"/>
+            <!--<attr name="host" value="203.209.3.10"/>-->  <!--테스트-->
+            <!--<attr name="host" value="203.209.3.11"/>--> <!--개발-->
+            <attr name="port" value="14110"/>
+            <attr name="threads" value="5"/>
+            <attr name="timeout" value="40000"/>
+            <attr name="class" value="com.eximbay.van.kicc.KICCClient"/>
+            <attr name="type" value="SVC"/>
+        </van-system>
+    </van-config>
+</configuration>

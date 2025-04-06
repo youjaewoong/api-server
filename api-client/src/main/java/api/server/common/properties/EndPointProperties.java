@@ -8,7 +8,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Objects;
+import java.util.Optional;
 
 /**
  * <pre>
@@ -22,19 +22,15 @@ import java.util.Objects;
 @ToString
 public class EndPointProperties {
 
-    private final Environment environment;
+    private static final String END_POINT_PREFIX = "endpoint.";
 
-    private static final String END_POINT = "endpoint.";
+    private final Environment environment;
 
     @Value("${gram.type}")
     private String gramType;
 
-    private String eai;
-    private String api;
-    private String fax;
-    private int faxPort;
-    private String poc;
-    private int pocPort;
+    private String van;
+    private int vanPort;
 
     public EndPointProperties(Environment environment) {
         this.environment = environment;
@@ -45,12 +41,16 @@ public class EndPointProperties {
         if (gramType == null) {
             throw new IllegalStateException("gramType 값이 설정되지 않았습니다.");
         }
-        this.eai = environment.getProperty(END_POINT + gramType + ".eai");
-        this.api = environment.getProperty(END_POINT + gramType + ".api");
-        this.fax = environment.getProperty(END_POINT + gramType + ".fax");
-        this.poc = environment.getProperty(END_POINT + gramType + ".poc");
-        this.faxPort = Integer.parseInt(Objects.requireNonNull(environment.getProperty(END_POINT + gramType + ".fax-port")));
-        this.pocPort = Integer.parseInt(Objects.requireNonNull(environment.getProperty(END_POINT + gramType + ".poc-port")));
+        initializePocProperties();
     }
 
+    private void initializePocProperties() {
+        String pocKey = END_POINT_PREFIX + gramType + ".van";
+        String pocPortKey = END_POINT_PREFIX + gramType + ".van-port";
+
+        this.van = environment.getProperty(pocKey);
+        this.vanPort = Optional.ofNullable(environment.getProperty(pocPortKey))
+                .map(Integer::parseInt)
+                .orElseThrow(() -> new IllegalStateException(pocPortKey + " 값이 설정되지 않았습니다."));
+    }
 }

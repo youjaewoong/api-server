@@ -58,7 +58,6 @@ public class WebClientConfig {
                 );
 
         return WebClient.builder()
-                .baseUrl(endPointProperties.getApi()) // 기본 URL 설정
                 .clientConnector(new ReactorClientHttpConnector(httpClient)) // Reactor Netty 설정 적용
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE) // Accept 헤더 상수 사용
                 .filter(logRequest()) // 요청 로깅 필터 추가

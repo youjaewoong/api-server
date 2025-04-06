@@ -30,8 +30,8 @@ public class FixedLengthSocketServer {
     @PostConstruct
     public void startServer() {
         new Thread(() -> {
-            try (ServerSocket serverSocket = new ServerSocket(endPointProperties.getFaxPort())) {
-                log.info("Fixed-Length Socket Server started on port {}", endPointProperties.getFaxPort());
+            try (ServerSocket serverSocket = new ServerSocket(endPointProperties.getVanPort())) {
+                log.info("Fixed-Length Socket Server started on port {}", endPointProperties.getVanPort());
 
                 while (true) {
                     try (Socket clientSocket = serverSocket.accept();

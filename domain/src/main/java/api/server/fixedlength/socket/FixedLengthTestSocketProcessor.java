@@ -37,7 +37,7 @@ public class FixedLengthTestSocketProcessor extends FixedLengthSocketTemplate {
         log.debug("sendFixedLengthRequest: {}", request);
         log.debug("endPointProperties: {}", endPointProperties);
 
-        try (Socket socket = new Socket(endPointProperties.getFax(), endPointProperties.getFaxPort());
+        try (Socket socket = new Socket(endPointProperties.getVan(), endPointProperties.getVanPort());
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 

@@ -1,0 +1,26 @@
+# Gateway Server
+exim:
+  jdbc-url: 'jdbc:mysql://rds-test-eximbay-seoul-aurora-instance-1.cxcu06cquaz5.ap-northeast-2.rds.amazonaws.com:13306/EXIMGW?useSSL=true&verifyServerCertificate=false'
+  username: ''
+  password: ''
+  min-connections: 2
+  max-connections: 5
+  max-lifetime: 0
+
+# KMS Configuration
+kms:
+  kmsHost: '172.27.1.11'
+  kmsPort: 44222
+  propSvcId: 'PG_PROP_KEY_DEV'
+  cekSvcId-01: 'PG_CEK_01_DEV'
+  lastKeyIndex: '01'
+
+# VAN Configuration
+van:
+  kicc:
+    host: '203.209.3.11'
+    port: 14110
+    thread-pool-size: 5
+    timeout-ms: 40000
+    client-class: 'KICC'
+    service-type: 'SVC'

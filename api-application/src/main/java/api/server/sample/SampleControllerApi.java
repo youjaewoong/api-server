@@ -15,7 +15,6 @@ import api.server.sample.request.DeleteSample;
 import api.server.sample.request.SampleRequest;
 import api.server.sample.request.UpdateSample;
 import api.server.sample.response.SampleDetailResponse;
-import api.server.sample.response.SampleFeignResponse;
 import api.server.sample.response.SampleResponse;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
@@ -114,21 +113,6 @@ public interface SampleControllerApi {
 			@PathVariable
 			@Valid @Min(0) @Pattern(regexp = "^[0-9]*$", message = "숫자만 입력해주세요.")
 			String id);
-
-	@Operation(summary = "외부데이터 조회(페인)",
-			description = "OpenFeign을 통해 http://jsonplaceholder.typicode.com/users 정보를 조회합니다.",
-			responses = {@ApiResponse(responseCode = "200",
-					content = @Content(schema = @Schema(implementation = SampleFeignResponse.class)))
-			}
-	)
-	@GetMapping(value = "samples/users")
-	ResponseEntity<ListResponse<SampleFeignResponse>> findSampleFeign();
-
-	@Operation(summary = "검색 조회",
-			description = "검색 API를 통해 정보를 조회합니다.(console log로 출력됩니다.")
-	@GetMapping(value = "samples/search")
-	ResponseEntity<Boolean> findSampleSearch();
-
 
 
 	@Operation(summary = "String 을 Long 으로 변환",

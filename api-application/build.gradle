@@ -14,9 +14,6 @@ dependencies {
     // transactional
     implementation 'org.springframework:spring-tx'
 
-    // Feign HttpClient to Apache HttpClient5
-    implementation 'io.github.openfeign:feign-hc5'
-
     // spring cloud
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 
