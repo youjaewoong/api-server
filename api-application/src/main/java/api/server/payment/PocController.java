@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "결제", description = "KICC 전문을 처리 합니다.")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("poc-server")
 public class PocController {
 
     private final PocService pocService;
@@ -29,7 +28,7 @@ public class PocController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "결제 성공",
-                            content = @Content(schema = @Schema(implementation = Void.class))
+                            content = @Content(schema = @Schema(implementation = PaymentRequest.class))
                     )
             }
     )

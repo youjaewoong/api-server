@@ -1,5 +1,10 @@
 package api.server.payment.service;
 
+import api.server.common.exception.custom.BusinessException;
+import api.server.common.helper.BeanHelper;
+import api.server.common.properties.EndPointProperties;
+import api.server.fixedlength.enmus.FixedLengthErrorCode;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,58 +27,30 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Slf4j
 public class SocketService {
 
-    private static final int FIXED_LENGTH = 50; // 고정 메시지 길이
-    private final ThreadPoolTaskExecutor socketTaskExecutor;
-    private final AtomicBoolean isRunning = new AtomicBoolean(true);
+    private final EndPointProperties endPointProperties;
 
-
-    // 클라이언트로 메시지를 전송
-    private void sendMessage(PrintWriter writer, String message) {
-        writer.println(formatMessage(message));
+    // 추상 메서드: 서브클래스에서 구현해야 함
+    public String sendRequest(String fixedLengthData) {
+        // 소켓 통신 로직
+        return sendFixedLengthRequest(fixedLengthData);
     }
 
-    // 클라이언트로부터 메시지를 수신
-    private String receiveMessage(BufferedReader reader) {
-        try {
-            char[] buffer = new char[FIXED_LENGTH];
-            if (reader.read(buffer) != -1) {
-                return new String(buffer).trim();
-            }
-        } catch (Exception ex) {
-            log.error("Error receiving message: {}", ex.getMessage(), ex);
+    private String sendFixedLengthRequest(String request) {
+
+        log.debug("sendFixedLengthRequest: {}", request);
+        log.debug("endPointProperties: {}", endPointProperties);
+
+        try (Socket socket = new Socket(endPointProperties.getVan(), endPointProperties.getVanPort());
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+
+            // 전문 전송
+            out.println(request);
+            // 전문 응답 수신
+            return in.readLine();
+        } catch (Exception e) {
+            throw new BusinessException(FixedLengthErrorCode.DATA_NOT_FOUND);
         }
-        return null;
-    }
-
-    // 메시지를 고정 길이에 맞게 형식화
-    private String formatMessage(String message) {
-        if (message.length() > FIXED_LENGTH) {
-            return message.substring(0, FIXED_LENGTH); // 초과 시 잘라냄
-        }
-        return String.format("%-" + FIXED_LENGTH + "s", message); // 부족 시 공백으로 채움
-    }
-
-    // 서버 요청 전송 및 응답 수신
-    public String sendRequest(String ip, int port, String requestMessage) {
-        try (Socket socket = new Socket(ip, port);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-             PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true)) {
-
-            log.info("Connecting to {}:{}", ip, port);
-
-            // 요청 전송
-            sendMessage(writer, requestMessage);
-            log.info("Sent request: {}", requestMessage);
-
-            // 응답 수신
-            String response = receiveMessage(reader);
-            log.info("Received response: {}", response);
-
-            return response;
-        } catch (Exception ex) {
-            log.error("Failed to communicate with server: {}", ex.getMessage(), ex);
-        }
-        return null;
     }
 
 }

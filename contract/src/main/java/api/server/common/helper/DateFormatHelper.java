@@ -4,6 +4,8 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -40,6 +42,32 @@ public class DateFormatHelper {
             log.error(e.getMessage());
             return "Invalid date format";
         }
+    }
+
+
+    /**
+     * 시스템 현재 시간을 기본 형식(yyyyMMddHHmmss)으로 제공합니다.
+     */
+    public static String getCurrentSystemTime() {
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+    }
+
+
+    /**
+     * 시스템 현재 날짜를 기본 형식(yyyyMMdd)으로 제공합니다.
+     */
+    public static String getCurrentSystemDate() {
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+    }
+
+
+    /**
+     * 시스템 현재 날짜 및 시간 패턴 HHmmssSSSS 형식으로 반환합니다.
+     */
+    public static String getCurrentTimeFormat() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmmssSSSS");
+        return now.format(formatter);
     }
 
 }

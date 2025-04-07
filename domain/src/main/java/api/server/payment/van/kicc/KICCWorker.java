@@ -5,14 +5,18 @@
 package api.server.payment.van.kicc;
 
 import api.server.common.helper.AppUtil;
+import api.server.common.helper.BeanHelper;
+import api.server.common.properties.EndPointProperties;
 import api.server.payment.gateway.AbstractApp;
 import api.server.payment.gateway.AbstractWorker;
 import api.server.payment.gateway.AppData;
 import api.server.payment.gateway.AppWorker;
 import api.server.payment.my.MyException;
+import api.server.payment.service.SocketService;
 import api.server.payment.van.AppVAN;
 import api.server.payment.van.AppVANClient;
 import api.server.payment.van.AppVANManager;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,6 +33,7 @@ import java.util.*;
  * 
  */
 
+@Slf4j
 public class KICCWorker implements AppVAN {
     private Properties csProps;
     private final String VAN_NAME = "KICC";
@@ -136,12 +141,20 @@ public class KICCWorker implements AppVAN {
                 long startTime = System.currentTimeMillis();
                 try{
 
+
+                    EndPointProperties endPointProperties =
+                            (EndPointProperties) BeanHelper.getBean("endPointProperties");
+
+                    SocketService socketService =
+                            (SocketService) BeanHelper.getBean("socketService");
+
+                    log.debug("endPointProperties: {}", endPointProperties);
+
                     //vanConn = AbstractApp.g_van.getConnection(VAN_NAME, appWorker);
-                    vanConn = new AppVANManager().getConnection(VAN_NAME, appWorker);
+                    String ss = socketService.sendRequest(Arrays.toString(vanReqBytes));
+                    log.debug("VAN Host Send Response: {}", ss);
                     appWorker.accessLog(AbstractWorker.CV, (VAN_NAME+"|"+vanConn.getID()).getBytes());
-               }catch(MyException e){
-                    throw e;
-                }catch(Exception e){
+               } catch(Exception e){
                     bExcept = true;
                     throw new MyException("[KICCWorker::procVAN:Connect]", MyException.SY20, "Exception:"+e, MyException.sysErrMsg);
                 }finally{

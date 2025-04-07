@@ -23,7 +23,7 @@ public class ParallelRequestClient {
             socketTaskExecutor.execute(() -> {
                 try {
                     String request = "Message " + requestId;
-                    String response = socketService.sendRequest(ip, port, request);
+                    String response = socketService.sendRequest(request);
                     System.out.println("Request #" + requestId + " Response: " + (response != null ? response : "No Response"));
                 } catch (Exception e) {
                     System.err.println("Error in request #" + requestId + ": " + e.getMessage());
