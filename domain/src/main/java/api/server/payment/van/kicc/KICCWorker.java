@@ -26,6 +26,7 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 /************************************************
  * 
@@ -151,43 +152,12 @@ public class KICCWorker implements AppVAN {
                     log.debug("endPointProperties: {}", endPointProperties);
 
                     //vanConn = AbstractApp.g_van.getConnection(VAN_NAME, appWorker);
-                    String ss = socketService.sendRequest(Arrays.toString(vanReqBytes));
-                    log.debug("VAN Host Send Response: {}", ss);
+                    CompletableFuture<String> ss = socketService.sendRequestAsync(Arrays.toString(vanReqBytes));
+                    log.debug("VAN Host Send Response: {}", ss.get());
                     appWorker.accessLog(AbstractWorker.CV, (VAN_NAME+"|"+vanConn.getID()).getBytes());
                } catch(Exception e){
                     bExcept = true;
                     throw new MyException("[KICCWorker::procVAN:Connect]", MyException.SY20, "Exception:"+e, MyException.sysErrMsg);
-                }finally{
-                    if(bExcept){
-                        AbstractApp.g_van.closeConnection(VAN_NAME, appWorker, vanConn);
-                        appWorker.accessLog(AbstractWorker.DV, vanConn.getID().getBytes());
-                    }
-                }
-
-                //////////////////////////////////////////////////////////////////////////
-                // 요청데이터 전송
-                //////////////////////////////////////////////////////////////////////////
-                try{
-                    byte[] mark_vanReqBytes = null;
-                    
-                    // Edgar 2024.10.16 cvc 4자리(Amex) 값 마스킹 처리위한 수정 
-                    //mark_vanReqBytes = AppUtil.getMarkByte(vanReqBytes, "******", 138, "000", 405); // 카드번호 MARK 시작 위치
-                    //mark_vanReqBytes = vanReqBytes; //Edgar 로그 확인위한 임시 
-                    if (AppUtil.checkNull(dataInfo.get("RB11")).trim().length() > 3) {  // cvc 4자리 
-                    	mark_vanReqBytes = AppUtil.getMarkByte(vanReqBytes, "******", 138, "****", 415); // 카드번호 MARK 시작 위치
-                    }else {
-                    	mark_vanReqBytes = AppUtil.getMarkByte(vanReqBytes, "******", 138, "***", 405); // 카드번호 MARK 시작 위치
-                    }
-                                        
-                    appWorker.accessLog(AbstractWorker.SV, mark_vanReqBytes);
-                    //appWorker.accessLog(AbstractWorker.SV);
-                    vanConn.sendData(vanReqBytes);
-                }catch(SocketException e){
-                    bExcept = true;
-                    throw new MyException("[KICCWorker::procVAN:Send]", MyException.SY22, "SocketException:"+e, MyException.sysErrMsg);
-                }catch(Exception e){
-                    bExcept = true;
-                    throw new MyException("[KICCWorker::procVAN:Send]", MyException.SY22, "Exception:"+e, MyException.sysErrMsg);
                 }finally{
                     if(bExcept){
                         AbstractApp.g_van.closeConnection(VAN_NAME, appWorker, vanConn);

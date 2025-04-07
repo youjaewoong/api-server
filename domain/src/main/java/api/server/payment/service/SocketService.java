@@ -1,25 +1,19 @@
 package api.server.payment.service;
 
 import api.server.common.exception.custom.BusinessException;
-import api.server.common.helper.BeanHelper;
 import api.server.common.properties.EndPointProperties;
 import api.server.fixedlength.enmus.FixedLengthErrorCode;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.net.InetAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 @Service
@@ -28,17 +22,33 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class SocketService {
 
     private final EndPointProperties endPointProperties;
+    private final ThreadPoolTaskExecutor socketTaskExecutor; // 스레드 풀 DI
 
-    // 추상 메서드: 서브클래스에서 구현해야 함
-    public String sendRequest(String fixedLengthData) {
-        // 소켓 통신 로직
-        return sendFixedLengthRequest(fixedLengthData);
+    /**
+     * 비동기 방식으로 소켓 통신을 처리
+     *
+     * @return
+     */
+    public CompletableFuture<String> sendRequestAsync(String fixedLengthData) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                String result = sendFixedLengthRequest(fixedLengthData);
+                log.info("Response Received: {}", result);
+                return result; // 비동기 작업의 결과 반환
+            } catch (Exception e) {
+                log.error("Error during async request processing: {}", e.getMessage());
+                throw new RuntimeException(e);
+            }
+        }, socketTaskExecutor); // 실행을 socketTaskExecutor에서 수행
     }
 
-    private String sendFixedLengthRequest(String request) {
 
+
+    /**
+     * 블로킹 방식의 소켓 통신 로직 처리
+     */
+    private String sendFixedLengthRequest(String request) {
         log.debug("sendFixedLengthRequest: {}", request);
-        log.debug("endPointProperties: {}", endPointProperties);
 
         try (Socket socket = new Socket(endPointProperties.getVan(), endPointProperties.getVanPort());
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
@@ -46,11 +56,14 @@ public class SocketService {
 
             // 전문 전송
             out.println(request);
+
             // 전문 응답 수신
             return in.readLine();
         } catch (Exception e) {
             throw new BusinessException(FixedLengthErrorCode.DATA_NOT_FOUND);
         }
     }
+
+
 
 }
