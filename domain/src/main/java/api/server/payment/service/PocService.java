@@ -64,6 +64,7 @@ public class PocService extends AbstractWorker {
 		dataInfo = parseHeader(recvBytes);
 
 		// 요청값 포맷팅
+		// jerome
 		log.debug("endPointProperties: {}", paymentRequest);
 
 

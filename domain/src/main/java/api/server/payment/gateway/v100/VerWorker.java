@@ -38,6 +38,7 @@ public class VerWorker extends AbstractVer {
     public void procTransaction(Map<String, String> dataInfo) throws MyException {
         //////////////////////////////////////////////////////////////////////////
         // 전문코드별 처리
+        // jerome
         //////////////////////////////////////////////////////////////////////////
         int format = Integer.parseInt(dataInfo.get("RH00"));
         try{
@@ -182,6 +183,7 @@ public class VerWorker extends AbstractVer {
             String m_run = "REAL";
 
             //2022.04.22 KICC 개발기 및 테스트기 통신 고날 mid 분기 추가 walter.
+            // // jerome
             System.out.println("[VerWorker::procF0100] RB01 : " + AppUtil.checkNull(dataInfo.get("RB01")));
             //테스트 환경 티웨이 직가맹점 매입 데스트를 위해 KICC 승인 요청 되도록 분기 처리(1686C232C3,2A15B0AB0D,18A4FDFD8B)  2024.07.30 walter
             if(m_run.equals("TEST") && ("1FD7571895".equals(AppUtil.checkNull(dataInfo.get("RB01"))) || "2367AC3B96".equals(AppUtil.checkNull(dataInfo.get("RB01"))) || "47B9A61BF2".equals(AppUtil.checkNull(dataInfo.get("RB01"))) || "1E9EAF4881".equals(AppUtil.checkNull(dataInfo.get("RB01")))

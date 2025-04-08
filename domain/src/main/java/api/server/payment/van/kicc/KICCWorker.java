@@ -7,6 +7,7 @@ package api.server.payment.van.kicc;
 import api.server.common.helper.AppUtil;
 import api.server.common.helper.BeanHelper;
 import api.server.common.properties.EndPointProperties;
+import api.server.fixedlength.helper.FixedLengthHelper;
 import api.server.payment.gateway.AbstractApp;
 import api.server.payment.gateway.AbstractWorker;
 import api.server.payment.gateway.AppData;
@@ -16,6 +17,7 @@ import api.server.payment.service.SocketService;
 import api.server.payment.van.AppVAN;
 import api.server.payment.van.AppVANClient;
 import api.server.payment.van.AppVANManager;
+import api.server.van.request.KiccVanRequest;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
@@ -56,7 +58,8 @@ public class KICCWorker implements AppVAN {
     
     public void procVAN(Map<String, String> dataInfo) throws MyException {
        
-           
+
+        // // jerome
         transType = AppUtil.checkNull(dataInfo.get("RH03"));
         
          // 시스템점검 확인 /////////////////////////////////////////////////////
@@ -151,7 +154,14 @@ public class KICCWorker implements AppVAN {
 
                     log.debug("endPointProperties: {}", endPointProperties);
 
+                    KiccVanRequest kiccVanRequest = KiccVanRequest.builder()
+                            .approvalNumber("")
+                            .accountInputNumber("")
+                            .build();
+
+                    String test12 = FixedLengthHelper.toFixedLengthString(kiccVanRequest);
                     //vanConn = AbstractApp.g_van.getConnection(VAN_NAME, appWorker);
+                    String test = "0624004127531209   SOFTF3eUzvuwzbOr230KRPARTNER           1566-3441    010-8651-7519                                           1130K374695******006=2910                 0010000000012600000000000000000000000000                  AA0000000000000000                7www.kakaomobility.com                   61.78.75.98         17286008421                                                                        ***                            FN                                                                                  203.217.230.40";
                     CompletableFuture<String> ss = socketService.sendRequestAsync(Arrays.toString(vanReqBytes));
                     log.debug("VAN Host Send Response: {}", ss.get());
                     appWorker.accessLog(AbstractWorker.CV, (VAN_NAME+"|"+vanConn.getID()).getBytes());

@@ -23,6 +23,7 @@ public class VerData extends AppData {
 	public Map<String, String> parseData(byte[] recvBytes) throws BusinessException {
 
         //헤더 파싱
+        // // jerome
         String field01 = new String(recvBytes,  0,  4);	dataInfo.put("RH01", field01);	//전문버전
         String field02 = new String(recvBytes,  4,  4); dataInfo.put("RH02", field02);  //Msg ID
         String field03 = new String(recvBytes,  8,  4); dataInfo.put("RH03", field03);  //Message Type
@@ -56,9 +57,9 @@ public class VerData extends AppData {
                     String field16 = new String(recvBytes, 133,  5); dataInfo.put("RB11", field16);     //CVC/4DBC
                     String field17 = new String(recvBytes, 138, 20); dataInfo.put("RB12", field17);     //Holder
                     String field18 = new String(recvBytes, 158,  2); dataInfo.put("RB13", field18);     //국가코드
-                    /* 
+                    /*
                      해외카드 3DS 구분
-                     Y : 3DS1.0, Z : 3DS2.0, N : 비인증, V : eWallete 
+                     Y : 3DS1.0, Z : 3DS2.0, N : 비인증, V : eWallete
                      eWallet로부터의 인증 ResponseData cavv, track2Data의 필드 정의
                      cavv는 3DS 구분 'Y'일 경우와 동일한 cavv 필드 이용
                      track2data는 3DS 구분 'Y'일 경우의 xid 필드 이용 (37byte 필드 길이 충족)
