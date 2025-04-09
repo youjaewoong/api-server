@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Schema(description = "KICC VAN 요청")
 @SuperBuilder // 추가된 부분
+@NoArgsConstructor
 public class KiccVanResponse extends KiccVanHeader {
 
     @Schema(description = "1. 전문구분")

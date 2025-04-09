@@ -72,8 +72,8 @@ public class PocTestService {
 		kiccVanRequest.setTotalLength(totalLength);
 
 		String finalFixedRequest = FixedLengthHelper.toFixedLengthString(kiccVanRequest);
-		String vanRes = socketService.sendFixedLengthRequest(finalFixedRequest);
-
+		// String vanRes = socketService.sendFixedLengthRequest(finalFixedRequest);
+		String vanRes = "004122951762       SOFTF3w2RGHKfAhOG30KRPARTNER           1566-3441    010-8651-7519                                           1131030022453495O250403000007417971******0297    270900000000027151해외비자            OK: 241649                                      241649      해외비자            2501711482229        전표:매입사제출";
 		// 응답값 반환
         return FixedLengthHelper.fromFixedLengthString(vanRes, KiccVanResponse.class);
 

@@ -4,7 +4,9 @@ import api.server.common.annotation.FixedLength;
 import api.server.fixedlength.vo.FixedLengthJsonVO;
 import lombok.experimental.UtilityClass;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -156,37 +158,76 @@ public class FixedLengthHelper {
     /**
      * 객체를 고정 길이 문자열로 변환.
      *
-     * @param obj 대상 객체
+     * @param str 대상 객체
      * @return 고정 길이 문자열
      */
-    public static <T> T fromFixedLengthString(String str, Class<T> clazz) {
+    public static <T> T fromFixedLengthString(String inputString, Class<T> targetClass) {
         try {
-            T instance = clazz.getDeclaredConstructor().newInstance();
-            Field[] fields = clazz.getDeclaredFields();
+            Constructor<T> constructor = targetClass.getDeclaredConstructor();
+            if (!constructor.isAccessible()) {
+                constructor.setAccessible(true); // private 생성자 접근 허용
+            }
+            T instance = constructor.newInstance(); // 객체 생성
+            Field[] fields = targetClass.getDeclaredFields();
 
             Arrays.stream(fields)
                     .filter(field -> field.isAnnotationPresent(FixedLength.class))
-                    .forEach(field -> {
-                        FixedLength annotation = field.getAnnotation(FixedLength.class);
-                        int offset = annotation.offset();
-                        int length = annotation.length();
-
-                        if (str.length() >= offset + length) {
-                            String value = str.substring(offset, offset + length).trim();
-                            field.setAccessible(true);
-                            try {
-                                field.set(instance, value);
-                            } catch (IllegalAccessException e) {
-                                throw new IllegalStateException("필드 접근 오류: " + field.getName(), e);
-                            }
-                        }
-                    });
+                    .forEach(field -> processField(field, inputString, instance));
 
             return instance;
-        } catch (Exception e) {
-            throw new RuntimeException("역변환 실패", e);
+        } catch (NoSuchMethodException e) {
+            throw new IllegalArgumentException("Default constructor not found for class: " + targetClass.getName(), e);
+        } catch (InstantiationException e) {
+            throw new IllegalArgumentException("Cannot instantiate abstract class or interface: " + targetClass.getName(), e);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new IllegalArgumentException("Error instantiating class: " + targetClass.getName(), e);
         }
     }
+
+
+    private static void processField(Field field, String inputString, Object instance) {
+        FixedLength fixedLength = field.getAnnotation(FixedLength.class);
+        int offset = fixedLength.offset();
+        int length = fixedLength.length();
+
+        if (isValidRange(offset, length, inputString.length())) {
+            String extractedValue = inputString.substring(offset, offset + length).trim();
+            field.setAccessible(true);
+
+            try {
+                Object convertedValue = convertValue(extractedValue, field.getType());
+                field.set(instance, convertedValue);
+            } catch (IllegalAccessException e) {
+                throw new IllegalStateException("Error setting field value for: " + field.getName(), e);
+            }
+        }
+    }
+
+    private static Object convertValue(String value, Class<?> targetType) {
+        if (targetType == String.class) {
+            return value;
+        } else if (targetType == int.class || targetType == Integer.class) {
+            return Integer.parseInt(value);
+        } else if (targetType == long.class || targetType == Long.class) {
+            return Long.parseLong(value);
+        } else if (targetType == double.class || targetType == Double.class) {
+            return Double.parseDouble(value);
+        } else if (targetType == boolean.class || targetType == Boolean.class) {
+            return Boolean.parseBoolean(value);
+        } else if (targetType == LocalDateTime.class) {
+            // Example: Parse date-time in format "yyyy-MM-dd HH:mm:ss"
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            return LocalDateTime.parse(value, formatter);
+        } else {
+            throw new IllegalArgumentException("Unsupported target type: " + targetType.getName());
+        }
+    }
+
+
+    private static boolean isValidRange(int offset, int length, int totalLength) {
+        return offset >= 0 && length > 0 && offset + length <= totalLength;
+    }
+
 
 
     public int getTotalValueLength(Map<String, String> inFields) {
