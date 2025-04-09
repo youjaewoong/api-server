@@ -153,6 +153,42 @@ public class FixedLengthHelper {
     }
 
 
+    /**
+     * 객체를 고정 길이 문자열로 변환.
+     *
+     * @param obj 대상 객체
+     * @return 고정 길이 문자열
+     */
+    public static <T> T fromFixedLengthString(String str, Class<T> clazz) {
+        try {
+            T instance = clazz.getDeclaredConstructor().newInstance();
+            Field[] fields = clazz.getDeclaredFields();
+
+            Arrays.stream(fields)
+                    .filter(field -> field.isAnnotationPresent(FixedLength.class))
+                    .forEach(field -> {
+                        FixedLength annotation = field.getAnnotation(FixedLength.class);
+                        int offset = annotation.offset();
+                        int length = annotation.length();
+
+                        if (str.length() >= offset + length) {
+                            String value = str.substring(offset, offset + length).trim();
+                            field.setAccessible(true);
+                            try {
+                                field.set(instance, value);
+                            } catch (IllegalAccessException e) {
+                                throw new IllegalStateException("필드 접근 오류: " + field.getName(), e);
+                            }
+                        }
+                    });
+
+            return instance;
+        } catch (Exception e) {
+            throw new RuntimeException("역변환 실패", e);
+        }
+    }
+
+
     public int getTotalValueLength(Map<String, String> inFields) {
         return inFields.values().stream()
                 .filter(Objects::nonNull)

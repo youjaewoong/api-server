@@ -4,8 +4,10 @@ import api.server.common.exception.custom.BusinessException;
 import api.server.fixedlength.helper.FixedLengthHelper;
 import api.server.payment.request.PaymentRequest;
 import api.server.van.request.KiccVanRequest;
+import api.server.van.response.KiccVanResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ddf.EscherColorRef;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,26 +17,65 @@ public class PocTestService {
 
 	private final SocketService socketService;
 
-	public String procPayment(PaymentRequest paymentRequest) {
+	public KiccVanResponse procPayment(PaymentRequest paymentRequest) {
 
-		// paymentRequest R1, R2, R3
+		KiccVanRequest kiccVanRequest = KiccVanRequest.builder()
+				.encryptionFlag("2")
+				.changeDate("2504")
+				.terminalId(paymentRequest.getStoreId())
+				.checkCardNumber("")
+				.serialNumber("000000000001")
+				.timeout("15")
+				.managerName("홍길동")
+				.companyTerminalNumber(paymentRequest.getStoreId())
+				.extendedTerminalNumber(paymentRequest.getStoreId())
+				.reservedField("")
+				.messageType(paymentRequest.getMessageType())
+				.posEntryMode("1")
+				.cardNumber(paymentRequest.getCardNumber())
+				.installment(paymentRequest.getInstallmentPeriod())
+				.currencyType("1")
+				.decimalPoint("0")
+				.supplyAmount(paymentRequest.getTransactionAmount())
+				.serviceCharge(paymentRequest.getServiceCharge())
+				.tax(paymentRequest.getTax())
+				.approvalNumber("")
+				.transactionDate(paymentRequest.getSentDateTime().substring(2, 8))
+				.workingKeyIndex("00")
+				.password("")
+				.productCode("AB123")
+				.idOrBusinessNumber("")
+				.commerceFlag("1")
+				.domain("example.com")
+				.serverIp("192.168.0.1")
+				.merchantBusinessNumber("")
+				.cardSortCode("1")
+				.merchantCompanyId("AA")
+				.merchantCustomField("CUSTOMDATA000000000000000000000")
+				.checkNumber("")
+				.checkBankCode("")
+				.checkBranchCode("")
+				.bondTypeCode("")
+				.checkAmount("")
+				.checkIssuedDate("")
+				.accountInputNumber("")
+				.cvv2(paymentRequest.getCvc())
+				.reserved2("")
+				.digitalCertType(" ")
+				.mpiModule(" ")
+				.cavvReuse(paymentRequest.getCavv() != null && !paymentRequest.getCavv().isBlank() ? "Y" : "N")
+				.digitalCertData("")
+				.build();
 
-		// 요청 paymentRequest 데이터 Van 요청 데이터로 구성
-		KiccVanRequest kiccVanRequest =
-				KiccVanRequest
-						.builder()
-						.totalLength("") // 전체길이 필수
-						.cavvReuse("")
-						.build();
+		String tempFixed = FixedLengthHelper.toFixedLengthString(kiccVanRequest);
+		String totalLength = String.format("%04d", tempFixed.length());
+		kiccVanRequest.setTotalLength(totalLength);
 
-		String vanReq = FixedLengthHelper.toFixedLengthString(kiccVanRequest);
-		kiccVanRequest.setTotalLength(vanReq);
-		String fixedLengtReq = FixedLengthHelper.toFixedLengthString(kiccVanRequest);
+		String finalFixedRequest = FixedLengthHelper.toFixedLengthString(kiccVanRequest);
+		String vanRes = socketService.sendFixedLengthRequest(finalFixedRequest);
 
-		socketService.sendFixedLengthRequest(fixedLengtReq);
-
-		// TODO 추가 응답값 json 파싱
-		return socketService.sendFixedLengthRequest(fixedLengtReq);
+		// 응답값 반환
+        return FixedLengthHelper.fromFixedLengthString(vanRes, KiccVanResponse.class);
 
 	}
 

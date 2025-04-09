@@ -3,6 +3,7 @@ package api.server.payment;
 import api.server.payment.request.PaymentRequest;
 import api.server.payment.service.PocService;
 import api.server.payment.service.PocTestService;
+import api.server.van.response.KiccVanResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -35,8 +36,9 @@ public class PocController {
             }
     )
     @PostMapping(value = "payment")
-    public ResponseEntity<Void> processPayment(@RequestBody PaymentRequest paymentRequest) {
-        pocTestService.procPayment(paymentRequest);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<KiccVanResponse> processPayment(@RequestBody PaymentRequest paymentRequest) {
+        KiccVanResponse resonse =
+                pocTestService.procPayment(paymentRequest);
+        return ResponseEntity.ok(resonse);
     }
 }
