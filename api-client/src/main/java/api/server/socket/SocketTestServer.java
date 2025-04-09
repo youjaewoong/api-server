@@ -1,4 +1,4 @@
-package api.server.socketserver;
+package api.server.socket;
 
 import api.server.common.properties.EndPointProperties;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import java.net.Socket;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class FixedLengthSocketServer {
+public class SocketTestServer {
 
     private final EndPointProperties endPointProperties;
 
@@ -41,14 +41,16 @@ public class FixedLengthSocketServer {
                         // 요청 전문 수신
                         String request = in.readLine();
                         log.info("Received: {}", request);
+                        String response = "004122951762       SOFTF3w2RGHKfAhOG30KRPARTNER           1566-3441    010-8651-7519                                           1131030022453495O250403000007417971******0297    270900000000027151해외비자            OK: 241649                                      241649      해외비자            2501711482229        전표:매입사제출";
 
                         // 응답 전문 생성 TEST001 List 2건
+                        /**
                         String response = String.format("%-200s%-10s%-10s%-30s%-1s%-10s%-10s%-10s%-10s%-10s%-10s",
                                 "200  20250208SYSNAME1120000000VOTID 00TEST001 S0120250208170507207192.168.1.1     SERVICE001  123456789987654321OriginalContent     N202301011235450000FSERR001YExtraFieldData                          ",
                                 "홍길동", "22", "test@example.com", 2,
                                 "테스트1", "테스트2", "테스트3",
                                 "테스트4", "테스트5", "테스트6");
-
+                        **/
                         // 응답 전문 생성 TEST002 List 1건씩
                         /**
                         String response = String.format("%-10s%-10s%-30s%-1s%-10s%-10s%-10s%-1s%-10s%-10s%-10s",

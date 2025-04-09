@@ -46,7 +46,7 @@ test {
 ext {
 
  	BUILD_TIME = new Date().format("yyyy-MM-dd HH:mm:ss", TimeZone.getTimeZone("Asia/Seoul"))
- 	MODULE_NAME = 'api-application'
+ 	MODULE_NAME = 'van-gateway'
 }
 
 bootJar {
@@ -54,13 +54,13 @@ bootJar {
     archiveClassifier = ''
 	doFirst{
 		println "[ INFO ] ${MODULE_NAME} : Jar 빌드 시작"
-		println "[ INFO ] PROJECT NAME : API-SERVER"
+		println "[ INFO ] PROJECT NAME : van-gateway"
 		println "[ INFO ] BUILD TIME : ${BUILD_TIME}"
 	}
 	
-    // bootJar 결과 산출 파일을 api-application.jar 로 지정하여 export 되도록 구성합니다.
+    // bootJar 결과 산출 파일을 van-gateway.jar 로 지정하여 export 되도록 구성합니다.
     // version 에 따라 artifact 명이 달라지지 않도록 구성합니다.
-    archiveFileName = "api-application.${archiveExtension.get()}"
+    archiveFileName = "van-gateway.${archiveExtension.get()}"
 
 }
 

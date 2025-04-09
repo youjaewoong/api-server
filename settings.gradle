@@ -1,4 +1,4 @@
-rootProject.name = 'api-server'
+rootProject.name = 'van-gateway'
 
 include 'domain'
 findProject(':domain')?.name = 'domain'

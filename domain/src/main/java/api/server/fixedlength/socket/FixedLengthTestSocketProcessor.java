@@ -4,6 +4,7 @@ import api.server.common.exception.custom.BusinessException;
 import api.server.common.helper.BeanHelper;
 import api.server.common.properties.EndPointProperties;
 import api.server.fixedlength.enmus.FixedLengthErrorCode;
+import api.server.socket.SocketTestServer;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
@@ -16,7 +17,7 @@ import java.net.Socket;
  * <pre>
  * FixedLengthSocketTemplate 확장하여 소켓 통신 구현을 제공합니다.
  * 내장소켓을 통해 테스트를 진행 할 수 있습니다.
- * 내장소켓위치 : {@link api.server.socketserver.FixedLengthSocketServer}
+ * 내장소켓위치 : {@link SocketTestServer}
  * </pre>
  */
 @Slf4j

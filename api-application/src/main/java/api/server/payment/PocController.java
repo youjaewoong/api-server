@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "결제", description = "KICC 전문을 처리 합니다.")
@@ -36,9 +35,9 @@ public class PocController {
             }
     )
     @PostMapping(value = "payment")
-    public ResponseEntity<KiccVanResponse> processPayment(@RequestBody PaymentRequest paymentRequest) {
-        KiccVanResponse resonse =
+    public ResponseEntity<KiccVanResponse> processPayment(@RequestBody PaymentRequest paymentRequest) throws Exception {
+        KiccVanResponse response =
                 pocTestService.procPayment(paymentRequest);
-        return ResponseEntity.ok(resonse);
+        return ResponseEntity.ok(response);
     }
 }

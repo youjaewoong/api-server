@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Profile;
 import java.time.YearMonth;
 
 @OpenAPIDefinition(info = @Info(
-		title = "API-SERVER",
+		title = "van-gateway",
 		description = "",
 		version = "1.0"),
 		servers = @Server(url = "/", description = "Default server url"))

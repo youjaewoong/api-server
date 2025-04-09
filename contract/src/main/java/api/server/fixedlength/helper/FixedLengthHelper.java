@@ -158,29 +158,29 @@ public class FixedLengthHelper {
     /**
      * 객체를 고정 길이 문자열로 변환.
      *
-     * @param str 대상 객체
+     * @param inputString 대상 객체
      * @return 고정 길이 문자열
      */
     public static <T> T fromFixedLengthString(String inputString, Class<T> targetClass) {
         try {
             Constructor<T> constructor = targetClass.getDeclaredConstructor();
-            if (!constructor.isAccessible()) {
-                constructor.setAccessible(true); // private 생성자 접근 허용
-            }
             T instance = constructor.newInstance(); // 객체 생성
-            Field[] fields = targetClass.getDeclaredFields();
 
-            Arrays.stream(fields)
-                    .filter(field -> field.isAnnotationPresent(FixedLength.class))
-                    .forEach(field -> processField(field, inputString, instance));
+            // 현재 클래스와 부모 클래스를 포함한 모든 필드를 처리
+            Class<?> currentClass = targetClass;
+            while (currentClass != null) {
+                Field[] fields = currentClass.getDeclaredFields();
+                for (Field field : fields) {
+                    if (field.isAnnotationPresent(FixedLength.class)) {
+                        processField(field, inputString, instance);
+                    }
+                }
+                currentClass = currentClass.getSuperclass(); // 부모 클래스로 이동
+            }
 
             return instance;
-        } catch (NoSuchMethodException e) {
-            throw new IllegalArgumentException("Default constructor not found for class: " + targetClass.getName(), e);
-        } catch (InstantiationException e) {
-            throw new IllegalArgumentException("Cannot instantiate abstract class or interface: " + targetClass.getName(), e);
-        } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new IllegalArgumentException("Error instantiating class: " + targetClass.getName(), e);
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalArgumentException("Error processing class: " + targetClass.getName(), e);
         }
     }
 
@@ -190,44 +190,69 @@ public class FixedLengthHelper {
         int offset = fixedLength.offset();
         int length = fixedLength.length();
 
-        if (isValidRange(offset, length, inputString.length())) {
-            String extractedValue = inputString.substring(offset, offset + length).trim();
-            field.setAccessible(true);
+        if (!isValidRange(offset, length, inputString.length())) {
+            return;
+        }
 
-            try {
-                Object convertedValue = convertValue(extractedValue, field.getType());
-                field.set(instance, convertedValue);
-            } catch (IllegalAccessException e) {
-                throw new IllegalStateException("Error setting field value for: " + field.getName(), e);
-            }
+        String extractedValue = inputString.substring(offset, offset + length).trim();
+        field.setAccessible(true); // 필드 접근 허용
+
+        try {
+            Object convertedValue = convertValue(extractedValue, field.getType());
+            field.set(instance, convertedValue);
+        } catch (IllegalAccessException e) {
+            throw new IllegalStateException("Error setting field value for: " + field.getName(), e);
         }
     }
+
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private static Object convertValue(String value, Class<?> targetType) {
         if (targetType == String.class) {
             return value;
         } else if (targetType == int.class || targetType == Integer.class) {
-            return Integer.parseInt(value);
+            return parseInteger(value);
         } else if (targetType == long.class || targetType == Long.class) {
-            return Long.parseLong(value);
+            return parseLong(value);
         } else if (targetType == double.class || targetType == Double.class) {
-            return Double.parseDouble(value);
+            return parseDouble(value);
         } else if (targetType == boolean.class || targetType == Boolean.class) {
             return Boolean.parseBoolean(value);
         } else if (targetType == LocalDateTime.class) {
-            // Example: Parse date-time in format "yyyy-MM-dd HH:mm:ss"
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            return LocalDateTime.parse(value, formatter);
+            return LocalDateTime.parse(value, DATE_TIME_FORMATTER);
         } else {
             throw new IllegalArgumentException("Unsupported target type: " + targetType.getName());
         }
     }
 
-
     private static boolean isValidRange(int offset, int length, int totalLength) {
-        return offset >= 0 && length > 0 && offset + length <= totalLength;
+        return offset >= 0 && length > 0 && (offset + length) <= totalLength;
     }
 
+    // 숫자 변환 유틸리티: 숫자 변환 중 예외 처리 포함
+    private static Integer parseInteger(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    private static Long parseLong(String value) {
+        try {
+            return Long.parseLong(value);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
+    private static Double parseDouble(String value) {
+        try {
+            return Double.parseDouble(value);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
 
 
     public int getTotalValueLength(Map<String, String> inFields) {

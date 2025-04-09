@@ -15,7 +15,7 @@ server:
 
 spring:
   application:
-    name: api-server
+    name: van-gateway
   config:
     import:
       - classpath:/domain/application.yml
@@ -26,7 +26,7 @@ spring:
 
 springdoc:
   swagger-ui:
-    path: /api-server/swagger-ui.html
+    path: /van-gateway/swagger-ui.html
     displayRequestDuration: true
     operationsSorter: method
     tagsSorter: alpha
@@ -43,10 +43,10 @@ common:
         - "http://localhost:3000"
         - "http://api-subdomain-01"
         - "http://api-subdomain-02"
-        - "http://dev.api-server.com"
-        - "http://dev01.api-server.com"
-        - "http://dev02.api-server.com"
-        - "http://dev03.api-server.com"
+        - "http://dev.van-gateway.com"
+        - "http://dev01.van-gateway.com"
+        - "http://dev02.van-gateway.com"
+        - "http://dev03.van-gateway.com"
     
 management:
   endpoints:

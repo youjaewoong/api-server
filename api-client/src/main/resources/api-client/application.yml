@@ -1,28 +1,41 @@
 spring:
   config:
     activate:
-      - on-profile: local, dev
+      - on-profile: local
 
 endpoint:
-  sample:
-    url: http://jsonplaceholder.typicode.com
-  poc:
+  kicc:
     van: localhost
     van-port: 9010
-  search-engin:
-    url: localhost:4002
 
 ---
 spring:
   config:
     activate:
-      on-profile: stg, prd
+      - on-profile: dev
 
 endpoint:
-  sample:
-    url: http://jsonplaceholder.typicode.com
-  poc:
+  kicc:
+    van: 203.209.3.11
+    van-port: 14110
+
+---
+spring:
+  config:
+    activate:
+      - on-profile: stg
+
+endpoint:
+  kicc:
+    van: 203.209.3.10
+    van-port: 14110
+---
+spring:
+  config:
+    activate:
+      on-profile: prd
+
+endpoint:
+  kicc:
     van: localhost
     van-port: 9010
-  search-engin:
-    url: localhost:4002
