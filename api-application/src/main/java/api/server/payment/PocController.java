@@ -2,6 +2,7 @@ package api.server.payment;
 
 import api.server.payment.request.PaymentRequest;
 import api.server.payment.service.PocService;
+import api.server.payment.service.PocTestService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PocController {
 
     private final PocService pocService;
+    private final PocTestService pocTestService;
 
     @Operation(
             summary = "해외신용카드 결제처리",
@@ -33,8 +35,8 @@ public class PocController {
             }
     )
     @PostMapping(value = "payment")
-    public ResponseEntity<Void> processPayment(@RequestBody PaymentRequest paymentRequest) throws Exception {
-        pocService.procPayment(paymentRequest);
+    public ResponseEntity<Void> processPayment(@RequestBody PaymentRequest paymentRequest) {
+        pocTestService.procPayment(paymentRequest);
         return ResponseEntity.ok().build();
     }
 }

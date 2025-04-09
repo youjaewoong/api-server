@@ -2,10 +2,7 @@ package api.server.van.request;
 
 import api.server.common.annotation.FixedLength;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @Builder
@@ -15,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class KiccVanRequest {
 
     @Schema(description = "길이를 제외한 전문 총 길이", example = "0200")
+    @Setter
     @FixedLength(length = 4, offset = 0)
     private String totalLength;
 

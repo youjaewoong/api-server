@@ -47,7 +47,7 @@ public class SocketService {
     /**
      * 블로킹 방식의 소켓 통신 로직 처리
      */
-    private String sendFixedLengthRequest(String request) {
+    public String sendFixedLengthRequest(String request) {
         log.debug("sendFixedLengthRequest: {}", request);
 
         try (Socket socket = new Socket(endPointProperties.getVan(), endPointProperties.getVanPort());
