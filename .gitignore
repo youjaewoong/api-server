@@ -38,3 +38,4 @@ out/
 .vscode/
 /domain/src/main/generated/
 /.metadata/
+.DS_Store

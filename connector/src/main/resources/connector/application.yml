@@ -1,0 +1,17 @@
+
+spring:
+  messages:
+    basename: messages
+    encoding: UTF-8
+
+db:
+  active: true
+
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+    secret-key: Z29zMTAwNA==
+    property:
+      prefix: API(
+      suffix: )
+

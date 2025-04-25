@@ -1,10 +1,11 @@
 package api.server.sample.validator;
 
+import api.server.exception.custom.BusinessException;
+import api.server.exception.enums.ErrorCode;
 import api.server.sample.request.DeleteSample;
-import common.standard.exception.business.BusinessErrorCodeExceptionStrictMessage;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * SampleRequest 커스텀 예외 처리
@@ -18,7 +19,7 @@ public class SampleCodeValidation implements ConstraintValidator<SampleCode, Del
 									 .distinct()
 									 .count() != request.getIds().size();
 		if (duplicated) {
-			throw BusinessErrorCodeExceptionStrictMessage.badRequest("중복된 ID가 존재합니다.");
+			throw new BusinessException(ErrorCode.INTERNAL_SERVER_ERROR);
 		}
 		return true;
 	}

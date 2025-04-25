@@ -1,11 +1,7 @@
 package api.server.sample.service;
 
-import api.server.common.exception.custom.BusinessException;
-import api.server.common.helper.PageCustomHelper;
 import api.server.common.model.ListResponse;
 import api.server.common.model.PageResponse;
-import api.server.sample.SampleClient;
-import api.server.sample.SampleSearchClient;
 import api.server.sample.enmus.SampleErrorCode;
 import api.server.sample.infrastructure.SampleCommandRepository;
 import api.server.sample.infrastructure.SampleQueryRepository;
@@ -17,9 +13,9 @@ import api.server.sample.request.SampleRequest;
 import api.server.sample.request.UpdateSample;
 import api.server.sample.response.SampleAddressInfoResponse;
 import api.server.sample.response.SampleDetailResponse;
-import api.server.sample.response.SampleFeignResponse;
 import api.server.sample.response.SampleResponse;
-import common.standard.response.GenericCollectionResponse;
+import api.server.exception.custom.BusinessException;
+import api.server.response.GenericCollectionResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,8 +31,7 @@ public class SampleService {
 
 	private final SampleQueryRepository query;
 	private final SampleCommandRepository command;
-	private final SampleClient sampleClient;
-	private final SampleSearchClient sampleSearchClient;
+	private final SampleQueryMapper sampleQueryMapper;
 
 	/**
 	 * 목록 정보 조회(페이지 단위)
@@ -55,9 +50,9 @@ public class SampleService {
 	public PageResponse<SampleResponse> findAllSample(SampleRequest sampleRequest) {
 
 		// 페이징 처리 시
-		PageCustomHelper.setPageable(sampleRequest, "reg_dt desc");
+		// PageCustomHelper.setPageable(sampleRequest, "reg_dt desc");
 		// SampleType enums 적용
-		return new PageResponse<>(SampleQueryMapper.INSTANCE
+		return new PageResponse<>(sampleQueryMapper
 				.toResponse(query.selectSampleByEntities(sampleRequest)));
 		//return new PageResponse<>(query.selectSample(sampleRequest));
 	}
@@ -78,7 +73,7 @@ public class SampleService {
 	public ListResponse<SampleResponse> findSample(SampleRequest sampleRequest) {
 
 		// SampleType enums 적용
-		return new ListResponse<>(SampleQueryMapper.INSTANCE
+		return new ListResponse<>(sampleQueryMapper
 				.toResponse(query.selectSampleByEntities(sampleRequest)));
 		//return new ListResponse<>(query.selectSample(sampleRequest));
 	}
@@ -100,7 +95,7 @@ public class SampleService {
 	public SampleResponse findBySampleId(SampleRequest sampleRequest) {
 		// SampleType enums 적용
 		// optional
-		return SampleQueryMapper.INSTANCE
+		return sampleQueryMapper
 				.toResponse(query.selectSampleByEntities(sampleRequest))
 				.stream()
 				.findAny()
@@ -222,35 +217,13 @@ public class SampleService {
 		}
 	}
 
-	/**
-	 * FeignClient 통한 외부 API 조회
-	 */
-	public ListResponse<SampleFeignResponse> findSampleFeign() {
-		return new ListResponse<>(sampleClient.selectSampleFeign());
-	}
-
-	/**
-	 * 검색 API 데이터 호출
-	 */
-	public Boolean findSampleSearch() {
-
-		//String where = URLEncoder.encode("Subject='급구'", Charset.forName("EUC-KR"));
-		String search = sampleSearchClient.selectSampleSearch(
-				"Title,Content",
-				"albamon.vMon_Konan_Community&", null, 10);
-		String volumes = sampleSearchClient.selectVolume();
-
-		log.debug("search search >>> {}", search);
-		log.debug("search volumes >>> {}", volumes);
-		return true;
-	}
 
 	/**
 	 * 문자열 "99" to 숫자 99
 	 * entity to entity
 	 */
 	public Long stringToLong() {
-		return SampleQueryMapper.INSTANCE.toLong(SampleSourceEntity
+		return sampleQueryMapper.toLong(SampleSourceEntity
 				.builder()
 				.str("99")
 				.build()).getLon();
@@ -262,7 +235,7 @@ public class SampleService {
 	 */
 	public GenericCollectionResponse<SampleResponse> listToList(SampleRequest sampleRequest) {
 
-		List<SampleResponse> response = SampleQueryMapper.INSTANCE.toResponse(query.selectSampleByEntities(sampleRequest));
+		List<SampleResponse> response = sampleQueryMapper.toResponse(query.selectSampleByEntities(sampleRequest));
 		return GenericCollectionResponse.<SampleResponse>builder()
 				.pageIndex(sampleRequest.getPageIndex())
 				.pageRowSize(sampleRequest.getPageRowSize())
@@ -285,11 +258,11 @@ public class SampleService {
 
 		// 주소정보 호출 및 response 변환
 		SampleAddressInfoResponse addressResponse =
-				SampleQueryMapper.INSTANCE.toResponse(
+				sampleQueryMapper.toResponse(
 						query.selectSampleByAddress());
 
 		// 위치정보 호출 및 response 변환
-		addressResponse.setGeo(SampleQueryMapper.INSTANCE.toResponse(
+		addressResponse.setGeo(sampleQueryMapper.toResponse(
 				query.selectSampleByGeo()));
 
 		// optional

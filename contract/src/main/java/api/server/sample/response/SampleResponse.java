@@ -1,8 +1,8 @@
 package api.server.sample.response;
 
+import api.server.constant.DateTimeConstant;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
-import api.server.common.constant.DateTimeConstant;
 import api.server.sample.enums.SampleType;
 import lombok.Builder;
 import lombok.Getter;

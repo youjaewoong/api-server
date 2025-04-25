@@ -1,0 +1,64 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    // module projects
+    implementation project(":contract")
+
+    // pagehelper
+    implementation "com.github.pagehelper:pagehelper-spring-boot-starter:1.4.5"
+
+    // DB 연동
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+    // PostgreSQL JDBC 드라이버 추가
+    implementation 'org.postgresql:postgresql:42.7.2'
+
+    // MySQL
+    implementation 'mysql:mysql-connector-java:8.0.33'
+
+    // Mybatis
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+    implementation "org.mybatis:mybatis-typehandlers-jsr310:1.0.2"
+
+    // email
+    implementation 'com.sun.mail:jakarta.mail:2.0.1'
+
+    // jasypt
+    implementation "com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4"
+
+    // kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+
+    implementation project(":common-base")
+
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+
+test {
+    useJUnitPlatform()
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    archiveClassifier = ''
+    enabled = true
+}
+

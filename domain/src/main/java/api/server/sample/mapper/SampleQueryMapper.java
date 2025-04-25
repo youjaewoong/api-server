@@ -1,7 +1,7 @@
 package api.server.sample.mapper;
 
 import api.server.sample.infrastructure.entity.*;
-import common.standard.enums.GenericEnumFieldsResolver;
+import api.server.enums.GenericEnumFieldsResolver;
 import api.server.common.config.MapstructConfig;
 import api.server.sample.enums.SampleType;
 import api.server.sample.response.SampleAddressInfoResponse;
@@ -20,10 +20,8 @@ import java.util.List;
 /**
  * 변경 대상 및 포맷 작업이 없을 경우 처리하지 않아도 됩니다.
  */
-@Mapper(config = MapstructConfig.class)
+@Mapper(config = MapstructConfig.class, componentModel = "spring")
 public interface SampleQueryMapper {
-
-	SampleQueryMapper INSTANCE = Mappers.getMapper(SampleQueryMapper.class);
 
 	/**
 	 * str(String) 변수의 값을 lon(Long)변수에 할당

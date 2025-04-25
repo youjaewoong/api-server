@@ -1,6 +1,7 @@
 package api.server.sample.enums;
 
-import common.standard.enums.GenericEnum;
+
+import api.server.enums.GenericEnum;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

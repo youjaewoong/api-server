@@ -10,8 +10,8 @@ import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 
-import common.standard.enums.GenericEnum;
-import common.standard.enums.serializer.GenericEnumJsonSerializer;
+import api.server.enums.GenericEnum;
+import api.server.enums.serializer.GenericEnumJsonSerializer;
 
 /**
  * json config

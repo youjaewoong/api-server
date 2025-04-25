@@ -1,13 +1,18 @@
 package api.server.system;
 
-import api.server.fixedlength.header.HeaderFactory;
-import api.server.common.helper.RequestHelper;
-import api.server.common.properties.GramProperties;
-import api.server.gramstorage.helpler.GramFilePathHelper;
 import api.server.system.response.SystemLogResponse;
+import api.server.utils.RequestUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -15,23 +20,34 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@Validated
 @Slf4j
-public class SystemController implements SystemControllerApi {
-
-	private final GramProperties gramProperties;
-
-	private final GramFilePathHelper gramFilePathHelper;
+@Tag(name = "시스템 정보", description = "시스템 정보를 확인합니다.")
+@RequestMapping("van-gateway/system")
+public class SystemController {
 
 
-	@Override
+	@Operation(summary = "요청 IP 정보",
+			description = "요청 IP 정보를 가져옵니다.",
+			responses = {@ApiResponse(responseCode = "200",
+					content = @Content(schema = @Schema(implementation = Map.class)))
+			}
+	)
+	@GetMapping(value = "client-ip")
 	public ResponseEntity<Map<String, String>> findClientIp() {
 		Map<String, String> response = new HashMap<>();
-		response.put("clientIp", RequestHelper.getClientIp());
+		response.put("clientIp", RequestUtils.getClientIp());
 		return ResponseEntity.ok(response);
 	}
 
 
-	@Override
+	@Operation(summary = "현재 프로파일의 로그레벨 조회",
+			description = "현재 프로파일(local, dev, prod) 중 해당되는 로그레벨을 확인합니다.",
+			responses = {@ApiResponse(responseCode = "200",
+					content = @Content(schema = @Schema(implementation = SystemLogResponse.class)))
+			}
+	)
+	@GetMapping(value = "log-level")
 	public ResponseEntity<SystemLogResponse> findLogsInfo() {
 		SystemLogResponse response = SystemLogResponse.builder()
 				.debug(log.isDebugEnabled())
@@ -42,18 +58,6 @@ public class SystemController implements SystemControllerApi {
 				.profile(System.getProperty("spring.profiles.active"))
 				.build();
 		return ResponseEntity.ok(response);
-	}
-
-
-	@Override
-	public ResponseEntity<Object> findCommonHeader() {
-		String type = gramProperties.getType(); // application.yml의 type 값 읽기
-		return ResponseEntity.ok(HeaderFactory.getHeader(type));
-	}
-
-	@Override
-	public ResponseEntity<Object> findGramBasePath() {
-		return ResponseEntity.ok(gramFilePathHelper.getBasePath());
 	}
 
 }

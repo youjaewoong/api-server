@@ -1,15 +1,17 @@
 package api.server;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 
-@Slf4j
-@SpringBootApplication(scanBasePackages = {"api", "common.standard"})
+@SpringBootApplication(scanBasePackages = {"api"})
 public class ApiServerApplication {
+	private static final Logger log = LoggerFactory.getLogger(ApiServerApplication.class);
+	
 	public static void main(String[] args) {
 		log.info("totalMemory >>>>>>> {}", Runtime.getRuntime().totalMemory());
 		log.info("maxMemory >>>>>>> {}", Runtime.getRuntime().maxMemory());

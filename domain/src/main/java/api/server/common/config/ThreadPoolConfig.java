@@ -30,6 +30,21 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class ThreadPoolConfig {
 
     /**
+     * 소켓통신 Thread 관리
+     * @return
+     */
+    @Bean(name = "socketTaskExecutor")
+    public ThreadPoolTaskExecutor socketTaskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(10); // 최소 쓰레드 수
+        executor.setMaxPoolSize(50); // 최대 쓰레드 수
+        executor.setQueueCapacity(100); // 대기 큐 용량
+        executor.setThreadNamePrefix("SocketThread-");
+        executor.initialize();
+        return executor;
+    };
+
+    /**
      * 비동기 작업을 위한 ThreadPoolTaskExecutor 설정
      *
      * @return 설정된 ThreadPoolTaskExecutor 객체

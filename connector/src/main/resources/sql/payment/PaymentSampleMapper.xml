@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="api.server.payment.infrastructure.mybatis.PaymentSampleMybatisMapper">
+
+
+    <insert id="insert">
+        INSERT INTO payment (payment_id, merchant_id, card_number, amount, status)
+        VALUES (#{paymentId}, #{merchantId}, #{cardNumber}, #{amount}, #{status})
+    </insert>
+
+    <select id="findById">
+        SELECT * FROM payment WHERE payment_id = #{paymentId}
+    </select>
+
+    <update id="update">
+        UPDATE payment
+        SET merchant_id = #{merchantId},
+            card_number = #{cardNumber},
+            amount = #{amount},
+            status = #{status}
+        WHERE payment_id = #{paymentId}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM payment WHERE payment_id = #{paymentId}
+    </delete>
+
+    <select id="findAll">
+        SELECT * FROM payment
+    </select>
+
+</mapper>

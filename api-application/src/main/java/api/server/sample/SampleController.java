@@ -1,14 +1,13 @@
 package api.server.sample;
 
-import common.standard.response.GenericCollectionResponse;
 import api.server.common.model.ListResponse;
 import api.server.common.model.PageResponse;
+import api.server.response.GenericCollectionResponse;
 import api.server.sample.request.CreateSample;
 import api.server.sample.request.DeleteSample;
 import api.server.sample.request.SampleRequest;
 import api.server.sample.request.UpdateSample;
 import api.server.sample.response.SampleDetailResponse;
-import api.server.sample.response.SampleFeignResponse;
 import api.server.sample.response.SampleResponse;
 import api.server.sample.service.SampleService;
 import lombok.RequiredArgsConstructor;
@@ -78,17 +77,6 @@ public class SampleController implements SampleControllerApi {
 	public ResponseEntity<Void> removeBySampleId(String id) {
 		sampleService.removeBySampleId(id);
 		return ResponseEntity.ok().build();
-	}
-
-	@Override
-	public ResponseEntity<ListResponse<SampleFeignResponse>> findSampleFeign() {
-
-		return ResponseEntity.ok(sampleService.findSampleFeign());
-	}
-
-	@Override
-	public ResponseEntity<Boolean> findSampleSearch() {
-		return ResponseEntity.ok(sampleService.findSampleSearch());
 	}
 
 	@Override

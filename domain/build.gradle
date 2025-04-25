@@ -16,8 +16,8 @@ configurations.configureEach {
 dependencies {
     // module projects
     implementation project(":contract")
-    implementation project(":api-client")
-
+    implementation project(":connector")
+    implementation project(":common-base")
 
     // jetbrains
     implementation "org.jetbrains:annotations:23.0.0"
@@ -28,20 +28,14 @@ dependencies {
     // JsonNullable
     implementation group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.1'
 
-    // PostgreSQL JDBC 드라이버 추가
-    implementation 'org.postgresql:postgresql:42.7.2'
-
     // Mybatis
-    implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2"
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
     implementation "org.mybatis:mybatis-typehandlers-jsr310:1.0.2"
-
-    // pagehelper
-    implementation "com.github.pagehelper:pagehelper-spring-boot-starter:1.4.5"
     
     implementation 'org.apache.commons:commons-collections4:4.4'
     
     // Json Merge Patch Interface
-    implementation "javax.json:javax.json-api:1.1.4"
+    implementation 'jakarta.json:jakarta.json-api:2.1.1'
 
     // Json Merge Patch Library
     implementation "com.github.java-json-tools:json-patch:1.13"
@@ -51,7 +45,11 @@ dependencies {
 	implementation "net.sf.ehcache:ehcache:2.10.9.2"
 
     // MapStruct
-    implementation "org.mapstruct:mapstruct:1.5.3.Final"
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
     // json-simple
     implementation "com.googlecode.json-simple:json-simple:1.1.1"
@@ -67,14 +65,11 @@ dependencies {
     // Apache POI
     implementation "org.apache.poi:poi:5.2.2"
 
-    implementation "org.apache.poi:poi-ooxml:5.2.2" //Office 2007
+    implementation 'org.apache.poi:poi-ooxml:5.4.0' //Office 2007
     implementation "org.apache.poi:poi-ooxml-full:5.2.2"
     implementation "org.apache.poi:poi-scratchpad:5.2.2"
 
     implementation "org.apache.poi:poi-ooxml-schemas:4.1.2"
-
-    // jasypt
-    implementation "com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4"
 
     annotationProcessor "org.mapstruct:mapstruct-processor:1.5.3.Final"
     testAnnotationProcessor "org.mapstruct:mapstruct-processor:1.5.3.Final"
@@ -86,8 +81,19 @@ dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     testAnnotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-    testCompileOnly "org.projectlombok:lombok:1.18.24"
-    testAnnotationProcessor "org.projectlombok:lombok:1.18.24"
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+    testCompileOnly "org.projectlombok:lombok:1.18.30"
+    testAnnotationProcessor "org.projectlombok:lombok:1.18.30"
+
+    testImplementation 'org.jasypt:jasypt:1.9.3'
+
+    implementation project(":common-base")
+
 }
 
 compileJava {
@@ -112,27 +118,26 @@ jar {
 }
 
 jacoco {
-    toolVersion = "0.8.7"
+    toolVersion = "0.8.9"  // JaCoCo 버전 지정
 }
 
 jacocoTestReport {
-    dependsOn test
-
     reports {
-        html.enabled true
-        xml.enabled true
-
-        html.destination file("${buildDir}/jacoco/jacoco.html")
-        xml.destination file("${buildDir}/jacoco/jacoco.xml")
+        xml.required = true
+        csv.required = false
+        html.required = true
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
 
-    afterEvaluate {
-        classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, excludes: [
-                    '**/*Config.*',
-                    '**/entity/**',
-                    '**/mapper/**'
-            ])
-        }))
+    dependsOn test
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.0  // 최소 커버리지 비율 설정
+            }
+        }
     }
 }

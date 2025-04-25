@@ -9,9 +9,9 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
-import org.springdoc.core.GroupedOpenApi;
-import org.springdoc.core.SpringDocUtils;
-import org.springdoc.core.customizers.OpenApiCustomiser;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springdoc.core.utils.SpringDocUtils;
+import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Profile;
 import java.time.YearMonth;
 
 @OpenAPIDefinition(info = @Info(
-		title = "API-SERVER",
+		title = "van-gateway",
 		description = "",
 		version = "1.0"),
 		servers = @Server(url = "/", description = "Default server url"))
@@ -46,7 +46,7 @@ public class OpenApiConfig {
 		return setGroupedOpenApi(packagesToExclude);
 	}
 	@Bean
-	public OpenApiCustomiser openApiCustomiser() {
+	public OpenApiCustomizer openApiCustomizer() {
 		return openApi -> openApi.getPaths()
 				.values()
 				.forEach(pathItem -> pathItem.readOperations().forEach(operation -> {

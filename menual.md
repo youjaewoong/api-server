@@ -50,13 +50,13 @@ gradlew bootJar --offline -g D:/dev/devtool/gradle-cache
 ### 프로파일별 실행
 ```
 #1 local : 9001
-java -jar -Dspring.profiles.active=local api-application.jar
+java -jar -Dspring.profiles.active=local van-gateway.jar
 
 #2 dev : 9001
-java -jar -Dspring.profiles.active=dev api-application.jar
+java -jar -Dspring.profiles.active=dev van-gateway.jar
 
 #3 prod : 9001
-java -jar -Dspring.profiles.active=prod api-application.jar
+java -jar -Dspring.profiles.active=prod van-gateway.jar
 ```
 
 ### actuator

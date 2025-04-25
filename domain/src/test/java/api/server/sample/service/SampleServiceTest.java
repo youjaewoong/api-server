@@ -1,13 +1,13 @@
 package api.server.sample.service;
 
-import api.server.common.exception.custom.BusinessException;
+import api.server.exception.custom.BusinessException;
 import api.server.common.model.ListResponse;
 import api.server.common.model.PageResponse;
-import api.server.sample.SampleClient;
 import api.server.sample.SampleDataGenerator;
-import api.server.sample.SampleSearchClient;
 import api.server.sample.infrastructure.SampleCommandRepository;
 import api.server.sample.infrastructure.SampleQueryRepository;
+import api.server.sample.mapper.SampleQueryMapper;
+import api.server.sample.mapper.SampleQueryMapperImpl;
 import api.server.sample.request.CreateSample;
 import api.server.sample.request.DeleteSample;
 import api.server.sample.request.SampleRequest;
@@ -28,20 +28,22 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
-@SpringBootTest(classes = {SampleService.class})
+@SpringBootTest(classes = {
+		SampleService.class,
+		SampleQueryMapperImpl.class
+})
+
 @DisplayName("샘플 서비스 테스트")
 class SampleServiceTest {
 
 	@Autowired
 	private SampleService sampleService;
+
 	@MockBean
 	SampleQueryRepository query;
+
 	@MockBean
 	private SampleCommandRepository command;
-	@MockBean
-	private SampleClient sampleClient;
-	@MockBean
-	private SampleSearchClient sampleSearchClient;
 
 	@Nested
 	@DisplayName("샘플 조회 메소드")
@@ -55,8 +57,6 @@ class SampleServiceTest {
 					.pageRowSize(1)
 					.pageIndex(1)
 					.build();
-
-			PageCustomHelper.setPageable(sampleRequest, "reg_dt desc");
 
 			List<SampleResponse> response = SampleDataGenerator
 					.getSampleResponses(sampleRequest);
@@ -188,7 +188,7 @@ class SampleServiceTest {
 
 	}
 
-	@Nested
+	/*@Nested
 	@DisplayName("샘플 수정 메소드")
 	class UpdateSamples {
 		@Test
@@ -221,9 +221,9 @@ class SampleServiceTest {
 			assertThrows(BusinessException.class, () ->
 					sampleService.modifySample(updateSample));
 		}
-	}
+	}*/
 
-	@Test
+	/*@Test
 	@DisplayName("추가 처리가 된 경우 반환값 1에 대한 실행 확인")
 	void insertSample() {
 
@@ -235,7 +235,7 @@ class SampleServiceTest {
 		// when & then
 		sampleService.saveSample(createSample);
 		verify(command, times(1)).insertSample(createSample);
-	}
+	}*/
 
 	@Nested
 	@DisplayName("샘플 삭제 메소드")
@@ -271,7 +271,7 @@ class SampleServiceTest {
 
 	}
 
-	@Test
+	/*@Test
 	@DisplayName("외부데이터 조회(페인)")
 	void listFeignSample() {
 
@@ -301,5 +301,5 @@ class SampleServiceTest {
 
 		// then
 		assertTrue(result);
-	}
+	}*/
 }

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="api.server.v100.infrastructure.mapper.VerMapper">
+
+	<!-- 결제요청 데이터 유효성 확인 및 부가 데이터 추출 -->
+	<select id="checkRequest">
+		SELECT
+			b.name,
+			b.service,
+			b.url,
+			a.merchantno,
+			a.status as sstatus,
+			a.cvvyn,
+			a.loginyn,
+			a.verifyyn,
+			IFNULL(a.verifylimit, 0) as verifylimit,
+			a.dupchkyn,
+			b.status as mstatus,
+			b.type,
+			IFNULL(c.amount, 0) as limitamount,
+			IFNULL(a.secretkey, '') as secretkey,
+			IFNULL(a.krmerchantid, '') as krmerchantid,
+			IFNULL(a.retrymerchantid, '') as retrymerchantid,
+			IFNULL(a.rmmalert, 'N') as rmmalert,
+			IFNULL(a.loginviewyn, 'Y') as loginviewyn,
+			IFNULL(a.secureyn, 'N') as secureyn
+		FROM EXIMBAY.merchant_service a
+				 INNER JOIN EXIMBAY.ms_merchant b ON a.merchantno = b.merchantno
+				 LEFT OUTER JOIN EXIMBAY.limit_transact c
+								 ON a.merchantno = c.merchantno
+									 AND c.servicecode = 'S001'
+									 AND c.currency = #{currency}
+		WHERE a.merchantid = #{merchantId}
+	</select>
+
+	<!-- 거래 웹 정보 저장 -->
+	<insert id="reqTransactWeb">
+		INSERT INTO EXIMBAY.transact_web (
+		merchantid,
+		ref,
+		cur,
+		amt,
+		email,
+		buyer,
+		tel,
+		accessip,
+		country,
+		accesscountry,
+		reqdt,
+		lang
+		) VALUES (
+		#{merchantId},
+		#{ref},
+		#{currency},
+		#{amount},
+		#{email},
+		#{buyer},
+		#{tel},
+		#{accessIp},
+		#{country},
+		#{accessCountry},
+		NOW(),
+		'EN'
+		)
+		<selectKey keyProperty="webNo" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<!-- 승인통화 체크 -->
+	<select id="checkApprvCurrency" resultType="map">
+		SELECT
+			IFNULL(a.payto, '') as payto1,
+			IFNULL(b.payto, '') as payto2,
+			a.apprvcurrency,
+			IFNULL(d.mcpyn, 'N') as mcpyn,
+			IFNULL(a.minamount, 0) as minamount
+		FROM EXIMBAY.service_currency a
+				 INNER JOIN EXIMBAY.van b ON a.vanno = b.vanno
+				 INNER JOIN EXIMBAY.merchant_service d ON a.merchantid = d.merchantid
+		WHERE a.merchantid = #{merchantId}
+		  AND a.cardcode = #{cardCode}
+		  AND a.reqcurrency = #{currency}
+	</select>
+
+	<!-- 거래 정보 저장 준비 -->
+	<select id="prepareReqTranact" resultType="map">
+		SELECT
+			b.vanno,
+			b.vancode,
+			b.urlip,
+			IFNULL(b.port, '0') as port,
+			b.transtype,
+			IFNULL(e.vanshopid, '') as vanshopid,
+			f.accttype,
+			f.startday,
+			f.period,
+			f.extradays,
+			IFNULL(e.secureyn, '') as secureyn
+		FROM EXIMBAY.service_currency a
+				 INNER JOIN EXIMBAY.service_sys f ON a.merchantid = f.merchantid AND a.cardcode = f.cardcode
+				 INNER JOIN EXIMBAY.van b ON a.vanno = b.vanno
+				 INNER JOIN EXIMBAY.merchant_service c ON a.merchantid = c.merchantid
+				 INNER JOIN EXIMBAY.ms_merchant d ON c.merchantno = d.merchantno
+				 LEFT OUTER JOIN EXIMBAY.van_sys e
+								 ON a.vanno = e.vanno
+									 AND e.cardcode = #{cardCode}
+									 AND e.currency = #{currency}
+		WHERE a.status = 'A000'
+		  AND b.status = 'A000'
+		  AND f.status = 'A000'
+		  AND c.status = 'A000'
+		  AND a.merchantid = #{merchantId}
+		  AND c.merchantno = #{merchantNo}
+		  AND c.servicecode = #{serviceCode}
+		  AND a.cardcode = #{cardCode}
+		  AND a.reqcurrency = #{currency}
+	</select>
+
+	<!-- 거래 정보 저장 -->
+	<insert id="reqTransact" >
+		INSERT INTO EXIMBAY.transact (
+		transid,
+		merchantno,
+		merchantid,
+		vanno,
+		vanshopid,
+		transtype,
+		totamount,
+		expirydt,
+		servicetype,
+		currency,
+		exgno,
+		cardcode,
+		securetransid,
+		apprvcurrency,
+		apprvamount,
+		encpan,
+		enccvv,
+		cardno1,
+		cardno4,
+		vancurrency,
+		vanamount,
+		vanexgno,
+		reqdt,
+		KEYINDEX
+		) VALUES (
+		#{transId},
+		#{merchantNo},
+		#{merchantId},
+		#{vanNo},
+		#{vanShopId},
+		#{transType},
+		#{totalAmount},
+		#{expiryDate},
+		#{serviceType},
+		#{currency},
+		#{exgNo},
+		#{cardCode},
+		#{secureTransId},
+		#{apprvCurrency},
+		#{apprvAmount},
+		#{encPan},
+		#{encCvv},
+		#{cardNo1},
+		#{cardNo4},
+		#{vanCurrency},
+		#{vanAmount},
+		#{vanExgNo},
+		NOW(),
+		#{keyIndex}
+		)
+		<selectKey keyProperty="transNo" resultType="int" order="AFTER">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+</mapper>

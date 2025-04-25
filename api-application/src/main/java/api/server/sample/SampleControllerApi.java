@@ -1,6 +1,6 @@
 package api.server.sample;
 
-import common.standard.response.GenericCollectionResponse;
+import api.server.response.GenericCollectionResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -15,17 +15,16 @@ import api.server.sample.request.DeleteSample;
 import api.server.sample.request.SampleRequest;
 import api.server.sample.request.UpdateSample;
 import api.server.sample.response.SampleDetailResponse;
-import api.server.sample.response.SampleFeignResponse;
 import api.server.sample.response.SampleResponse;
-import org.springdoc.api.annotations.ParameterObject;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Tag(name = "샘플", description = "샘플 테스트")
 @Validated
@@ -115,21 +114,6 @@ public interface SampleControllerApi {
 			@Valid @Min(0) @Pattern(regexp = "^[0-9]*$", message = "숫자만 입력해주세요.")
 			String id);
 
-	@Operation(summary = "외부데이터 조회(페인)",
-			description = "OpenFeign을 통해 http://jsonplaceholder.typicode.com/users 정보를 조회합니다.",
-			responses = {@ApiResponse(responseCode = "200",
-					content = @Content(schema = @Schema(implementation = SampleFeignResponse.class)))
-			}
-	)
-	@GetMapping(value = "samples/users")
-	ResponseEntity<ListResponse<SampleFeignResponse>> findSampleFeign();
-
-	@Operation(summary = "검색 조회",
-			description = "검색 API를 통해 정보를 조회합니다.(console log로 출력됩니다.")
-	@GetMapping(value = "samples/search")
-	ResponseEntity<Boolean> findSampleSearch();
-
-
 
 	@Operation(summary = "String 을 Long 으로 변환",
 			description = "Mapstruct 로 String 을 Long 으로 변환 합니다.",
@@ -147,7 +131,7 @@ public interface SampleControllerApi {
 			}
 	)
 	@GetMapping(value = "samples/mapstruct/list-to-list")
-	ResponseEntity<GenericCollectionResponse<SampleResponse>> listToList(@Valid @ParameterObject SampleRequest sampleRequest);
+	ResponseEntity<api.server.response.GenericCollectionResponse<SampleResponse>> listToList(@Valid @ParameterObject SampleRequest sampleRequest);
 
 	@Operation(summary = "정보 변환 및 상세정보 추가",
 			description = "Mapstruct 로 entity 를 response 변환 및 상세정보를 추가합니다.",

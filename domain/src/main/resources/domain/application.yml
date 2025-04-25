@@ -1,25 +1,7 @@
-jasypt:
-  encryptor:
-    bean: jasyptStringEncryptor
-    secret-key: Z29zMTAwNA==
-    property:
-      prefix: API(
-      suffix: )
 
 gram:
-  type: lottecard
+  type: poc
   file-path: resources/gram
   json-path:
     local: api-application/src/main/resources/gram/${gram.type}
     jar: classpath:gram/${gram.type}
-
-db:
-  active: false
-
-spring:
-  messages:
-    basename: messages
-    encoding: UTF-8
-  config:
-    import:
-      - classpath:/api-client/application.yml

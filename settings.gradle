@@ -1,16 +1,20 @@
-rootProject.name = 'api-server'
+rootProject.name = 'van-gateway'
 
-include 'domain'
-findProject(':domain')?.name = 'domain'
-
-include 'contract'
-findProject(':contract')?.name = 'contract'
 
 include 'api-application'
 findProject(':api-application')?.name = 'api-application'
 
-include 'api-client'
-findProject(':api-client')?.name = 'api-client'
+include 'contract'
+findProject(':contract')?.name = 'contract'
+
+include 'domain'
+findProject(':domain')?.name = 'domain'
+
+include 'connector'
+findProject(':connector')?.name = 'connector'
+
+include 'common-base'
+findProject(':common-base')?.name = 'common-base'
 
 //include ':common-standard-lib'
 //project(':common-standard-lib').projectDir = new File('../common-standard-lib')

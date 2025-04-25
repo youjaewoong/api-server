@@ -1,5 +1,5 @@
 package api.server.sample.enmus;
-import api.server.common.exception.enums.ErrorCodes;
+import api.server.exception.enums.ErrorCodes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

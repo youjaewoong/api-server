@@ -1,10 +1,10 @@
-### swagger
-- <http://localhost:9001/cdp/swagger-ui/index.html#/>
+### swagger ---
+- <http://localhost:9001/van-gateway/swagger-ui/index.html#/>
 
 ### swagger json
 - <http://localhost:9001/v3/api-docs>
 
-### sample ddl
+### sample ddl.
 ```
 ms-SQL
 CREATE TABLE SAMPLE (
@@ -29,7 +29,7 @@ CREATE TABLE SAMPLE (
 );
 
 ```
-### 실행옵션 (필수)
+### 실행옵션
 ```
 intellij 
  > Run
@@ -50,13 +50,13 @@ gradlew bootJar --offline -g D:/dev/devtool/gradle-cache
 ### 프로파일별 실행
 ```
 #1 local : 9001
-java -jar -Dspring.profiles.active=local api-application.jar
+java -jar -Dspring.profiles.active=local van-gateway.jar
 
 #2 dev : 9001
-java -jar -Dspring.profiles.active=dev api-application.jar
+java -jar -Dspring.profiles.active=dev van-gateway.jar
 
 #3 prod : 9001
-java -jar -Dspring.profiles.active=prod api-application.jar
+java -jar -Dspring.profiles.active=prod van-gateway.jar
 ```
 
 ### actuator

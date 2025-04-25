@@ -7,7 +7,7 @@ import org.jasypt.salt.StringFixedSaltGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.util.Base64Utils;
+import java.util.Base64;
 
 import java.util.Map;
 
@@ -51,13 +51,13 @@ class JasyptConfigTest {
             String message = "";
 
             // when
-            var data = Base64Utils.encodeToString(message.getBytes());
-            var targetData = new String(Base64Utils.decode(data.getBytes()));
+            String encoded = Base64.getEncoder().encodeToString(message.getBytes());
+            String decoded = new String(Base64.getDecoder().decode(encoded));
 
-            log.info("key : {}", data);
+            log.info("key : {}", encoded);
 
             // then
-            assertThat(message).isEqualTo(targetData);
+            assertThat(message).isEqualTo(decoded);
         }
     }
 }
